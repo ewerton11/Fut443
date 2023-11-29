@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Interface.Repository;
+using Infrastructure.Repository;
+using Infrastructure.Repository.Abstractions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure
+namespace Microsoft.Extensions.DependencyInjection;
+
+public static class DependencyInjection
 {
-    internal class DependencyInjection
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        //var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        //services.AddScoped<IBaseRepository, BaseRepository>();
+
+        return services;
     }
 }
