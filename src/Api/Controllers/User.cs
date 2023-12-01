@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Repository;
+using Infrastructure.Repository.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -8,9 +9,9 @@ namespace Api.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public UserController(UserRepository userRepository)
+    public UserController(IUserRepository userRepository)
     {
         _userRepository = userRepository;
     }
