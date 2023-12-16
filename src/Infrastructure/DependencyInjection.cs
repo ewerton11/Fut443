@@ -1,4 +1,5 @@
 ﻿using Domain.Interface.Repository;
+using Infrastructure.Data;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<DbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-            b => b.MigrationsAssembly("WebApi")));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(connectionString,
+                b => b.MigrationsAssembly("WebApi")));
 
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();

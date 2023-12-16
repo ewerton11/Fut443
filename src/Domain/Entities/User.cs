@@ -19,4 +19,3 @@ public class User : BaseUserEntity
         FutCoins = futCoins;
     }
 }
-

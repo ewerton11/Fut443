@@ -1,13 +1,14 @@
 ﻿using Domain.Interface.Repository;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
-    private readonly DbContext _dbContext;
+    private readonly DataContext _dbContext;
 
-    public BaseRepository(DbContext context)
+    public BaseRepository(DataContext context)
     {
         _dbContext = context;
     }
