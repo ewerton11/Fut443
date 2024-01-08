@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -19,4 +20,16 @@ public class DataContext : DbContext
         base.OnModelCreating(builder);
     }
     */
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .Property(u => u.Points)
+            .HasConversion(
+                v => v.Value,
+                v => new Points(v)
+            );
+
+        // outras configurações...
+    }
 }
