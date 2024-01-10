@@ -2,10 +2,5 @@
 
 public abstract class BaseEntity
 {
-    public Guid Id { get; set; }
-
-    protected BaseEntity(Guid id)
-    {
-        Id = id;
-    }
+    public Guid Id { get; }
 }

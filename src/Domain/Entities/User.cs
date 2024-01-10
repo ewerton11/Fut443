@@ -1,4 +1,5 @@
-﻿using Domain.ValueObjects;
+﻿using Domain.ValueObject;
+using Domain.ValueObjects;
 
 namespace Domain.Entities;
 
@@ -10,16 +11,9 @@ public class User : BaseUserEntity
 
     public int FutCoins { get; private set; }
 
-    /*
-    public User(Points points) : base(Guid.NewGuid(), "", "", "", "", "")
-    {
-        Points = points;
-    }
-    */
-
-    public User(Guid id, string name, string email, string password, string userName, string role,
+    public User(Name name, string email, string password, string userName, string role,
         Points points, int ranking, int futCoins)
-        : base(id, name, email, password, userName, role)
+        : base(name, email, password, userName, role)
     {
         Points = points;
         Ranking = ranking;

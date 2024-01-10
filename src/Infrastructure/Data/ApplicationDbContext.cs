@@ -29,7 +29,19 @@ public class DataContext : DbContext
                 v => v.Value,
                 v => new Points(v)
             );
-
-        // outras configurações...
     }
+
+    /*
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>(user =>
+        {
+            user.OwnsOne(u => u.Points, points =>
+            {
+                points.Property(p => p.Value).HasColumnName("Points");
+            });
+        });
+    }
+    */
+
 }

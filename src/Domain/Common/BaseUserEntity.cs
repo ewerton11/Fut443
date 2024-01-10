@@ -1,10 +1,10 @@
-﻿using System.Data;
+﻿using Domain.ValueObject;
 
 namespace Domain.Common;
 
 public abstract class BaseUserEntity : BaseEntity
 {
-    public string Name { get; private set; }
+    public Name Name { get; private set; }
 
     public string Email { get; private set; }
 
@@ -14,8 +14,8 @@ public abstract class BaseUserEntity : BaseEntity
 
     public string Role { get; private set; }
 
-    public BaseUserEntity(Guid id, string name, string email, string password, string userName,
-        string role) : base(id)
+    public BaseUserEntity(Name name, string email, string password, string userName,
+        string role)
     {
         Name = name;
         Email = email;
