@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.ValueObject;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -29,6 +30,20 @@ public class DataContext : DbContext
                 v => v.Value,
                 v => new Points(v)
             );
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.UserName)
+            .HasConversion(
+               v => v.GetValue(),
+            v => UserName.Create(v)
+            );
+
+        modelBuilder.Entity<User>()
+        .Property(u => u.Email)
+        .HasConversion(
+            v => v.GetValue(),
+            v => Email.Create(v)
+        );
     }
 
     /*

@@ -11,9 +11,9 @@ public class User : BaseUserEntity
 
     public int FutCoins { get; private set; }
 
-    public User(Name name, string email, string password, string userName, string role,
+    public User(UserName userName, Email email, string password, string role,
         Points points, int ranking, int futCoins)
-        : base(name, email, password, userName, role)
+        : base(userName, email, password, role)
     {
         Points = points;
         Ranking = ranking;

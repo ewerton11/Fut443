@@ -8,7 +8,7 @@ public class Points : IEquatable<Points>
     {
         if (value < 0)
         {
-            throw new ArgumentException("A pontuação não pode ser negativa.");
+            throw new ArgumentException("The score cannot be negative.");
         }
         Value = value;
     }

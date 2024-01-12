@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.ValueObject;
 using Domain.ValueObjects;
 
 namespace tests.DomainTests.Entities;
@@ -9,25 +10,21 @@ public class UserTests
     public void User_Creation_Succeeds_With_Valid_Arguments()
     {
         // Arrange
-        Guid userId = Guid.NewGuid();
-        string name = "Ewerton Reis";
-        string email = "ewerton@email.com";
+        UserName userName = UserName.Create("ewerton");
+        Email email = Email.Create("ewerton@gmail.com");
         string password = "password";
-        string userName = "ewerton";
         string role = "user";
         Points points = new Points(100);
         int ranking = 1;
         int futCoins = 50;
 
         // Act
-        var user = new User(userId, name, email, password, userName, role, points, ranking, futCoins);
+        var user = new User(userName, email, password, role, points, ranking, futCoins);
 
         // Assert
-        Assert.Equal(userId, user.Id);
-        Assert.Equal(name, user.Name);
-        Assert.Equal(email, user.Email);
+        Assert.Equal(userName.GetValue(), user.UserName.GetValue());
+        Assert.Equal(email.GetValue(), user.Email.GetValue());
         Assert.Equal(password, user.Password);
-        Assert.Equal(userName, user.UserName);
         Assert.Equal(role, user.Role);
         Assert.Equal(points, user.Points);
         Assert.Equal(ranking, user.Ranking);
