@@ -1,8 +1,8 @@
-﻿using Domain.Entities;
+﻿using Infrastructure.DTOs;
 
 namespace Infrastructure.Repository.Abstractions;
 
 public interface IUserRepository
 {
-    Task CreateAsync(User user);
+    Task CreateAsync(BaseUserEntityDto userDTOs);
 }

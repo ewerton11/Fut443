@@ -1,13 +1,11 @@
-﻿namespace Domain.Entities;
+﻿using Domain.ValueObject;
+
+namespace Domain.Entities;
 
 public class Administrator : BaseUserEntity
 {
-    public Administrator() : base(Guid.NewGuid(), "", "", "", "", "")
-    {
-    }
-
-    public Administrator(Guid id, string name, string email, string password, string userName, string role)
-        : base(id, name, email, password, userName, role)
+    public Administrator(UserName userName, Email email, string password, string role)
+        : base(userName, email, password, role)
     {
     }
 }

@@ -25,6 +25,9 @@ public class DataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
+         .HasKey(u => u.Id);
+
+        modelBuilder.Entity<User>()
             .Property(u => u.Points)
             .HasConversion(
                 v => v.Value,
@@ -40,6 +43,23 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<User>()
         .Property(u => u.Email)
+        .HasConversion(
+            v => v.GetValue(),
+            v => Email.Create(v)
+        );
+
+        modelBuilder.Entity<Administrator>()
+         .HasKey(a => a.Id);
+
+        modelBuilder.Entity<Administrator>()
+            .Property(a => a.UserName)
+            .HasConversion(
+               v => v.GetValue(),
+            v => UserName.Create(v)
+            );
+
+        modelBuilder.Entity<Administrator>()
+        .Property(a => a.Email)
         .HasConversion(
             v => v.GetValue(),
             v => Email.Create(v)

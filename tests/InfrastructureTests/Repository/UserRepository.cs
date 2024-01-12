@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
-using Domain.Interface;
 using Domain.Interface.Repository;
+using Domain.ValueObject;
 using Domain.ValueObjects;
 using Infrastructure.Repository;
 
@@ -15,18 +15,18 @@ public class UserRepositoryTests
         var mockBaseRepository = new Mock<IBaseRepository<User>>();
         var userRepository = new UserRepository(mockBaseRepository.Object);
 
-        var mockPoints = new Mock<Points>();
+        var userName = UserName.Create("Ewerton");
+        var email = Email.Create("ewerton@email.com");
+        var points = new Points(100);
 
         var user = new User(
-            Guid.NewGuid(),
-            "Ewerton Reis",
-            "ewerton@email.com",
-            "password",
-            "ewerton",
-            "user",
-            mockPoints.Object,
-            1,
-            100
+           userName,
+           email,
+           "password",
+           "user",
+           points,
+           1,
+           100
         );
 
         mockBaseRepository

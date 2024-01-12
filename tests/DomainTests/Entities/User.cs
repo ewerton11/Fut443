@@ -11,7 +11,7 @@ public class UserTests
     {
         // Arrange
         UserName userName = UserName.Create("ewerton");
-        Email email = Email.Create("ewerton@gmail.com");
+        Email email = Email.Create("ewerton@email.com");
         string password = "password";
         string role = "user";
         Points points = new Points(100);

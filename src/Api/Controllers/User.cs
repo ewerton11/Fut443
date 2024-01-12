@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Infrastructure.Repository;
+﻿using Infrastructure.DTOs;
 using Infrastructure.Repository.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +15,25 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
+    /*
     [HttpPost("create")]
-    public async Task<IActionResult> CreateUser(User user)
+    public IActionResult CreateUser([FromBody] BaseUserEntityDTO user)
     {
-        await _userRepository.CreateAsync(user);
+        var createdUser = new BaseUserEntityDTO(
+            user.UserName,
+            user.Email,
+            user.Password,
+            user.Role
+        );
+
+        return Ok(new { message = "Usuário criado com sucesso!", user = createdUser });
+    }
+    */
+
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateUser([FromBody] BaseUserEntityDto userDTOs)
+    {
+        await _userRepository.CreateAsync(userDTOs);
         return Ok(new { message = "Usuário criado com sucesso!" });
     }
 }

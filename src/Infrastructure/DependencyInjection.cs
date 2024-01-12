@@ -1,5 +1,6 @@
 ﻿using Domain.Interface.Repository;
 using Infrastructure.Data;
+using Infrastructure.Mappers;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@ public static class DependencyInjection
 
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddAutoMapper(typeof(BaseUserProfile));
 
         return services;
     }
