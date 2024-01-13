@@ -12,15 +12,13 @@ public class AdministratorTests
         UserName userName = UserName.Create("ewerton");
         Email email = Email.Create("ewerton@email.com");
         string password = "password";
-        string role = "admin";
 
         // Act
-        var administrator = new Administrator(userName, email, password, role);
+        var administrator = new Administrator(userName, email, password);
 
         // Assert
         Assert.Equal(userName, administrator.UserName);
         Assert.Equal(email, administrator.Email);
         Assert.Equal(password, administrator.Password);
-        Assert.Equal(role, administrator.Role);
     }
 }

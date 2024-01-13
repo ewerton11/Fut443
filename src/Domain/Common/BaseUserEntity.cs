@@ -1,4 +1,5 @@
-﻿using Domain.ValueObject;
+﻿using Domain.Enums;
+using Domain.ValueObject;
 
 namespace Domain.Common;
 
@@ -10,14 +11,13 @@ public abstract class BaseUserEntity : BaseEntity
 
     public string Password { get; private set; }
 
-    public string Role { get; private set; }
+    public string Role { get; private set; } = "user";
 
-    public BaseUserEntity(UserName userName, Email email, string password, string role = "role")
+    public BaseUserEntity(UserName userName, Email email, string password)
     {
         UserName = userName;
         Email = email;
         Password = password;
-        Role = role;
     }
 }
 

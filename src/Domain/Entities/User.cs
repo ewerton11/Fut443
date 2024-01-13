@@ -11,14 +11,20 @@ public class User : BaseUserEntity
 
     public int FutCoins { get; private set; }
 
-    protected User() : base(UserName.Create("nome"), Email.Create("email@email.com"), string.Empty, string.Empty)
+    protected User() : base(UserName.Create("nome"), Email.Create("email@email.com"), string.Empty)
     {
         Points = new Points();
     }
 
-    public User(UserName userName, Email email, string password, string role,
-        Points points, int ranking = 0, int futCoins = 0)
-        : base(userName, email, password, role)
+    public User(UserName userName, Email email, string password)
+        : base(userName, email, password)
+    {
+        Points = new Points();
+    }
+
+    public User(UserName userName, Email email, string password, Points points, 
+        int ranking = 0, int futCoins = 0)
+        : base(userName, email, password)
     {
         Points = points ?? new Points();
         Ranking = ranking;

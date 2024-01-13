@@ -13,19 +13,17 @@ public class UserTests
         UserName userName = UserName.Create("ewerton");
         Email email = Email.Create("ewerton@email.com");
         string password = "password";
-        string role = "user";
         Points points = new Points(100);
         int ranking = 1;
         int futCoins = 50;
 
         // Act
-        var user = new User(userName, email, password, role, points, ranking, futCoins);
+        var user = new User(userName, email, password, points, ranking, futCoins);
 
         // Assert
         Assert.Equal(userName.GetValue(), user.UserName.GetValue());
         Assert.Equal(email.GetValue(), user.Email.GetValue());
         Assert.Equal(password, user.Password);
-        Assert.Equal(role, user.Role);
         Assert.Equal(points, user.Points);
         Assert.Equal(ranking, user.Ranking);
         Assert.Equal(futCoins, user.FutCoins);
