@@ -1,8 +1,6 @@
-﻿using System;
+﻿namespace Infrastructure.DTOs;
 
-namespace Infrastructure.DTOs;
-
-public class BaseUserEntityDto
+public class UserEntityDto
 {
     public string UserName { get; set; } = string.Empty;
 

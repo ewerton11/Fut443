@@ -22,7 +22,7 @@ public static class DependencyInjection
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();
 
-        services.AddAutoMapper(typeof(BaseUserProfile));
+        services.AddAutoMapper(typeof(UserProfile));
 
         return services;
     }

@@ -15,25 +15,10 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
-    /*
     [HttpPost("create")]
-    public IActionResult CreateUser([FromBody] BaseUserEntityDTO user)
+    public async Task<IActionResult> CreateUser([FromBody] UserEntityDto userDto)
     {
-        var createdUser = new BaseUserEntityDTO(
-            user.UserName,
-            user.Email,
-            user.Password,
-            user.Role
-        );
-
-        return Ok(new { message = "Usuário criado com sucesso!", user = createdUser });
-    }
-    */
-
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] BaseUserEntityDto userDTOs)
-    {
-        await _userRepository.CreateAsync(userDTOs);
-        return Ok(new { message = "Usuário criado com sucesso!" });
+        await _userRepository.CreateAsync(userDto);
+        return Ok(new { message = "User created successfully!" });
     }
 }

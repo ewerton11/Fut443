@@ -12,7 +12,7 @@ public abstract class BaseUserEntity : BaseEntity
 
     public string Role { get; private set; }
 
-    public BaseUserEntity(UserName userName, Email email, string password, string role)
+    public BaseUserEntity(UserName userName, Email email, string password, string role = "role")
     {
         UserName = userName;
         Email = email;
