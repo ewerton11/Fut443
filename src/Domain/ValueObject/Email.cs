@@ -8,11 +8,11 @@ namespace Domain.ValueObject;
 
 public class Email
 {
-    private readonly string _value;
+    private string Value { get; }
 
     private Email(string value)
     {
-        _value = value;
+        Value = value;
     }
 
     public static Email Create(string email)
@@ -33,7 +33,7 @@ public class Email
 
     public string GetValue()
     {
-        return _value;
+        return Value;
     }
 
     private static bool IsValidEmail(string email)

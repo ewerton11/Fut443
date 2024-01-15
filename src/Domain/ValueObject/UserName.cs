@@ -1,13 +1,10 @@
 ﻿namespace Domain.ValueObject;
 
-public class UserName
+public sealed class UserName
 {
-    private readonly string _value;
+    public string Value { get; }
 
-    private UserName(string value)
-    {
-        _value = value;
-    }
+    private UserName(string value) => Value = value;
 
     public static UserName Create(string userName)
     {
@@ -33,6 +30,6 @@ public class UserName
 
     public string GetValue()
     {
-        return _value;
+        return Value;
     }
 }

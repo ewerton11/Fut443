@@ -16,8 +16,8 @@ public class User : BaseUserEntity
         Points = new Points();
     }
 
-    public User(UserName userName, Email email, string password)
-        : base(userName, email, password)
+    public User(string userName, string email, string password)
+        : base(UserName.Create(userName), Email.Create(email), password)
     {
         Points = new Points();
     }

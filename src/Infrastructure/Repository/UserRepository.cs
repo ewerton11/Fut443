@@ -20,16 +20,12 @@ public class UserRepository : IUserRepository
 
     public async Task CreateAsync(UserEntityDto userDto)
     {
-        var userNameResult = UserName.Create(userDto.UserName);
-
-        /*
         var userResult = new User(
-            userNameResult.GetValue(),
+            userDto.UserName,
             userDto.Email,
             userDto.Password);
-        */
 
-        var userEntity = _mapper.Map<User>(userDto);
+        var userEntity = _mapper.Map<User>(userResult);
 
         await _baseRepository.CreateAsync(userEntity);
     }
