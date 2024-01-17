@@ -8,11 +8,24 @@ namespace Domain.ValueObject;
 
 public class Email
 {
-    private string Value { get; }
+    public string Value { get; }
 
     private Email(string value)
     {
         Value = value;
+    }
+
+    private static bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public static Email Create(string email)
@@ -29,23 +42,5 @@ public class Email
             throw new ArgumentException("Invalid email format.", nameof(email));
 
         return new Email(email);
-    }
-
-    public string GetValue()
-    {
-        return Value;
-    }
-
-    private static bool IsValidEmail(string email)
-    {
-        try
-        {
-            var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == email;
-        }
-        catch
-        {
-            return false;
-        }
     }
 }

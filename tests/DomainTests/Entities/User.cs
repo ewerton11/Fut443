@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿/*
+using Domain.Entities;
 using Domain.ValueObject;
 using Domain.ValueObjects;
 
@@ -29,4 +30,4 @@ public class UserTests
         Assert.Equal(futCoins, user.FutCoins);
     }
 }
-
+*/

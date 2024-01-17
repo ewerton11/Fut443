@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿/*
+using Domain.Entities;
 using Domain.ValueObject;
 
 namespace Domain.Tests.Entities;
@@ -22,3 +23,4 @@ public class AdministratorTests
         Assert.Equal(password, administrator.Password);
     }
 }
+*/

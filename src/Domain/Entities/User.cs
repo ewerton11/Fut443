@@ -1,33 +1,39 @@
 ﻿using Domain.ValueObject;
-using Domain.ValueObjects;
 
-namespace Domain.Entities;
-
-public class User : BaseUserEntity
+namespace Domain.Entities
 {
-    public Points Points { get; private set; }
-
-    public int Ranking { get; private set; }
-
-    public int FutCoins { get; private set; }
-
-    protected User() : base(UserName.Create("nome"), Email.Create("email@email.com"), string.Empty)
+    public class UserEntity : BaseUserEntity
     {
-        Points = new Points();
-    }
+        public Points Points { get; private set; } = new Points();
 
-    public User(string userName, string email, string password)
-        : base(UserName.Create(userName), Email.Create(email), password)
-    {
-        Points = new Points();
-    }
+        public int? Ranking { get; private set; } = null;
 
-    public User(UserName userName, Email email, string password, Points points, 
-        int ranking = 0, int futCoins = 0)
-        : base(userName, email, password)
-    {
-        Points = points ?? new Points();
-        Ranking = ranking;
-        FutCoins = futCoins;
+        public int? FutCoins { get; private set; } = null;
+
+        private UserEntity() { }
+
+        public static UserEntity Create(UserName userName, Email email, string password)
+        {
+            var user = new UserEntity
+            {
+                UserName = userName,
+                Email = email,
+                Password = password
+            };
+
+            return user;
+        }
+
+        public static UserEntity Update(UserName userName, Email email, string password)
+        {
+            var user = new UserEntity
+            {
+                UserName = userName,
+                Email = email,
+                Password = password
+            };
+
+            return user;
+        }
     }
 }

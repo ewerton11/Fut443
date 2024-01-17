@@ -1,23 +1,17 @@
-﻿using Domain.Enums;
-using Domain.ValueObject;
+﻿using Domain.ValueObject;
 
 namespace Domain.Common;
 
 public abstract class BaseUserEntity : BaseEntity
 {
-    public UserName UserName { get; private set; }
+    public UserName UserName { get; protected set; } = UserName.Create(string.Empty);
 
-    public Email Email { get; private set; }
+    public Email Email { get; protected set; } = Email.Create(string.Empty);
 
-    public string Password { get; private set; }
+    public string Password { get; protected set; } = string.Empty;
 
-    public string Role { get; private set; } = "user";
+    public string Role { get; protected set; } = "user";
 
-    public BaseUserEntity(UserName userName, Email email, string password)
-    {
-        UserName = userName;
-        Email = email;
-        Password = password;
-    }
+    protected BaseUserEntity() { }
 }
 

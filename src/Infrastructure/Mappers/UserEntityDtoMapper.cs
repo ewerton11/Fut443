@@ -8,7 +8,7 @@ public class UserProfile : Profile
 {
     public UserProfile()
     { 
-        CreateMap<User, UserEntityDto>()
+        CreateMap<UserEntity, UserEntityDto>()
           .ReverseMap();
     }
 }

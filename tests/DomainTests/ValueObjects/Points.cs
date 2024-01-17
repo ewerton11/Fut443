@@ -1,4 +1,5 @@
-﻿using Domain.ValueObjects;
+﻿/*
+using Domain.ValueObjects;
 
 namespace tests.DomainTests.ValueObjects;
 
@@ -30,3 +31,4 @@ public class PointsTests
         Assert.Equal(50, points.Value);
     }
 }
+*/

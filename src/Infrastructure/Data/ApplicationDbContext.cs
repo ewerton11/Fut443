@@ -1,8 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.ValueObject;
-using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Infrastructure.Data;
 
@@ -10,8 +8,8 @@ public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-    public DbSet<User> Users { get; set; }
-    public DbSet<Administrator> Administrators { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
+    // public DbSet<Administrator> Administrators { get; set; }
 
     /*
     protected override void OnModelCreating(ModelBuilder builder)
@@ -24,30 +22,31 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity<UserEntity>()
          .HasKey(u => u.Id);
 
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity<UserEntity>()
             .Property(u => u.Points)
             .HasConversion(
                 v => v.Value,
                 v => new Points(v)
             );
 
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity<UserEntity>()
             .Property(u => u.UserName)
             .HasConversion(
-               v => v.GetValue(),
+               v => v.Value,
             v => UserName.Create(v)
             );
 
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity<UserEntity>()
         .Property(u => u.Email)
         .HasConversion(
-            v => v.GetValue(),
+            v => v.Value,
             v => Email.Create(v)
         );
 
+        /*
         modelBuilder.Entity<Administrator>()
          .HasKey(a => a.Id);
 
@@ -64,6 +63,7 @@ public class DataContext : DbContext
             v => v.GetValue(),
             v => Email.Create(v)
         );
+        */
     }
 
     /*
