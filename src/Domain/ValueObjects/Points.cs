@@ -1,4 +1,6 @@
-﻿namespace Domain.ValueObject;
+﻿using Domain.Exceptions;
+
+namespace Domain.ValueObject;
 
 public class Points
 {
@@ -8,7 +10,7 @@ public class Points
     {
         if (value < 0)
         {
-            throw new ArgumentException("The score cannot be negative.");
+            throw new NegativeScoreDomainException($"{nameof(value)}, The score cannot be negative.");
         }
         Value = value;
     }
