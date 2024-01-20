@@ -1,4 +1,4 @@
-﻿namespace Gatherly.Domain.Exceptions;
+﻿namespace Fut443.Domain.Exceptions;
 
 public abstract class DomainException : Exception
 {

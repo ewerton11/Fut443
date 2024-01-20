@@ -1,4 +1,4 @@
-﻿using Gatherly.Domain.Exceptions;
+﻿using Fut443.Domain.Exceptions;
 
 namespace Domain.Exceptions;
 

@@ -1,13 +1,20 @@
-﻿/*
+﻿using Domain.Enums;
 using Domain.ValueObject;
 
 namespace Domain.Entities;
 
-public class Administrator : BaseUserEntity
+public class AdministratorEntity : BaseUserEntity
 {
-    public Administrator(UserName userName, Email email, string password)
-        : base(userName, email, password)
+    public static AdministratorEntity Create(UserName userName, Email email, string password)
     {
+        var administrator = new AdministratorEntity
+        {
+            UserName = userName,
+            Email = email,
+            Password = password,
+            Role = UserRole.Administrator
+        };
+
+        return administrator;
     }
 }
-*/

@@ -1,4 +1,5 @@
-﻿using Domain.ValueObject;
+﻿using Domain.Enums;
+using Domain.ValueObject;
 
 namespace Domain.Common;
 
@@ -10,7 +11,7 @@ public abstract class BaseUserEntity : BaseEntity
 
     public string Password { get; protected set; } = string.Empty;
 
-    public string Role { get; protected set; } = "user";
+    public UserRole Role { get; protected set; } = UserRole.Common;
 
     protected BaseUserEntity() { }
 }
