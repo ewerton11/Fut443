@@ -5,8 +5,13 @@ namespace Domain.Entities
     public class PlayerEntity : BaseEntity
     {
         public string Name { get; private set; } = string.Empty;
-        public PositionType Position { get; private set; }
 
+        public PlayerPosition Position { get; private set; }
+
+        public bool Available { get; private set; } 
+        
+        public decimal Points { get; private set; }
+        
         // General Statistics
         public int SuccessfulPasses { get; private set; }
         public int DecisivePasses { get; private set; }
@@ -39,7 +44,9 @@ namespace Domain.Entities
         public int Punches { get; private set; }
         public int AerialBallsClaimed { get; private set; }
 
-        public static PlayerEntity Create(string name, PositionType position)
+        private PlayerEntity() { }
+
+        public static PlayerEntity Create(string name, PlayerPosition position)
         {
             var player = new PlayerEntity
             {

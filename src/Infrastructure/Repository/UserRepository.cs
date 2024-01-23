@@ -17,10 +17,7 @@ public class UserRepository : IUserRepository
 
     public async Task CreateAsync(UserEntityDto userDto)
     {
-        var userNameResult = UserName.Create(userDto.UserName);
-        var emailResult = Email.Create(userDto.Email);
-
-        var user = UserEntity.Create(userNameResult, emailResult, userDto.Password);
+        var user = UserEntity.Create(userDto.UserName, userDto.Email, userDto.Password);
 
         await _baseRepository.CreateAsync(user);
     }

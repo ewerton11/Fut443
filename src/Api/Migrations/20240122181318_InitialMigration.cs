@@ -6,37 +6,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class QuerleTeixtiiii : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Team",
+                name: "Administrators",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Team", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoot",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoot", x => x.Id);
+                    table.PrimaryKey("PK_Administrators", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Team",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Team", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,6 +45,8 @@ namespace WebApi.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Available = table.Column<bool>(type: "bit", nullable: false),
+                    Points = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SuccessfulPasses = table.Column<int>(type: "int", nullable: false),
                     DecisivePasses = table.Column<int>(type: "int", nullable: false),
                     Cross = table.Column<int>(type: "int", nullable: false),
@@ -83,9 +84,43 @@ namespace WebApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Points = table.Column<int>(type: "int", nullable: false),
+                    Ranking = table.Column<int>(type: "int", nullable: true),
+                    FutCoins = table.Column<int>(type: "int", nullable: true),
+                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Team_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Team",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Administrators",
+                columns: new[] { "Id", "Email", "Name", "Password", "Role" },
+                values: new object[] { new Guid("62bf5f91-5cd2-4955-909b-d87e9ff7f2f5"), "ewerton@gmal.com", "ewerton_Root", "ewertonroot", "root" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Player_TeamId",
                 table: "Player",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_TeamId",
+                table: "Users",
                 column: "TeamId");
         }
 
@@ -93,10 +128,13 @@ namespace WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Administrators");
+
+            migrationBuilder.DropTable(
                 name: "Player");
 
             migrationBuilder.DropTable(
-                name: "UserRoot");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Team");

@@ -2,7 +2,7 @@
 
 public enum UserRole
 {
-    Common,
-    Administrator,
-    UserRoot
+    common,
+    admin,
+    root
 }

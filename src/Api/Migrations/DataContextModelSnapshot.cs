@@ -32,21 +32,22 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.ToTable("Team");
                 });
 
-            modelBuilder.Entity("Domain.Entities.AdministratorEntity", b =>
+            modelBuilder.Entity("Domain.Entities.AdminEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -58,13 +59,19 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Administrators");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("62bf5f91-5cd2-4955-909b-d87e9ff7f2f5"),
+                            Email = "ewerton@gmal.com",
+                            Name = "ewerton_Root",
+                            Password = "ewertonroot",
+                            Role = "root"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.PlayerEntity", b =>
@@ -81,6 +88,9 @@ namespace WebApi.Migrations
 
                     b.Property<int>("Assists")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("bit");
 
                     b.Property<int>("BallLoss")
                         .HasColumnType("int");
@@ -137,6 +147,9 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Points")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -190,40 +203,18 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserRootEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid?>("TeamId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRoot");
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Domain.Entities.PlayerEntity", b =>
@@ -232,6 +223,15 @@ namespace WebApi.Migrations
                         .WithMany("Players")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserEntity", b =>
+                {
+                    b.HasOne("Domain.Aggregates.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Domain.Aggregates.Team", b =>

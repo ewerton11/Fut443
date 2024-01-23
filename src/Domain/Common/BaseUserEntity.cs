@@ -5,14 +5,11 @@ namespace Domain.Common;
 
 public abstract class BaseUserEntity : BaseEntity
 {
-    public UserName UserName { get; protected set; } = UserName.Create(string.Empty);
+    public Email Email { get; protected set; }
 
-    public Email Email { get; protected set; } = Email.Create(string.Empty);
+    public Password Password { get; protected set; }
 
-    public string Password { get; protected set; } = string.Empty;
-
-    public UserRole Role { get; protected set; } = UserRole.Common;
+    public UserRole Role { get; protected set; } = UserRole.common;
 
     protected BaseUserEntity() { }
 }
-
