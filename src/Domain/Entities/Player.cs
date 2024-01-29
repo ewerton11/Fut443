@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities.Base;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -8,10 +9,10 @@ namespace Domain.Entities
 
         public PlayerPosition Position { get; private set; }
 
-        public bool Available { get; private set; } 
-        
-        public decimal Points { get; private set; }
-        
+        public bool Available { get; private set; } = false;
+
+        public decimal? Points { get; private set; }
+
         // General Statistics
         public int SuccessfulPasses { get; private set; }
         public int DecisivePasses { get; private set; }
@@ -46,12 +47,24 @@ namespace Domain.Entities
 
         private PlayerEntity() { }
 
-        public static PlayerEntity Create(string name, PlayerPosition position)
+        public static PlayerEntity Create(string name, string position /* , UserEntity creatorUser*/)
         {
+            /*
+            if (creatorUser == null || (creatorUser.Role != UserRole.admin && creatorUser.Role != UserRole.root))
+            {
+                throw new UnauthorizedAccessException("User does not have permission to create players.");
+            }
+            */
+
+            if (!Enum.TryParse(position, out PlayerPosition playerPosition))
+            {
+                throw new ArgumentException("Invalid player position.");
+            }
+
             var player = new PlayerEntity
             {
                 Name = name,
-                Position = position
+                Position = playerPosition
             };
 
             return player;

@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+using Domain.Interface.Repository;
 
-namespace Domain.Services
+namespace Domain.Services;
+
+public class AdminService
 {
-    internal class AdminService
+    private readonly IBaseRepository<PlayerEntity> _baseRepository;
+
+    public AdminService(IBaseRepository<PlayerEntity> baseRepository) 
     {
+        _baseRepository = baseRepository;
+    }
+
+    public async Task AddAvailablePlayerAsync(PlayerEntity player)
+    {
+
+
+        await _baseRepository.CreateAsync(player);
     }
 }
+*/

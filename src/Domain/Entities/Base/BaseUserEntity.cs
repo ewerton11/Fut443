@@ -1,7 +1,7 @@
 ﻿using Domain.Enums;
 using Domain.ValueObject;
 
-namespace Domain.Common;
+namespace Domain.Entities.Base;
 
 public abstract class BaseUserEntity : BaseEntity
 {

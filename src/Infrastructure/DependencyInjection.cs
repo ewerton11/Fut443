@@ -1,11 +1,14 @@
-﻿using Domain.Interface.Repository;
+﻿using Domain.Repository;
 using Infrastructure.Data;
 using Infrastructure.Mappers;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Abstractions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Infrastructure;
 
@@ -18,6 +21,25 @@ public static class DependencyInjection
         services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(connectionString,
                 b => b.MigrationsAssembly("WebApi")));
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+
+                ValidIssuer = "",
+                ValidAudience = "",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yourSecretKey"))
+            };
+        });
 
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();

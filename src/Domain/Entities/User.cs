@@ -1,4 +1,5 @@
 ﻿using Domain.Aggregates;
+using Domain.Entities.Base;
 using Domain.ValueObject;
 
 namespace Domain.Entities
