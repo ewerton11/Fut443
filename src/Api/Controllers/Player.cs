@@ -1,4 +1,5 @@
-﻿using Infrastructure.DTOs;
+﻿/*
+using Infrastructure.DTOs;
 using Infrastructure.Repository.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,3 +23,4 @@ public class PlayerController : ControllerBase
         return Ok(new { message = "Player created successfully!" });
     }
 }
+*/

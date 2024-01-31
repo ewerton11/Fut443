@@ -1,8 +1,6 @@
 ﻿using Domain.Repository;
 using Infrastructure.Data;
-using Infrastructure.Mappers;
 using Infrastructure.Repository;
-using Infrastructure.Repository.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,9 +40,6 @@ public static class DependencyInjection
         });
 
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        services.AddScoped<IUserRepository, UserRepository>();
-
-        services.AddAutoMapper(typeof(UserProfile));
 
         return services;
     }

@@ -1,5 +1,5 @@
-﻿using Infrastructure.DTOs;
-using Infrastructure.Repository.Abstractions;
+﻿using Application.DTOs;
+using Application.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -8,17 +8,18 @@ namespace Api.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    private readonly UserService _userService;
 
-    public UserController(IUserRepository userRepository)
+    public UserController(UserService userService)
     {
-        _userRepository = userRepository;
+        _userService = userService;
     }
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateUser([FromBody] UserEntityDto userDto)
     {
-        await _userRepository.CreateAsync(userDto);
+        await _userService.CreateUser(userDto);
+
         return Ok(new { message = "User created successfully!" });
     }
 }

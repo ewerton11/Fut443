@@ -1,6 +1,5 @@
-﻿using Domain.Enums;
-
-namespace Infrastructure.DTOs;
+﻿/*
+namespace Application.DTOs;
 
 public class CreatePlayerEntityDto
 {
@@ -8,3 +7,4 @@ public class CreatePlayerEntityDto
 
     public string Position { get; set; }
 }
+*/

@@ -10,7 +10,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public BaseRepository(DataContext context)
     {
-        _dbContext = context;
+        _dbContext = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()

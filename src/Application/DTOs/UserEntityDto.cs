@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.DTOs;
+﻿namespace Application.DTOs;
 
 public class UserEntityDto
 {

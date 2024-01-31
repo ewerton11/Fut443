@@ -1,15 +1,12 @@
 using Application;
 using Infrastructure;
-using Infrastructure.Mappers;
-using Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
     .AddApplication()
-    .AddInfrastructure(builder.Configuration)
-    .AddPresentation();
+    .AddInfrastructure(builder.Configuration);
 
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
