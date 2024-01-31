@@ -1,6 +1,8 @@
-﻿namespace Domain.Repository;
+﻿using Domain.ValueObject;
+
+namespace Domain.Repository;
 
 public interface IUserRepository
 {
-    Task CreateAsync(UserEntity user);
+    Task<bool> EmailExistsAsync(string email);
 }

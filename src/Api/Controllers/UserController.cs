@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateUser([FromBody] UserEntityDto userDto)
     {
-        await _userService.CreateUser(userDto);
+        await _userService.CreateUserAsync(userDto);
 
         return Ok(new { message = "User created successfully!" });
     }

@@ -2,7 +2,7 @@
 
 namespace Domain.ValueObject;
 
-public class Email
+public class Email : IEquatable<Email>
 {
     public string Value { get; }
 
@@ -38,5 +38,28 @@ public class Email
             throw new InvalidEmailDomainException($"{nameof(email)}, Invalid email format.");
 
         return new Email(email);
+    }
+
+    public bool Equals(Email? other)
+    {
+        // Verifique se o outro objeto não é nulo
+        if (ReferenceEquals(null, other)) return false;
+
+        // Verifique se os objetos têm o mesmo valor
+        return string.Equals(Value, other.Value, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+
+        return obj is Email other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        // Use um hashcode sensato para o valor
+        return StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
     }
 }

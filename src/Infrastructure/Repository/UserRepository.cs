@@ -1,19 +1,21 @@
 ﻿using Domain.Entities;
 using Domain.Repository;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
 public class UserRepository : IUserRepository
 {
-    private readonly IBaseRepository<UserEntity> _baseRepository;
+    private readonly DataContext _dbContext;
 
-    public UserRepository(IBaseRepository<UserEntity> baseRepository)
+    public UserRepository(DataContext context)
     {
-        _baseRepository = baseRepository;
+        _dbContext = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task CreateAsync(UserEntity user)
+    public async Task<bool> EmailExistsAsync(string email)
     {
-        await _baseRepository.CreateAsync(user);
+        return await _dbContext.Users.AnyAsync(u => u.Email.Equals(email)); 
     }
 }
