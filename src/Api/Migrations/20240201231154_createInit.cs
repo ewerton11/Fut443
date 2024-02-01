@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class createInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace WebApi.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -31,7 +31,8 @@ namespace WebApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,7 +47,7 @@ namespace WebApi.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Available = table.Column<bool>(type: "bit", nullable: false),
-                    Points = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Points = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     SuccessfulPasses = table.Column<int>(type: "int", nullable: false),
                     DecisivePasses = table.Column<int>(type: "int", nullable: false),
                     Cross = table.Column<int>(type: "int", nullable: false),
@@ -94,8 +95,9 @@ namespace WebApi.Migrations
                     Ranking = table.Column<int>(type: "int", nullable: true),
                     FutCoins = table.Column<int>(type: "int", nullable: true),
                     TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -110,8 +112,8 @@ namespace WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Administrators",
-                columns: new[] { "Id", "Email", "Name", "Password", "Role" },
-                values: new object[] { new Guid("62bf5f91-5cd2-4955-909b-d87e9ff7f2f5"), "ewerton@gmal.com", "ewerton_Root", "ewertonroot", "root" });
+                columns: new[] { "Id", "Email", "Name", "PasswordHash", "Role" },
+                values: new object[] { new Guid("62b37a58-8981-4cc5-bfc4-190bc7692789"), "ewerton@gmal.com", "ewerton_Root", "ewertonroot", "root" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Player_TeamId",

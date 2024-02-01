@@ -2,7 +2,7 @@
 
 namespace Domain.ValueObject;
 
-public sealed class UserName
+public sealed class UserName : IEquatable<UserName>
 {
     public string Value { get; }
 
@@ -28,5 +28,18 @@ public sealed class UserName
         }
 
         return new UserName(userName);
+    }
+
+    public bool Equals(UserName? userName)
+    {
+        if (userName == null)
+            return false;
+
+        return string.Equals(Value, userName.Value, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public override int GetHashCode()
+    {
+        return StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
     }
 }

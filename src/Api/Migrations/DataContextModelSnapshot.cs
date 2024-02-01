@@ -32,6 +32,9 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("Team");
@@ -51,7 +54,7 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -66,10 +69,10 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("62bf5f91-5cd2-4955-909b-d87e9ff7f2f5"),
+                            Id = new Guid("62b37a58-8981-4cc5-bfc4-190bc7692789"),
                             Email = "ewerton@gmal.com",
                             Name = "ewerton_Root",
-                            Password = "ewertonroot",
+                            PasswordHash = "ewertonroot",
                             Role = "root"
                         });
                 });
@@ -147,7 +150,7 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Points")
+                    b.Property<decimal?>("Points")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Position")
@@ -189,7 +192,11 @@ namespace WebApi.Migrations
                     b.Property<int?>("FutCoins")
                         .HasColumnType("int");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

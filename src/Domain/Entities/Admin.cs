@@ -6,20 +6,18 @@ namespace Domain.Entities;
 
 public class AdminEntity : BaseUserEntity
 {
-    public string Name { get; private set; } = string.Empty;
-
     private AdminEntity() { }
 
-    public static AdminEntity Create(string name, string email, string password, UserRole role)
+    public static AdminEntity Create(string name, string email, string passwordHash, UserRole role)
     {
         var emailResult = Email.Create(email);
-        var passwordResult = Password.Create(password);
+       // var passwordResult = Password.Create(password);
 
         var admin = new AdminEntity
         {
             Name = name,
             Email = emailResult,
-            Password = passwordResult,
+            PasswordHash = passwordHash,
             Role = role
         };
 

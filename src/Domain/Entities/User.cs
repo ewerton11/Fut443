@@ -16,33 +16,35 @@ namespace Domain.Entities
 
         public Team? Team { get; private set; }
 
-        public static UserEntity Create(string userName, string email, string password)
+        public static UserEntity Create(string name, string userName, string email, string passwordHash)
         {
             var userNameResult = UserName.Create(userName);
             var emailResult = Email.Create(email);
-            var passwordResult = Password.Create(password);
+            //var passwordResult = Password.Create(password);
 
             var user = new UserEntity
             {
+                Name = name,
                 UserName = userNameResult,
                 Email = emailResult,
-                Password = passwordResult
+                PasswordHash = passwordHash
             };
 
             return user;
         }
 
-        public static UserEntity Update(string userName, string email, string password)
+        public static UserEntity Update(string name, string userName, string email, string passwordHash)
         {
             var userNameResult = UserName.Create(userName);
             var emailResult = Email.Create(email);
-            var passwordResult = Password.Create(password);
+            //var passwordResult = Password.Create(password);
 
             var user = new UserEntity
             {
+                Name = name,
                 UserName = userNameResult,
                 Email = emailResult,
-                Password = passwordResult
+                PasswordHash = passwordHash
             };
 
             return user;

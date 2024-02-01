@@ -39,13 +39,6 @@ public class DataContext : DbContext
         );
 
         modelBuilder.Entity<AdminEntity>()
-        .Property(a => a.Password)
-        .HasConversion(
-            v => v.Value,
-            v => Password.Create(v)
-        );
-
-        modelBuilder.Entity<AdminEntity>()
         .Property(a => a.Role)
         .HasConversion(
             v => v.ToString(),
@@ -76,13 +69,6 @@ public class DataContext : DbContext
         .HasConversion(
             v => v.Value,
             v => Email.Create(v)
-        );
-
-        modelBuilder.Entity<UserEntity>()
-        .Property(u => u.Password)
-        .HasConversion(
-            v => v.Value,
-            v => Password.Create(v)
         );
 
         modelBuilder.Entity<UserEntity>()

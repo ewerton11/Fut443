@@ -1,4 +1,5 @@
 ﻿using Domain.Exceptions;
+using System.Drawing;
 
 namespace Domain.ValueObject;
 
@@ -40,26 +41,16 @@ public class Email : IEquatable<Email>
         return new Email(email);
     }
 
-    public bool Equals(Email? other)
+    public bool Equals(Email? email)
     {
-        // Verifique se o outro objeto não é nulo
-        if (ReferenceEquals(null, other)) return false;
+        if (email == null)
+            return false;
 
-        // Verifique se os objetos têm o mesmo valor
-        return string.Equals(Value, other.Value, StringComparison.OrdinalIgnoreCase);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-
-        return obj is Email other && Equals(other);
+        return string.Equals(Value, email.Value, StringComparison.OrdinalIgnoreCase);
     }
 
     public override int GetHashCode()
     {
-        // Use um hashcode sensato para o valor
         return StringComparer.OrdinalIgnoreCase.GetHashCode(Value);
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Application.DTOs;
 using Domain.Entities;
 using Domain.Repository;
-using Infrastructure.Repository;
+using Domain.ValueObject;
+using Infrastructure.Services;
 
 namespace Application.Service;
 
@@ -9,22 +10,50 @@ public class UserService
 {
     private readonly IBaseRepository<UserEntity> _baseRepository;
     private readonly IUserRepository _userRepository;
+    private readonly PasswordHashService _passwordHashService;
 
-    public UserService(IBaseRepository<UserEntity> baseRepository, IUserRepository userRepository)
+    public UserService(IBaseRepository<UserEntity> baseRepository, IUserRepository userRepository,
+        PasswordHashService passwordHashService)
     {
         _baseRepository = baseRepository;
         _userRepository = userRepository;
+        _passwordHashService = passwordHashService;
     }
 
     public async Task CreateUserAsync(UserEntityDto userDto)
     {
-        if (await _userRepository.EmailExistsAsync(userDto.Email))
+        if (await _userRepository.UserNameExistsAsync(UserName.Create(userDto.UserName)))
         {
-            throw new InvalidOperationException("Email already exists.");
+            throw new InvalidOperationException("This username already exists.");
         }
 
-        var user = UserEntity.Create(userDto.UserName, userDto.Email, userDto.Password);
+        if (await _userRepository.EmailExistsAsync(Email.Create(userDto.Email)))
+        {
+            throw new InvalidOperationException("This email already exists.");
+        }
+
+        var passwordHash = _passwordHashService.HashPassword(userDto.Password);
+
+        var user = UserEntity.Create(userDto.Name, userDto.UserName, userDto.Email, passwordHash);
 
         await _baseRepository.CreateAsync(user);
     }
+
+    /*
+    public bool AuthenticateUser(string username, string password)
+    {
+        Obtenha o usuário do repositório
+        User user = _userRepository.GetUserByUsername(username);
+
+        Verifique se o usuário existe e se a senha é válida
+        if (user != null && _passwordHashService.VerifyPassword(password, user.PasswordHash))
+        {
+            Autenticação bem-sucedida
+            return true;
+        }
+
+        Autenticação falhou
+        return false;
+    }
+    */
 }
