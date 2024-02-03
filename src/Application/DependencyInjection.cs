@@ -1,6 +1,7 @@
 ﻿using Application.Service;
 using Domain.Repository;
 using Infrastructure.Repository;
+using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -11,7 +12,6 @@ public static class DependencyInjection
     {
         var assembly = typeof(DependencyInjection).Assembly;
 
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<UserService>();
 
         //services.AddAutoMapper(typeof(UserProfile));

@@ -1,4 +1,5 @@
-﻿using Domain.Repository;
+﻿using Domain.Entities;
+using Domain.Repository;
 using Domain.ValueObject;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -22,5 +23,12 @@ public class UserRepository : IUserRepository
     public async Task<bool> EmailExistsAsync(Email email)
     {
         return await _dbContext.Users.AnyAsync(u => u.Email.Equals(email));
+    }
+
+    public async Task<UserEntity?> GetUserByEmailAsync(Email email)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+
+        return user;
     }
 }

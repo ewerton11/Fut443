@@ -1,6 +1,7 @@
 ﻿using Domain.Repository;
 using Infrastructure.Data;
 using Infrastructure.Repository;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,15 +32,19 @@ public static class DependencyInjection
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
+                ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
 
-                ValidIssuer = "",
-                ValidAudience = "",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yourSecretKey"))
+                ValidIssuer = configuration["JwtSettings:Issuer"],
+                ValidAudience = configuration["JwtSettings:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Password-Fake-69696-Fut433"))
             };
         });
 
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<PasswordHashService>();
+        //services.AddScoped<TokenService>();
 
         return services;
     }

@@ -39,21 +39,15 @@ public class UserService
         await _baseRepository.CreateAsync(user);
     }
 
-    /*
-    public bool AuthenticateUser(string username, string password)
+    public async Task<bool> AuthenticateUser(string email, string password)
     {
-        Obtenha o usuário do repositório
-        User user = _userRepository.GetUserByUsername(username);
+        var user = await _userRepository.GetUserByEmailAsync(Email.Create(email));
 
-        Verifique se o usuário existe e se a senha é válida
         if (user != null && _passwordHashService.VerifyPassword(password, user.PasswordHash))
         {
-            Autenticação bem-sucedida
             return true;
         }
 
-        Autenticação falhou
         return false;
     }
-    */
 }
