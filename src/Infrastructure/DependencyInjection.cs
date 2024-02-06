@@ -1,9 +1,8 @@
-﻿using Application.Service;
+﻿using Application.Authentication;
 using Domain.Repository;
+using Infrastructure.Authentication;
 using Infrastructure.Data;
 using Infrastructure.Repository;
-using Infrastructure.Service;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -43,6 +42,12 @@ public static class DependencyInjection
                 ValidAudience = jwtSettings.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
             };
+        });
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("RequireRootRole", policy =>
+                policy.RequireRole("root"));
         });
 
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));

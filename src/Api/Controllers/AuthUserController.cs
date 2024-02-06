@@ -1,25 +1,24 @@
-﻿using Application.DTOs.Login;
-using Application.Service;
+﻿using Application.Authentication;
+using Application.DTOs.Login;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
-/*
 [ApiController]
 [Route("api/[controller]")]
 public class AuthUserController : ControllerBase
 {
-    private readonly IAuthenticationUserService _authenticationService;
+    private readonly IAuthenticationUser _authentication;
 
-    public AuthUserController(IAuthenticationUserService authenticationService)
+    public AuthUserController(IAuthenticationUser authentication)
     {
-        _authenticationService = authenticationService;
+        _authentication = authentication;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserEntityDto userEntity)
     {
-        var user = await _authenticationService.AuthenticateUser(userEntity.Email, userEntity.Password);
+        var user = await _authentication.AuthenticateUser(userEntity.Email, userEntity.Password);
 
         if (user == null)
             return Unauthorized(new { Message = "Incorrect email or password" });
@@ -27,4 +26,3 @@ public class AuthUserController : ControllerBase
         return Ok(new { User = user });
     }
 }
-*/

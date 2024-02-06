@@ -1,6 +1,6 @@
-﻿using Application.Service;
+﻿using Application.Authentication;
 
-namespace Infrastructure.Services;
+namespace Infrastructure.Authentication;
 
 public class PasswordHashService : IPasswordHashService
 {

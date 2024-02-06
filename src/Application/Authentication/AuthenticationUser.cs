@@ -1,15 +1,15 @@
 ﻿using Domain.Repository;
 using Domain.ValueObject;
 
-namespace Application.Service;
+namespace Application.Authentication;
 
-public class AuthenticationUserService : IAuthenticationUserService 
+public class AuthenticationUser : IAuthenticationUser
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHashService _passwordHashService;
     private readonly IJwtTokenService _tokenService;
 
-    public AuthenticationUserService(IUserRepository userRepository, IPasswordHashService passwordHashService,
+    public AuthenticationUser(IUserRepository userRepository, IPasswordHashService passwordHashService,
         IJwtTokenService tokenService)
     {
         _userRepository = userRepository;

@@ -1,4 +1,4 @@
-﻿using Application.Service;
+﻿using Application.Authentication;
 using Application.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,8 +10,8 @@ public static class DependencyInjection
     {
         var assembly = typeof(DependencyInjection).Assembly;
 
-        services.AddScoped<IAuthenticationUserService, AuthenticationUserService>();
-        services.AddScoped<IAuthenticationAdminService, AuthenticationAdminService>();
+        services.AddScoped<IAuthenticationUser, AuthenticationUser>();
+        services.AddScoped<IAuthenticationAdmin, AuthenticationAdmin>();
         services.AddScoped<CreateUserUseCase>();
         services.AddScoped<CreateAdminUseCase>();
 

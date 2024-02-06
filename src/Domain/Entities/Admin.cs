@@ -10,13 +10,8 @@ public class AdminEntity : BaseUserEntity
 
     private AdminEntity() { }
 
-    public static AdminEntity Create(string name, string email, string passwordHash, UserRole requestingUser)
+    public static AdminEntity Create(string name, string email, string passwordHash)
     {
-        if (requestingUser != UserRole.root)
-        {
-            throw new UnauthorizedAccessException("Apenas o usuário 'root' pode criar um administrador.");
-        }
-
         var emailResult = Email.Create(email);
        // var passwordResult = Password.Create(password);
 
@@ -25,7 +20,7 @@ public class AdminEntity : BaseUserEntity
             Name = name,
             Email = emailResult,
             PasswordHash = passwordHash,
-            Role = UserRole.root
+            Role = UserRole.admin
         };
 
         return admin;

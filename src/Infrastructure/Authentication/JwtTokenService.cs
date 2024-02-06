@@ -1,4 +1,4 @@
-﻿using Application.Service;
+﻿using Application.Authentication;
 using Domain.Enums;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Infrastructure.Service;
+namespace Infrastructure.Authentication;
 
 public class JwtTokenService : IJwtTokenService
 {

@@ -1,6 +1,6 @@
 ﻿using Domain.Enums;
 
-namespace Application.Service;
+namespace Application.Authentication;
 
 public interface IJwtTokenService
 {

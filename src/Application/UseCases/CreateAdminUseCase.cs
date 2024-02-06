@@ -1,5 +1,5 @@
-﻿using Application.DTOs.CreateDTOs;
-using Application.Service;
+﻿using Application.Authentication;
+using Application.DTOs.CreateDTOs;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Repository;
@@ -23,8 +23,6 @@ public class CreateAdminUseCase
 
     public async Task CreateAdminAsync(AdminEntityDto adminDto)
     {
-        //autorização
-
         if (await _adminRepository.NameExistsAsync(adminDto.Name))
         {
             throw new InvalidOperationException("This name already exists.");
@@ -37,7 +35,7 @@ public class CreateAdminUseCase
 
         var passwordHash = _passwordHashService.HashPassword(adminDto.Password);
 
-        var admin = AdminEntity.Create(adminDto.Name, adminDto.Email, passwordHash, UserRole.root);
+        var admin = AdminEntity.Create(adminDto.Name, adminDto.Email, passwordHash);
 
         await _baseRepository.CreateAsync(admin);
     }

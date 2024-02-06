@@ -1,15 +1,15 @@
 ﻿using Domain.Repository;
 using Domain.ValueObject;
 
-namespace Application.Service;
+namespace Application.Authentication;
 
-public class AuthenticationAdminService : IAuthenticationAdminService
+public class AuthenticationAdmin : IAuthenticationAdmin
 {
     private readonly IAdminRepository _adminRepository;
     private readonly IPasswordHashService _passwordHashService;
     private readonly IJwtTokenService _tokenService;
 
-    public AuthenticationAdminService(IAdminRepository adminRepository, IPasswordHashService passwordHashService,
+    public AuthenticationAdmin(IAdminRepository adminRepository, IPasswordHashService passwordHashService,
         IJwtTokenService tokenService)
     {
         _adminRepository = adminRepository;

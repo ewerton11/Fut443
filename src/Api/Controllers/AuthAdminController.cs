@@ -1,5 +1,5 @@
-﻿using Application.DTOs.Login;
-using Application.Service;
+﻿using Application.Authentication;
+using Application.DTOs.Login;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -8,17 +8,17 @@ namespace Api.Controllers;
 [Route("api/[controller]")]
 public class AuthAdminController : ControllerBase
 {
-    private readonly IAuthenticationAdminService _authenticationService;
+    private readonly IAuthenticationAdmin _authentication;
 
-    public AuthAdminController(IAuthenticationAdminService authenticationService)
+    public AuthAdminController(IAuthenticationAdmin authentication)
     {
-        _authenticationService = authenticationService;
+        _authentication = authentication;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserEntityDto userEntity)
     {
-        var user = await _authenticationService.AuthenticateAdmin(userEntity.Email, userEntity.Password);
+        var user = await _authentication.AuthenticateAdmin(userEntity.Email, userEntity.Password);
 
         if (user == null)
             return Unauthorized(new { Message = "Incorrect email or password" });
