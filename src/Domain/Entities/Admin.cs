@@ -6,10 +6,17 @@ namespace Domain.Entities;
 
 public class AdminEntity : BaseUserEntity
 {
+    //adicionar last name
+
     private AdminEntity() { }
 
-    public static AdminEntity Create(string name, string email, string passwordHash, UserRole role)
+    public static AdminEntity Create(string name, string email, string passwordHash, UserRole requestingUser)
     {
+        if (requestingUser != UserRole.root)
+        {
+            throw new UnauthorizedAccessException("Apenas o usuário 'root' pode criar um administrador.");
+        }
+
         var emailResult = Email.Create(email);
        // var passwordResult = Password.Create(password);
 
@@ -18,7 +25,7 @@ public class AdminEntity : BaseUserEntity
             Name = name,
             Email = emailResult,
             PasswordHash = passwordHash,
-            Role = role
+            Role = UserRole.root
         };
 
         return admin;

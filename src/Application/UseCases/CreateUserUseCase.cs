@@ -1,23 +1,23 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.CreateDTOs;
+using Application.Service;
 using Domain.Entities;
 using Domain.Repository;
 using Domain.ValueObject;
-using Infrastructure.Services;
 
-namespace Application.Service;
+namespace Application.UseCases;
 
-public class UserService
+public class CreateUserUseCase
 {
-    private readonly IBaseRepository<UserEntity> _baseRepository;
     private readonly IUserRepository _userRepository;
-    private readonly PasswordHashService _passwordHashService;
+    private readonly IPasswordHashService _passwordHashService;
+    private readonly IBaseRepository<UserEntity> _baseRepository;
 
-    public UserService(IBaseRepository<UserEntity> baseRepository, IUserRepository userRepository,
-        PasswordHashService passwordHashService)
+    public CreateUserUseCase(IUserRepository userRepository, IPasswordHashService passwordHashService,
+        IBaseRepository<UserEntity> baseRepository)
     {
-        _baseRepository = baseRepository;
         _userRepository = userRepository;
         _passwordHashService = passwordHashService;
+        _baseRepository = baseRepository;
     }
 
     public async Task CreateUserAsync(UserEntityDto userDto)
@@ -37,17 +37,5 @@ public class UserService
         var user = UserEntity.Create(userDto.Name, userDto.UserName, userDto.Email, passwordHash);
 
         await _baseRepository.CreateAsync(user);
-    }
-
-    public async Task<bool> AuthenticateUser(string email, string password)
-    {
-        var user = await _userRepository.GetUserByEmailAsync(Email.Create(email));
-
-        if (user != null && _passwordHashService.VerifyPassword(password, user.PasswordHash))
-        {
-            return true;
-        }
-
-        return false;
     }
 }

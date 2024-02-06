@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class createInit : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Administrators",
+                name: "Admin",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -23,7 +23,7 @@ namespace WebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Administrators", x => x.Id);
+                    table.PrimaryKey("PK_Admin", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,11 +110,6 @@ namespace WebApi.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.InsertData(
-                table: "Administrators",
-                columns: new[] { "Id", "Email", "Name", "PasswordHash", "Role" },
-                values: new object[] { new Guid("62b37a58-8981-4cc5-bfc4-190bc7692789"), "ewerton@gmal.com", "ewerton_Root", "ewertonroot", "root" });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Player_TeamId",
                 table: "Player",
@@ -130,7 +125,7 @@ namespace WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Administrators");
+                name: "Admin");
 
             migrationBuilder.DropTable(
                 name: "Player");

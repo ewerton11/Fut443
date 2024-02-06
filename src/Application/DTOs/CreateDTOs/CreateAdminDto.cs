@@ -1,10 +1,8 @@
-﻿namespace Application.DTOs;
+﻿namespace Application.DTOs.CreateDTOs;
 
-public class UserEntityDto
+public class AdminEntityDto
 {
     public string Name { get; set; } = string.Empty;
-
-    public string UserName { get; set; } = string.Empty;
 
     public string Email { get; set; } = string.Empty;
 

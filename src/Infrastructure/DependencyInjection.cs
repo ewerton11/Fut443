@@ -1,6 +1,8 @@
-﻿using Domain.Repository;
+﻿using Application.Service;
+using Domain.Repository;
 using Infrastructure.Data;
 using Infrastructure.Repository;
+using Infrastructure.Service;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,8 @@ public static class DependencyInjection
         })
         .AddJwtBearer(options =>
         {
+            var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -35,16 +39,20 @@ public static class DependencyInjection
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
 
-                ValidIssuer = configuration["JwtSettings:Issuer"],
-                ValidAudience = configuration["JwtSettings:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Password-Fake-69696-Fut433"))
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
             };
         });
 
+        services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<PasswordHashService>();
-        //services.AddScoped<TokenService>();
+        services.AddScoped<IAdminRepository, AdminRepository>();
+        services.AddScoped<IPasswordHashService, PasswordHashService>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
+
 
         return services;
     }

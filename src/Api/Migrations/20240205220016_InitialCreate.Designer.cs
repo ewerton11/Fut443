@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240201231154_createInit")]
-    partial class createInit
+    [Migration("20240205220016_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,17 +67,7 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Administrators");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("62b37a58-8981-4cc5-bfc4-190bc7692789"),
-                            Email = "ewerton@gmal.com",
-                            Name = "ewerton_Root",
-                            PasswordHash = "ewertonroot",
-                            Role = "root"
-                        });
+                    b.ToTable("Admin");
                 });
 
             modelBuilder.Entity("Domain.Entities.PlayerEntity", b =>

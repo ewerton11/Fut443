@@ -1,7 +1,5 @@
 ﻿using Application.Service;
-using Domain.Repository;
-using Infrastructure.Repository;
-using Infrastructure.Services;
+using Application.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -12,7 +10,10 @@ public static class DependencyInjection
     {
         var assembly = typeof(DependencyInjection).Assembly;
 
-        services.AddScoped<UserService>();
+        services.AddScoped<IAuthenticationUserService, AuthenticationUserService>();
+        services.AddScoped<IAuthenticationAdminService, AuthenticationAdminService>();
+        services.AddScoped<CreateUserUseCase>();
+        services.AddScoped<CreateAdminUseCase>();
 
         //services.AddAutoMapper(typeof(UserProfile));
 

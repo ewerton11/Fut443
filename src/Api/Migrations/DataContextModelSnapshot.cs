@@ -64,17 +64,7 @@ namespace WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Administrators");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("62b37a58-8981-4cc5-bfc4-190bc7692789"),
-                            Email = "ewerton@gmal.com",
-                            Name = "ewerton_Root",
-                            PasswordHash = "ewertonroot",
-                            Role = "root"
-                        });
+                    b.ToTable("Admin");
                 });
 
             modelBuilder.Entity("Domain.Entities.PlayerEntity", b =>

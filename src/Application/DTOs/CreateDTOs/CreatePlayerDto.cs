@@ -1,5 +1,5 @@
 ﻿/*
-namespace Application.DTOs;
+namespace Application.DTOs.CreateDTOs;
 
 public class CreatePlayerEntityDto
 {

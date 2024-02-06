@@ -1,8 +1,8 @@
-﻿using BCrypt.Net;
+﻿using Application.Service;
 
 namespace Infrastructure.Services;
 
-public class PasswordHashService
+public class PasswordHashService : IPasswordHashService
 {
     public string HashPassword(string password)
     {

@@ -1,25 +1,27 @@
-﻿using Application.DTOs;
-using Application.Service;
+﻿using Application.DTOs.CreateDTOs;
+using Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+/*
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly UserService _userService;
+    private readonly CreateUserUseCase _createUser;
 
-    public UserController(UserService userService)
+    public UserController(CreateUserUseCase createUser)
     {
-        _userService = userService;
+        _createUser = createUser;
     }
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateUser([FromBody] UserEntityDto userDto)
     {
-        await _userService.CreateUserAsync(userDto);
+        await _createUser.CreateUserAsync(userDto);
 
         return Ok(new { message = "User created successfully!" });
     }
 }
+*/

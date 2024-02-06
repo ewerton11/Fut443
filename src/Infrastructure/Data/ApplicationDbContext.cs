@@ -13,7 +13,7 @@ public class DataContext : DbContext
 
     public DbSet<UserEntity> Users { get; set; }
 
-    public DbSet<AdminEntity> Administrators { get; set; }
+    public DbSet<AdminEntity> Admin { get; set; }
 
     public DbSet<PlayerEntity> Player { get; set; }
 
@@ -26,10 +26,12 @@ public class DataContext : DbContext
         modelBuilder.Entity<AdminEntity>()
          .HasKey(a => a.Id);
 
+        /*
         modelBuilder.Entity<AdminEntity>()
          .HasData(
              AdminEntity.Create("ewerton_Root", "ewerton@gmal.com", "ewertonroot", UserRole.root)
          );
+        */
 
         modelBuilder.Entity<AdminEntity>()
         .Property(a => a.Email)

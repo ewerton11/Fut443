@@ -14,7 +14,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\ReadDTOs\" />
+    <Folder Include="DTOs\UpdateDTOs\" />
   </ItemGroup>
 
 </Project>
