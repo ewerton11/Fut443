@@ -49,5 +49,15 @@ namespace Domain.Entities
 
             return user;
         }
+
+        public static UserEntity UpdateTeam(Team team)
+        {
+            var userTeam = new UserEntity
+            {
+                Team = team
+            };
+
+            return userTeam;
+        }
     }
 }

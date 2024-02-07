@@ -1,10 +1,10 @@
-﻿/*
-namespace Application.DTOs.CreateDTOs;
+﻿namespace Application.DTOs.CreateDTOs;
 
-public class CreatePlayerEntityDto
+public class PlayerEntityDto
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string Position { get; set; }
+    public string Position { get; set; } = string.Empty;
+
+    public string Club { get; set; } = string.Empty;
 }
-*/

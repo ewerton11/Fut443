@@ -1,6 +1,6 @@
 ﻿namespace Domain.Repository;
 
-public interface IPlayerRepository<TPlayer>
+public interface IPlayerRepository
 {
-    Task CreateAsync(TPlayer player);
+Task<bool> IsPlayerInClubAsync(string name, string club);
 }

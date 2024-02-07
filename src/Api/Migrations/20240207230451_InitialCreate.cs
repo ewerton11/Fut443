@@ -27,16 +27,59 @@ namespace WebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Championship",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Championship", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Points = table.Column<int>(type: "int", nullable: false),
+                    Ranking = table.Column<int>(type: "int", nullable: true),
+                    FutCoins = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Team",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChampionshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Team", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Team_Championship_ChampionshipId",
+                        column: x => x.ChampionshipId,
+                        principalTable: "Championship",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Team_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,6 +89,7 @@ namespace WebApi.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Club = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Available = table.Column<bool>(type: "bit", nullable: false),
                     Points = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     SuccessfulPasses = table.Column<int>(type: "int", nullable: false),
@@ -81,34 +125,13 @@ namespace WebApi.Migrations
                         name: "FK_Player_Team_TeamId",
                         column: x => x.TeamId,
                         principalTable: "Team",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Points = table.Column<int>(type: "int", nullable: false),
-                    Ranking = table.Column<int>(type: "int", nullable: true),
-                    FutCoins = table.Column<int>(type: "int", nullable: true),
-                    TeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Team_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Team",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Admin",
+                columns: new[] { "Id", "Email", "Name", "PasswordHash", "Role" },
+                values: new object[] { new Guid("ed93d254-da25-4eae-9783-31af1e579bc0"), "ewerton@gmail.com", "ewerton_Root", "$2a$11$pYf9EGlyvitOH/gpg03xPub48PtUOJNJpWpeoyL75fuSwLHp95LKe", "root" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Player_TeamId",
@@ -116,9 +139,15 @@ namespace WebApi.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_TeamId",
-                table: "Users",
-                column: "TeamId");
+                name: "IX_Team_ChampionshipId",
+                table: "Team",
+                column: "ChampionshipId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Team_UserId",
+                table: "Team",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -131,10 +160,13 @@ namespace WebApi.Migrations
                 name: "Player");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Team");
 
             migrationBuilder.DropTable(
-                name: "Team");
+                name: "Championship");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

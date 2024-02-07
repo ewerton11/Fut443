@@ -35,7 +35,7 @@ public class CreateAdminUseCase
 
         var passwordHash = _passwordHashService.HashPassword(adminDto.Password);
 
-        var admin = AdminEntity.Create(adminDto.Name, adminDto.Email, passwordHash);
+        var admin = AdminEntity.Create(adminDto.Name, adminDto.Email, passwordHash, null);
 
         await _baseRepository.CreateAsync(admin);
     }

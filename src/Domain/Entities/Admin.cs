@@ -10,7 +10,7 @@ public class AdminEntity : BaseUserEntity
 
     private AdminEntity() { }
 
-    public static AdminEntity Create(string name, string email, string passwordHash)
+    public static AdminEntity Create(string name, string email, string passwordHash, UserRole? role)
     {
         var emailResult = Email.Create(email);
        // var passwordResult = Password.Create(password);
@@ -20,7 +20,7 @@ public class AdminEntity : BaseUserEntity
             Name = name,
             Email = emailResult,
             PasswordHash = passwordHash,
-            Role = UserRole.admin
+            Role = role ?? UserRole.admin
         };
 
         return admin;

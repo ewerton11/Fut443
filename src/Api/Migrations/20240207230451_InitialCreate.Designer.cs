@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240205220016_InitialCreate")]
+    [Migration("20240207230451_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace WebApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Aggregates.Team", b =>
+            modelBuilder.Entity("Domain.Aggregates.Championship", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,10 +35,33 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TeamId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Championship");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Team", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChampionshipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChampionshipId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Team");
                 });
@@ -68,6 +91,16 @@ namespace WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Admin");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ed93d254-da25-4eae-9783-31af1e579bc0"),
+                            Email = "ewerton@gmail.com",
+                            Name = "ewerton_Root",
+                            PasswordHash = "$2a$11$pYf9EGlyvitOH/gpg03xPub48PtUOJNJpWpeoyL75fuSwLHp95LKe",
+                            Role = "root"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.PlayerEntity", b =>
@@ -93,6 +126,10 @@ namespace WebApi.Migrations
 
                     b.Property<int>("BlockedKicks")
                         .HasColumnType("int");
+
+                    b.Property<string>("Club")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CompletionsForOut")
                         .HasColumnType("int");
@@ -203,40 +240,50 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TeamId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TeamId");
-
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Team", b =>
+                {
+                    b.HasOne("Domain.Aggregates.Championship", null)
+                        .WithMany("Teams")
+                        .HasForeignKey("ChampionshipId");
+
+                    b.HasOne("Domain.Entities.UserEntity", "User")
+                        .WithOne("Team")
+                        .HasForeignKey("Domain.Aggregates.Team", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.PlayerEntity", b =>
                 {
                     b.HasOne("Domain.Aggregates.Team", null)
                         .WithMany("Players")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TeamId");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserEntity", b =>
+            modelBuilder.Entity("Domain.Aggregates.Championship", b =>
                 {
-                    b.HasOne("Domain.Aggregates.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId");
-
-                    b.Navigation("Team");
+                    b.Navigation("Teams");
                 });
 
             modelBuilder.Entity("Domain.Aggregates.Team", b =>
                 {
                     b.Navigation("Players");
+                });
+
+            modelBuilder.Entity("Domain.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Team");
                 });
 #pragma warning restore 612, 618
         }

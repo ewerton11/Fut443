@@ -1,4 +1,5 @@
-﻿using Domain.Aggregates;
+﻿using Application.Authentication;
+using Domain.Aggregates;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.ValueObject;
@@ -9,7 +10,13 @@ namespace Infrastructure.Data;
 
 public class DataContext : DbContext
 {
-    public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+    private readonly IPasswordHashService _passwordHashService;
+
+    public DataContext(DbContextOptions<DataContext> options, IPasswordHashService passwordHashService)
+        : base(options)
+    {
+        _passwordHashService = passwordHashService;
+    }
 
     public DbSet<UserEntity> Users { get; set; }
 
@@ -19,6 +26,8 @@ public class DataContext : DbContext
 
     public DbSet<Team> Team { get; set; }
 
+    public DbSet<Championship> Championship { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Configurações para a entidade AdministratorEntity
@@ -26,12 +35,16 @@ public class DataContext : DbContext
         modelBuilder.Entity<AdminEntity>()
          .HasKey(a => a.Id);
 
-        /*
         modelBuilder.Entity<AdminEntity>()
-         .HasData(
-             AdminEntity.Create("ewerton_Root", "ewerton@gmal.com", "ewertonroot", UserRole.root)
-         );
-        */
+        .HasData(
+            AdminEntity.Create
+              (
+                "ewerton_Root",
+                "ewerton@gmail.com",
+                _passwordHashService.HashPassword("ewertonroot"),
+                UserRole.root
+              )
+        );
 
         modelBuilder.Entity<AdminEntity>()
         .Property(a => a.Email)
@@ -80,6 +93,11 @@ public class DataContext : DbContext
             v => Enum.Parse<UserRole>(v)
         );
 
+        modelBuilder.Entity<UserEntity>()
+        .HasOne(t => t.Team)
+        .WithOne(u => u.User)
+        .HasForeignKey<Team>(u => u.UserId);
+
         // Configurações para a entidade PlayerEntity
 
         modelBuilder.Entity<PlayerEntity>()
@@ -104,10 +122,12 @@ public class DataContext : DbContext
            v => TeamName.Create(v)
        );
 
-        modelBuilder.Entity<Team>()
-        .HasMany(t => t.Players)
-        .WithOne()
-        .HasForeignKey("TeamId")
-        .OnDelete(DeleteBehavior.Cascade);
+        // Configurações para a entidade Championship
+
+        modelBuilder.Entity<Championship>()
+         .HasKey(p => p.Id);
+
+        modelBuilder.Entity<Championship>()
+       .Property(t => t.Name);
     }
 }

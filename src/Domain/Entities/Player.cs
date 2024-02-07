@@ -9,6 +9,8 @@ namespace Domain.Entities
 
         public PlayerPosition Position { get; private set; }
 
+        public string Club { get; private set; } = string.Empty;
+
         public bool Available { get; private set; } = false;
 
         public decimal? Points { get; private set; }
@@ -47,7 +49,7 @@ namespace Domain.Entities
 
         private PlayerEntity() { }
 
-        public static PlayerEntity Create(string name, string position /* , UserEntity creatorUser*/)
+        public static PlayerEntity Create(string name, string position, string club /* , UserEntity creatorUser*/)
         {
             /*
             if (creatorUser == null || (creatorUser.Role != UserRole.admin && creatorUser.Role != UserRole.root))
@@ -64,7 +66,8 @@ namespace Domain.Entities
             var player = new PlayerEntity
             {
                 Name = name,
-                Position = playerPosition
+                Position = playerPosition,
+                Club = club
             };
 
             return player;
