@@ -22,19 +22,23 @@ public class CreateUserUseCase
 
     public async Task CreateUserAsync(UserEntityDto userDto)
     {
-        if (await _userRepository.UserNameExistsAsync(UserName.Create(userDto.UserName)))
+        var userNameResult = UserName.Create(userDto.UserName);
+        var emailResult = Email.Create(userDto.Email);
+        var passwordResult = Password.Create(userDto.Password);
+
+        if (await _userRepository.UserNameExistsAsync(userNameResult))
         {
             throw new InvalidOperationException("This username already exists.");
         }
 
-        if (await _userRepository.EmailExistsAsync(Email.Create(userDto.Email)))
+        if (await _userRepository.EmailExistsAsync(emailResult))
         {
             throw new InvalidOperationException("This email already exists.");
         }
 
-        var passwordHash = _passwordHashService.HashPassword(userDto.Password);
+        var passwordHash = _passwordHashService.HashPassword(passwordResult.Value);
 
-        var user = UserEntity.Create(userDto.Name, userDto.UserName, userDto.Email, passwordHash);
+        var user = UserEntity.Create(userNameResult, emailResult, passwordHash);
 
         await _baseRepository.CreateAsync(user);
     }

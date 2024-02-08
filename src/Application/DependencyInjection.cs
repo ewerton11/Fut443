@@ -1,6 +1,5 @@
 ﻿using Application.Authentication;
 using Application.UseCases;
-using Domain.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -17,6 +16,7 @@ public static class DependencyInjection
         services.AddScoped<CreateAdminUseCase>();
         services.AddScoped<CreatePlayerUseCase>();
         services.AddScoped<CreateTeamUseCase>();
+        services.AddScoped<UpdateUserUseCase>();
 
         //services.AddAutoMapper(typeof(UserProfile));
 

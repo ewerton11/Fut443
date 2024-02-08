@@ -92,10 +92,10 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ed93d254-da25-4eae-9783-31af1e579bc0"),
+                            Id = new Guid("39fb654d-873d-453c-b243-f9ad3d6a4352"),
                             Email = "ewerton@gmail.com",
                             Name = "ewerton_Root",
-                            PasswordHash = "$2a$11$pYf9EGlyvitOH/gpg03xPub48PtUOJNJpWpeoyL75fuSwLHp95LKe",
+                            PasswordHash = "$2a$11$6Yuh0clXxzRSiiGq.qf9euZV7QSlo5gGqYJM/NDPmn3CuzbGyQJZG",
                             Role = "root"
                         });
                 });
@@ -177,9 +177,6 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Points")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -216,9 +213,6 @@ namespace WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FutCoins")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -226,12 +220,6 @@ namespace WebApi.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Points")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Ranking")
-                        .HasColumnType("int");
 
                     b.Property<string>("Role")
                         .IsRequired()

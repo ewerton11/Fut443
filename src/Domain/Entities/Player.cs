@@ -13,7 +13,7 @@ namespace Domain.Entities
 
         public bool Available { get; private set; } = false;
 
-        public decimal? Points { get; private set; }
+        //public decimal? Points { get; private set; }
 
         // General Statistics
         public int SuccessfulPasses { get; private set; }

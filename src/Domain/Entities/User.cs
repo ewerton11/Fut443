@@ -8,46 +8,40 @@ namespace Domain.Entities
     {
         public UserName UserName { get; private set; }
 
-        public Points Points { get; private set; } = new Points();
-
-        public int? Ranking { get; private set; } = null;
-
-        public int? FutCoins { get; private set; } = null;
-
         public Team? Team { get; private set; }
 
-        public static UserEntity Create(string name, string userName, string email, string passwordHash)
-        {
-            var userNameResult = UserName.Create(userName);
-            var emailResult = Email.Create(email);
-            //var passwordResult = Password.Create(password);
+        private UserEntity() { }
 
+        public static UserEntity Create(UserName userName, Email email, string passwordHash)
+        {
             var user = new UserEntity
             {
-                Name = name,
-                UserName = userNameResult,
-                Email = emailResult,
+                UserName = userName,
+                Email = email,
                 PasswordHash = passwordHash
             };
 
             return user;
         }
 
-        public static UserEntity Update(string name, string userName, string email, string passwordHash)
+        public void UpdateName(string name)
         {
-            var userNameResult = UserName.Create(userName);
-            var emailResult = Email.Create(email);
-            //var passwordResult = Password.Create(password);
+            Name = name;
+        }
 
-            var user = new UserEntity
-            {
-                Name = name,
-                UserName = userNameResult,
-                Email = emailResult,
-                PasswordHash = passwordHash
-            };
+        public void UpdateUserName(UserName userName)
+        {
+            UserName = userName;
+        }
 
-            return user;
+        public void UpdateEmail(Email email)
+        {
+            Email = email;
+        }
+
+        public void UpdatePassword(string password)
+        {
+            PasswordHash = password;
         }
 
         public static UserEntity UpdateTeam(Team team)

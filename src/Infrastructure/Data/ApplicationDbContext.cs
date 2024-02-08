@@ -65,12 +65,14 @@ public class DataContext : DbContext
         modelBuilder.Entity<UserEntity>()
          .HasKey(u => u.Id);
 
+        /*
         modelBuilder.Entity<UserEntity>()
             .Property(u => u.Points)
             .HasConversion(
                 v => v.Value,
                 v => new Points(v)
             );
+        */
 
         modelBuilder.Entity<UserEntity>()
             .Property(u => u.UserName)

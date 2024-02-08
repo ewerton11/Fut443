@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="DTOs\ReadDTOs\" />
-    <Folder Include="DTOs\UpdateDTOs\" />
     <Folder Include="Service\" />
   </ItemGroup>
 

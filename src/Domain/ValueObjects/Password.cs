@@ -13,11 +13,11 @@ public sealed class Password
         if (string.IsNullOrWhiteSpace(password))
             throw new InvalidPasswordDomainException($"{nameof(password)}, The password cannot be null or empty.");
 
-        if (password.Length > 15)
-            throw new InvalidPasswordDomainException($"{nameof(password)}, The password cannot be longer than 25 characters.");
+        if (password.Length > 30)
+            throw new InvalidPasswordDomainException($"{nameof(password)}, The password cannot be longer than 30 characters.");
 
         if (password.Length < 8)
-            throw new InvalidPasswordDomainException($"{nameof(password)}, The password cannot be less than 6 characters long.");
+            throw new InvalidPasswordDomainException($"{nameof(password)}, The password cannot be less than 8 characters long.");
 
         return new Password(password);
     }

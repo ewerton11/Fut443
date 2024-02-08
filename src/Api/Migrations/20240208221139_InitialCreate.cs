@@ -44,9 +44,6 @@ namespace WebApi.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Points = table.Column<int>(type: "int", nullable: false),
-                    Ranking = table.Column<int>(type: "int", nullable: true),
-                    FutCoins = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -91,7 +88,6 @@ namespace WebApi.Migrations
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Club = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Available = table.Column<bool>(type: "bit", nullable: false),
-                    Points = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     SuccessfulPasses = table.Column<int>(type: "int", nullable: false),
                     DecisivePasses = table.Column<int>(type: "int", nullable: false),
                     Cross = table.Column<int>(type: "int", nullable: false),
@@ -131,7 +127,7 @@ namespace WebApi.Migrations
             migrationBuilder.InsertData(
                 table: "Admin",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "Role" },
-                values: new object[] { new Guid("ed93d254-da25-4eae-9783-31af1e579bc0"), "ewerton@gmail.com", "ewerton_Root", "$2a$11$pYf9EGlyvitOH/gpg03xPub48PtUOJNJpWpeoyL75fuSwLHp95LKe", "root" });
+                values: new object[] { new Guid("39fb654d-873d-453c-b243-f9ad3d6a4352"), "ewerton@gmail.com", "ewerton_Root", "$2a$11$6Yuh0clXxzRSiiGq.qf9euZV7QSlo5gGqYJM/NDPmn3CuzbGyQJZG", "root" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Player_TeamId",
