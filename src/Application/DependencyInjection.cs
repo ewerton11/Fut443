@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<CreateTeamUseCase>();
         services.AddScoped<UpdateUserUseCase>();
         services.AddScoped<DeleteUserUseCase>();
+        services.AddScoped<ReadUserUseCase>();
 
         //services.AddAutoMapper(typeof(UserProfile));
 

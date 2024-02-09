@@ -1,4 +1,5 @@
 ﻿using Application.Authentication;
+using Application.DTOs;
 using Application.DTOs.CreateDTOs;
 using Application.DTOs.UpdateDTOs;
 using Application.UseCases;
@@ -13,14 +14,16 @@ namespace Api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly CreateUserUseCase _createUser;
+    private readonly ReadUserUseCase _readUserAndTeam;
     private readonly IAuthenticationUser _authentication;
     private readonly UpdateUserUseCase _updateUser;
     private readonly DeleteUserUseCase _deleteUser;
 
-    public UserController(CreateUserUseCase createUser, IAuthenticationUser authentication, 
+    public UserController(CreateUserUseCase createUser, ReadUserUseCase readUserUseCase, IAuthenticationUser authentication,
         UpdateUserUseCase updateUser, DeleteUserUseCase deleteUser)
     {
         _createUser = createUser;
+        _readUserAndTeam = readUserUseCase;
         _authentication = authentication;
         _updateUser = updateUser;
         _deleteUser = deleteUser;
@@ -37,6 +40,22 @@ public class UserController : ControllerBase
     }
 
     [Authorize(Roles = "common")]
+    [HttpGet("read-user-and-team")]
+    public async Task<IActionResult> GetUserById()
+    {
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!Guid.TryParse(userIdString, out var userId))
+        {
+            return BadRequest(new { message = "Invalid user ID format" });
+        }
+
+        var user = await _readUserAndTeam.ReadUserAndTeam(userId);
+
+        return Ok(user);
+    }
+
+    [Authorize(Roles = "common")]
     [HttpPut("update")]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto userEntity)
     {
@@ -49,12 +68,12 @@ public class UserController : ControllerBase
 
         await _updateUser.UpdateUser(userEntity, userId);
 
-        return Ok(new { message = "User updated successfully!"});
+        return Ok(new { message = "User updated successfully!" });
     }
 
     [Authorize(Roles = "common")]
     [HttpDelete("delete")]
-    public async Task<IActionResult> DeleteUser()
+    public async Task<IActionResult> DeleteUser([FromBody] DeleteUserDto password)
     {
         var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -63,7 +82,7 @@ public class UserController : ControllerBase
             return BadRequest(new { message = "Invalid user ID format" });
         }
 
-        await _deleteUser.DeleteUser(userId);
+        await _deleteUser.DeleteUser(userId, password.Password);
 
         return Ok(new { message = "User deleted successfully!" });
     }

@@ -31,4 +31,13 @@ public class UserRepository : IUserRepository
 
         return user;
     }
+
+    public async Task<UserEntity?> GetUserByIdAndTeam(Guid id)
+    {
+        var user = await _dbContext.Users
+            .Include(u => u.Team)
+             .FirstOrDefaultAsync(u => u.Team != null && u.Team.UserId == id);
+
+        return user;
+    }
 }
