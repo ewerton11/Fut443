@@ -14,5 +14,7 @@ public class Points
         }
         Value = value;
     }
+
+    private Points() { }
 }
 

@@ -8,6 +8,8 @@ public class TeamName
 
     private TeamName(string value) => Value = value;
 
+    private TeamName() { }
+
     public static TeamName Create(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

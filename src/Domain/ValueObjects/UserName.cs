@@ -8,6 +8,8 @@ public sealed class UserName : IEquatable<UserName>
 
     private UserName(string value) => Value = value;
 
+    private UserName() { }
+
     public static UserName Create(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))

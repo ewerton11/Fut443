@@ -1,5 +1,4 @@
 ﻿using Domain.Exceptions;
-using System.Drawing;
 
 namespace Domain.ValueObject;
 
@@ -11,6 +10,8 @@ public class Email : IEquatable<Email>
     {
         Value = value;
     }
+
+    private Email() { }
 
     private static bool IsValidEmail(string email)
     {

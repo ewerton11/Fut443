@@ -16,11 +16,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-        services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(connectionString,
-                b => b.MigrationsAssembly("WebApi")));
+        services.AddDbContext<DataContext>(options => 
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddAuthentication(options =>
         {

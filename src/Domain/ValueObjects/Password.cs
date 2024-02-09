@@ -8,6 +8,8 @@ public sealed class Password
 
     private Password(string value) => Value = value;
 
+    private Password() { }
+
     public static Password Create(string password)
     {
         if (string.IsNullOrWhiteSpace(password))

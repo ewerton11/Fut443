@@ -1,13 +1,19 @@
-﻿using Domain.Aggregates;
+﻿using Application.Authentication;
+using Domain.Aggregates;
 using Domain.Entities;
+using Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Infrastructure.Data;
 
 public class DataContext : DbContext
 {
-    DataContext(DbContextOptions<DataContext> options) : base(options) { }
+    private readonly IPasswordHashService _passwordHashService;
+
+    public DataContext(DbContextOptions<DataContext> options, IPasswordHashService passwordHashService) : base(options)
+    {
+        _passwordHashService = passwordHashService;
+    }
 
     public DbSet<UserEntity> Users { get; set; }
 
@@ -21,8 +27,10 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new AdminEntityConfiguration(_passwordHashService));
+        modelBuilder.ApplyConfiguration(new TeamEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new PlayerEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new ChampionshipEntityConfiguration());
     }
 }
