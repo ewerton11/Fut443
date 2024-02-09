@@ -98,7 +98,8 @@ public class DataContext : DbContext
         modelBuilder.Entity<UserEntity>()
         .HasOne(t => t.Team)
         .WithOne(u => u.User)
-        .HasForeignKey<Team>(u => u.UserId);
+        .HasForeignKey<Team>(u => u.UserId)
+        .OnDelete(DeleteBehavior.Cascade);
 
         // Configurações para a entidade PlayerEntity
 
