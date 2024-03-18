@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240209212714_InitialCreate")]
+    [Migration("20240210182146_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -95,10 +95,10 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6573a3c6-ce66-4fd0-b73f-a7d1291ea5bd"),
+                            Id = new Guid("b62742a1-7bb7-4624-8ad6-839285360418"),
                             Email = "ewerton@gmail.com",
                             Name = "ewerton_Root",
-                            PasswordHash = "$2a$11$cFINlxO7g1cUCW6DltqXUOIrE.z7.VuH8pUJKOo1cxBIu5QilOrHa",
+                            PasswordHash = "$2a$11$qq8UUF27yKyd943w1ObncefQ8M3irsU6EdowfVW7qOBLCkknUeSMy",
                             Role = "root"
                         });
                 });

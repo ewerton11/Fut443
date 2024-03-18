@@ -1,7 +1,6 @@
-﻿using Domain.Entities;
-using Domain.Repository;
-using System.Text.Json.Serialization;
+﻿using Domain.Repository;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Application.UseCases;
 
@@ -22,8 +21,8 @@ public class ReadUserUseCase
 
         var options = new JsonSerializerOptions
         {
-            ReferenceHandler = ReferenceHandler.Preserve,
-            WriteIndented = true // Opcional: para tornar a saída JSON mais legível
+            ReferenceHandler = ReferenceHandler.IgnoreCycles,
+            WriteIndented = true
         };
 
         var jsonString = JsonSerializer.Serialize(user, options);

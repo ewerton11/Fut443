@@ -20,7 +20,7 @@ public static class DependencyInjection
         services.AddScoped<DeleteUserUseCase>();
         services.AddScoped<ReadUserUseCase>();
 
-        //services.AddAutoMapper(typeof(UserProfile));
+       // services.AddAutoMapper(typeof(UserProfile));
 
         return services;
     }

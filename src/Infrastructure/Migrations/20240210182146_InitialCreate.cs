@@ -127,7 +127,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admin",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "Role" },
-                values: new object[] { new Guid("6573a3c6-ce66-4fd0-b73f-a7d1291ea5bd"), "ewerton@gmail.com", "ewerton_Root", "$2a$11$cFINlxO7g1cUCW6DltqXUOIrE.z7.VuH8pUJKOo1cxBIu5QilOrHa", "root" });
+                values: new object[] { new Guid("b62742a1-7bb7-4624-8ad6-839285360418"), "ewerton@gmail.com", "ewerton_Root", "$2a$11$qq8UUF27yKyd943w1ObncefQ8M3irsU6EdowfVW7qOBLCkknUeSMy", "root" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Player_TeamId",

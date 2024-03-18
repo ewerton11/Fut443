@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.ReadDTOs;
+using Domain.Entities;
 using Domain.Repository;
 using Domain.ValueObject;
 using Infrastructure.Data;
@@ -32,11 +33,23 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public async Task<UserEntity?> GetUserByIdAndTeam(Guid id)
+    public async Task<object?> GetUserByIdAndTeam(Guid id)
     {
         var user = await _dbContext.Users
-            .Include(u => u.Team)
-             .FirstOrDefaultAsync(u => u.Team != null && u.Team.UserId == id);
+        .Include(u => u.Team)
+        .Where(u => u.Team != null && u.Team.UserId == id)
+        .Select(u => new ReadUserProfileDto
+        {
+            Id = u.Id,
+            Name = u.Name,
+            UserName = u.UserName.Value,
+            Team = u.Team == null ? null : new ReadTeamUserDto
+            {
+                Id = u.Team.Id,
+                Name = u.Team.Name.Value
+            }
+        })
+        .FirstOrDefaultAsync();
 
         return user;
     }
