@@ -18,11 +18,11 @@ public class AuthUserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserEntityDto userEntity)
     {
-        var user = await _authentication.AuthenticateUser(userEntity.Email, userEntity.Password);
+        var token = await _authentication.AuthenticateUser(userEntity.Email, userEntity.Password);
 
-        if (user == null)
+        if (token == null)
             return Unauthorized(new { Message = "Incorrect email or password" });
 
-        return Ok(new { User = user });
+        return Ok(new { message = "Login successful!", token });
     }
 }
