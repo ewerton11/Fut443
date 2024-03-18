@@ -8,6 +8,17 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin() // Permitir requisições de qualquer origem
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
 
@@ -26,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
