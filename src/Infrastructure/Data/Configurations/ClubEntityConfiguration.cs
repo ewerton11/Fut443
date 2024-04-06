@@ -4,16 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations;
 
-public class ChampionshipEntityConfiguration : IEntityTypeConfiguration<Championship>
+public class ClubEntityConfiguration : IEntityTypeConfiguration<Club>
 {
-    public void Configure(EntityTypeBuilder<Championship> builder)
+    public void Configure(EntityTypeBuilder<Club> builder)
     {
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.Name);
-
-        builder.Property(c => c.CurrentPhase);
-
-        builder.Property(c => c.TotalRounds);
     }
 }

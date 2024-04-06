@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240210182146_InitialCreate")]
+    [Migration("20240406021015_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,16 +31,29 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CurrentPhase")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TotalRounds")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Championship");
                 });
 
-            modelBuilder.Entity("Domain.Aggregates.Team", b =>
+            modelBuilder.Entity("Domain.Aggregates.Club", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,12 +66,119 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChampionshipId");
+
+                    b.ToTable("Club");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Competition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ChampionshipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChampionshipId");
+
+                    b.ToTable("Competition");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Match", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AwayTeamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AwayTeamScore")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("HomeTeamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("HomeTeamScore")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("MatchDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("RoundId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AwayTeamId");
+
+                    b.HasIndex("HomeTeamId");
+
+                    b.HasIndex("RoundId");
+
+                    b.ToTable("Match");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Round", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChampionshipId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChampionshipId");
+
+                    b.ToTable("Round");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Team", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CompetitionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChampionshipId");
+                    b.HasIndex("CompetitionId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -95,10 +215,10 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b62742a1-7bb7-4624-8ad6-839285360418"),
+                            Id = new Guid("87bf9c88-b6a0-4577-873a-cbd0e8ac4983"),
                             Email = "ewerton@gmail.com",
                             Name = "ewerton_Root",
-                            PasswordHash = "$2a$11$qq8UUF27yKyd943w1ObncefQ8M3irsU6EdowfVW7qOBLCkknUeSMy",
+                            PasswordHash = "$2a$11$.oERLy5RPVftcWdvvSrdw.rKjOwRvwQHU41yFty7gHkJs3a78jM4C",
                             Role = "root"
                         });
                 });
@@ -237,11 +357,59 @@ namespace Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Domain.Aggregates.Team", b =>
+            modelBuilder.Entity("Domain.Aggregates.Club", b =>
                 {
                     b.HasOne("Domain.Aggregates.Championship", null)
-                        .WithMany("Teams")
+                        .WithMany("Clubs")
                         .HasForeignKey("ChampionshipId");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Competition", b =>
+                {
+                    b.HasOne("Domain.Aggregates.Championship", "Championship")
+                        .WithMany()
+                        .HasForeignKey("ChampionshipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Championship");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Match", b =>
+                {
+                    b.HasOne("Domain.Aggregates.Club", "AwayTeam")
+                        .WithMany()
+                        .HasForeignKey("AwayTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Aggregates.Club", "HomeTeam")
+                        .WithMany()
+                        .HasForeignKey("HomeTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Aggregates.Round", null)
+                        .WithMany("Matches")
+                        .HasForeignKey("RoundId");
+
+                    b.Navigation("AwayTeam");
+
+                    b.Navigation("HomeTeam");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Round", b =>
+                {
+                    b.HasOne("Domain.Aggregates.Championship", null)
+                        .WithMany("Rounds")
+                        .HasForeignKey("ChampionshipId");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Team", b =>
+                {
+                    b.HasOne("Domain.Aggregates.Competition", null)
+                        .WithMany("Teams")
+                        .HasForeignKey("CompetitionId");
 
                     b.HasOne("Domain.Entities.UserEntity", "User")
                         .WithOne("Team")
@@ -261,7 +429,19 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Aggregates.Championship", b =>
                 {
+                    b.Navigation("Clubs");
+
+                    b.Navigation("Rounds");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Competition", b =>
+                {
                     b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Round", b =>
+                {
+                    b.Navigation("Matches");
                 });
 
             modelBuilder.Entity("Domain.Aggregates.Team", b =>

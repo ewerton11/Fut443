@@ -31,7 +31,11 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CurrentPhase = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalRounds = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,21 +59,79 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Club",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChampionshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Club", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Club_Championship_ChampionshipId",
+                        column: x => x.ChampionshipId,
+                        principalTable: "Championship",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Competition",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ChampionshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Competition", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Competition_Championship_ChampionshipId",
+                        column: x => x.ChampionshipId,
+                        principalTable: "Championship",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Round",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ChampionshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Round", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Round_Championship_ChampionshipId",
+                        column: x => x.ChampionshipId,
+                        principalTable: "Championship",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Team",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ChampionshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CompetitionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Team", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Team_Championship_ChampionshipId",
-                        column: x => x.ChampionshipId,
-                        principalTable: "Championship",
+                        name: "FK_Team_Competition_CompetitionId",
+                        column: x => x.CompetitionId,
+                        principalTable: "Competition",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Team_Users_UserId",
@@ -77,6 +139,41 @@ namespace Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Match",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MatchDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HomeTeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AwayTeamId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HomeTeamScore = table.Column<int>(type: "int", nullable: false),
+                    AwayTeamScore = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoundId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Match", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Match_Club_AwayTeamId",
+                        column: x => x.AwayTeamId,
+                        principalTable: "Club",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Match_Club_HomeTeamId",
+                        column: x => x.HomeTeamId,
+                        principalTable: "Club",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Match_Round_RoundId",
+                        column: x => x.RoundId,
+                        principalTable: "Round",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -127,7 +224,32 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admin",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "Role" },
-                values: new object[] { new Guid("b62742a1-7bb7-4624-8ad6-839285360418"), "ewerton@gmail.com", "ewerton_Root", "$2a$11$qq8UUF27yKyd943w1ObncefQ8M3irsU6EdowfVW7qOBLCkknUeSMy", "root" });
+                values: new object[] { new Guid("87bf9c88-b6a0-4577-873a-cbd0e8ac4983"), "ewerton@gmail.com", "ewerton_Root", "$2a$11$.oERLy5RPVftcWdvvSrdw.rKjOwRvwQHU41yFty7gHkJs3a78jM4C", "root" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Club_ChampionshipId",
+                table: "Club",
+                column: "ChampionshipId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Competition_ChampionshipId",
+                table: "Competition",
+                column: "ChampionshipId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Match_AwayTeamId",
+                table: "Match",
+                column: "AwayTeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Match_HomeTeamId",
+                table: "Match",
+                column: "HomeTeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Match_RoundId",
+                table: "Match",
+                column: "RoundId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Player_TeamId",
@@ -135,9 +257,14 @@ namespace Infrastructure.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Team_ChampionshipId",
-                table: "Team",
+                name: "IX_Round_ChampionshipId",
+                table: "Round",
                 column: "ChampionshipId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Team_CompetitionId",
+                table: "Team",
+                column: "CompetitionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Team_UserId",
@@ -153,16 +280,28 @@ namespace Infrastructure.Migrations
                 name: "Admin");
 
             migrationBuilder.DropTable(
+                name: "Match");
+
+            migrationBuilder.DropTable(
                 name: "Player");
+
+            migrationBuilder.DropTable(
+                name: "Club");
+
+            migrationBuilder.DropTable(
+                name: "Round");
 
             migrationBuilder.DropTable(
                 name: "Team");
 
             migrationBuilder.DropTable(
-                name: "Championship");
+                name: "Competition");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Championship");
         }
     }
 }

@@ -1,24 +1,39 @@
 ﻿using Domain.Entities.Base;
+using Domain.Enums;
+using System.Text.RegularExpressions;
 
 namespace Domain.Aggregates;
 
 public class Championship : BaseEntity
 {
-    public string Name { get; private set; } = string.Empty;
+    public string Name { get; private set; }
+    public DateTime StartDate { get; private set; }
+    public DateTime EndDate { get; private set; }
+    public List<Club> Clubs { get; private set; }
+    public string CurrentPhase { get; private set; }
+    public int TotalRounds { get; private set; }
+    public List<Round> Rounds { get; private set; }
 
-    private readonly List<Team> _team = new();
+    private Championship() { }
 
-    public IReadOnlyList<Team> Teams => _team.AsReadOnly();
-
-    public Championship() { }
-
-    public static Championship Create(string name)
+    public static Championship Create(string name, DateTime startDate, DateTime endDate)
     {
         var championship = new Championship
         {
-            Name = name
+            Name = name,
+            StartDate = startDate,
+            EndDate = endDate,
+            Rounds = new List<Round>()
         };
 
         return championship;
+    }
+
+    public void AddTeam(Club club)
+    {
+        if (!Clubs.Contains(club))
+        {
+            Clubs.Add(club);
+        }
     }
 }

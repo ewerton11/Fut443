@@ -12,15 +12,22 @@ public static class DependencyInjection
 
         services.AddScoped<IAuthenticationUser, AuthenticationUser>();
         services.AddScoped<IAuthenticationAdmin, AuthenticationAdmin>();
+
         services.AddScoped<CreateUserUseCase>();
-        services.AddScoped<CreateAdminUseCase>();
-        services.AddScoped<CreatePlayerUseCase>();
-        services.AddScoped<CreateTeamUseCase>();
+        services.AddScoped<ReadUserUseCase>();
         services.AddScoped<UpdateUserUseCase>();
         services.AddScoped<DeleteUserUseCase>();
-        services.AddScoped<ReadUserUseCase>();
 
-       // services.AddAutoMapper(typeof(UserProfile));
+        services.AddScoped<CreateAdminUseCase>();
+
+        services.AddScoped<CreatePlayerUseCase>();
+
+        services.AddScoped<CreateTeamUseCase>();
+
+        services.AddScoped<CreateCompetitionUseCase>();
+        services.AddScoped<ReadCompetitionUseCase>();
+
+        // services.AddAutoMapper(typeof(UserProfile));
 
         return services;
     }

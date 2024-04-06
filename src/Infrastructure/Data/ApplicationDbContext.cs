@@ -19,11 +19,20 @@ public class DataContext : DbContext
 
     public DbSet<AdminEntity> Admin { get; set; }
 
+    public DbSet<Championship> Championship { get; set; }
+
+    public DbSet<Club> Club { get; set; }
+
+    public DbSet<Round> Round { get; set; }
+
+    public DbSet<Match> Match { get; set; }
+
     public DbSet<PlayerEntity> Player { get; set; }
 
     public DbSet<Team> Team { get; set; }
 
-    public DbSet<Championship> Championship { get; set; }
+    public DbSet<Competition> Competition { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
