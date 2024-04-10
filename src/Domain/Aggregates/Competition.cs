@@ -8,7 +8,7 @@ public class Competition : BaseEntity
 
     public decimal Value { get; private set; }
 
-    public Championship Championship { get; private set; }
+    public ChampionshipEntity Championship { get; private set; }
 
     private readonly List<Team> _team = new();
 
@@ -16,7 +16,7 @@ public class Competition : BaseEntity
 
     private Competition() { }
 
-    public static Competition CreateCompetition(string title, decimal value, Championship championship)
+    public static Competition CreateCompetition(string title, decimal value, ChampionshipEntity championship)
     {
         var competition = new Competition
         {

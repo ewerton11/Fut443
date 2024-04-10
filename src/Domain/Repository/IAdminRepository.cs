@@ -4,7 +4,7 @@ namespace Domain.Repository;
 
 public interface IAdminRepository
 {
-    Task<bool> NameExistsAsync(string Name);
-    Task<bool> EmailExistsAsync(Email email);
-    Task<AdminEntity?> GetUserByEmailAsync(Email email);
+    Task AddAdminAsync(AdminEntity admin);
+    Task<AdminEntity> GetAdminAsync(Guid adminId);
+    Task<AdminEntity?> GetAdminByEmailAsync(Email email);
 }

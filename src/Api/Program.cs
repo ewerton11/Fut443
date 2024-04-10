@@ -8,6 +8,8 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+builder.Services.AddHttpContextAccessor();
+
 // Configure CORS
 builder.Services.AddCors(options =>
 {

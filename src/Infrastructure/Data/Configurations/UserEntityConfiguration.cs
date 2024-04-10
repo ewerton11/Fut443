@@ -35,12 +35,6 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
                 v => Email.Create(v)
             );
 
-        builder.Property(u => u.Role)
-            .HasConversion(
-                v => v.ToString(),
-                v => Enum.Parse<UserRole>(v)
-            );
-
         builder.HasOne(t => t.Team)
             .WithOne(u => u.User)
             .HasForeignKey<Team>(u => u.UserId)

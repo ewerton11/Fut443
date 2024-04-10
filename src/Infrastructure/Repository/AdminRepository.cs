@@ -8,27 +8,36 @@ namespace Infrastructure.Repository;
 
 public class AdminRepository : IAdminRepository
 {
+    private readonly IBaseRepository<AdminEntity> _baseRepository;
     private readonly DataContext _dbContext;
 
-    public AdminRepository(DataContext context)
+    public AdminRepository(IBaseRepository<AdminEntity> baseRepository, DataContext dbContext)
     {
-        _dbContext = context ?? throw new ArgumentNullException(nameof(context));
+        _baseRepository = baseRepository;
+        _dbContext = dbContext;
     }
 
-    public async Task<bool> NameExistsAsync(string name)
+    public async Task AddAdminAsync(AdminEntity admin)
     {
-        return await _dbContext.Admin.AnyAsync(u => u.Name == name);
+        await _baseRepository.CreateAsync(admin);
     }
 
-    public async Task<bool> EmailExistsAsync(Email email)
+    public async Task<AdminEntity> GetAdminAsync(Guid adminId)
     {
-        return await _dbContext.Admin.AnyAsync(u => u.Email.Equals(email));
+        return await _baseRepository.GetByIdAsync(adminId);
     }
 
-    public async Task<AdminEntity?> GetUserByEmailAsync(Email email)
+    public async Task<AdminEntity?> GetAdminByEmailAsync(Email email)
     {
         var admin = await _dbContext.Admin.FirstOrDefaultAsync(u => u.Email.Equals(email));
 
         return admin;
     }
+
+    /*
+    public async Task<bool> EmailExistsAsync(Email email)
+    {
+        return await _dbContext.Admin.AnyAsync(u => u.Email.Equals(email));
+    }
+    */
 }

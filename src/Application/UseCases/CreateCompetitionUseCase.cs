@@ -1,4 +1,5 @@
-﻿using Application.DTOs.CreateDTOs;
+﻿/*
+using Application.DTOs.CreateDTOs;
 using Domain.Aggregates;
 using Domain.Repository;
 
@@ -20,3 +21,4 @@ public class CreateCompetitionUseCase
         await _competitionRepository.AddAsync(competition);
     }
 }
+*/

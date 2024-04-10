@@ -1,4 +1,5 @@
-﻿using Application.Authentication;
+﻿/*
+using Application.Authentication;
 using Application.DTOs;
 using Application.DTOs.CreateDTOs;
 using Application.DTOs.UpdateDTOs;
@@ -87,3 +88,4 @@ public class UserController : ControllerBase
         return Ok(new { message = "User deleted successfully!" });
     }
 }
+*/

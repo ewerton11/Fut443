@@ -26,7 +26,7 @@ namespace Domain.Entities
 
         public void UpdateName(string name)
         {
-            Name = name;
+            FirstName = name;
         }
 
         public void UpdateUserName(UserName userName)

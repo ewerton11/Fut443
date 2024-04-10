@@ -2,5 +2,8 @@
 
 public enum Permission
 {
-    RequireRootRole
+    LowAdmin,
+    MediumAdmin,
+    HighAdmin,
+    RootAdmin
 }

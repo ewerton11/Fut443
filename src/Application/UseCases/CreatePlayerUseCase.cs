@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿/*
+using Domain.Entities;
 using Domain.Repository;
 
 namespace Application.UseCases;
@@ -26,3 +27,4 @@ public class CreatePlayerUseCase
         await _baseRepository.CreateAsync(player);
     }
 }
+*/

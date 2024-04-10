@@ -19,9 +19,11 @@ public class DataContext : DbContext
 
     public DbSet<AdminEntity> Admin { get; set; }
 
-    public DbSet<Championship> Championship { get; set; }
+    public DbSet<ChampionshipEntity> Championship { get; set; }
 
-    public DbSet<Club> Club { get; set; }
+    public DbSet<ClubEntity> Club { get; set; }
+
+    public DbSet<ClubChampionship> ClubChampionship { get; set; }
 
     public DbSet<Round> Round { get; set; }
 
@@ -38,8 +40,13 @@ public class DataContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
         modelBuilder.ApplyConfiguration(new AdminEntityConfiguration(_passwordHashService));
-        modelBuilder.ApplyConfiguration(new TeamEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new PlayerEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ChampionshipEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new ClubEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new ClubChampionshipEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new PlayerEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new RoundEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new MatchEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new TeamEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new CompetitionEntityConfiguration());
     }
 }

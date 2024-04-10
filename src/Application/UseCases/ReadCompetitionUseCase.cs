@@ -1,4 +1,5 @@
-﻿using Domain.Repository;
+﻿/*
+using Domain.Repository;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -41,3 +42,4 @@ public class ReadCompetitionUseCase
         return jsonString;
     }
 }
+*/

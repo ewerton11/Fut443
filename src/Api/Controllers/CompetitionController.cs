@@ -1,4 +1,5 @@
-﻿using Application.DTOs.CreateDTOs;
+﻿/*
+using Application.DTOs.CreateDTOs;
 using Application.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,3 +42,4 @@ public class CompetitionController : ControllerBase
         return Ok(competition);
     }
 }
+*/

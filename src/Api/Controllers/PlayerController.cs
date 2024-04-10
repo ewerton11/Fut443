@@ -1,4 +1,5 @@
-﻿using Application.DTOs.CreateDTOs;
+﻿/*
+using Application.DTOs.CreateDTOs;
 using Application.UseCases;
 using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -25,3 +26,4 @@ public class PlayerController : ControllerBase
         return Ok(new { message = "player created successfully!"});
     }
 }
+*/

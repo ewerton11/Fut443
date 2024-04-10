@@ -43,20 +43,28 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("RequireRootRole", policy =>
+            options.AddPolicy("LowAdmin", policy =>
+                policy.RequireRole("low"));
+            options.AddPolicy("MediumAdmin", policy =>
+                policy.RequireRole("medium"));
+            options.AddPolicy("HighAdmin", policy =>
+                policy.RequireRole("high"));
+            options.AddPolicy("RootAdmin", policy =>
                 policy.RequireRole("root"));
         });
 
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IAdminRepository, AdminRepository>();
-        services.AddScoped<IPlayerRepository, PlayerRepository>();
-        services.AddScoped<ICompetitionRepository, CompetitionRepository>();
         services.AddScoped<IPasswordHashService, PasswordHashService>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
-
+        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.AddScoped<IAdminRepository, AdminRepository>();
+        //services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IChampionshipRepository, ChampionshipRepository>();
+        services.AddScoped<IClubRepository, ClubRepository>();
+        services.AddScoped<IClubChampionshipRepository, ClubChampionshipRepository>();
+        services.AddScoped<IPlayerRepository, PlayerRepository>();
+        services.AddScoped<ICompetitionRepository, CompetitionRepository>();
 
         return services;
     }

@@ -1,4 +1,5 @@
-﻿using Domain.Repository;
+﻿/*
+using Domain.Repository;
 using Domain.ValueObject;
 
 namespace Application.Authentication;
@@ -29,3 +30,4 @@ public class AuthenticationUser : IAuthenticationUser
         return null;
     }
 }
+*/

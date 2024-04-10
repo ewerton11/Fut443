@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/admin/auth")]
 public class AuthAdminController : ControllerBase
 {
     private readonly IAuthenticationAdmin _authentication;
@@ -18,11 +18,11 @@ public class AuthAdminController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserEntityDto userEntity)
     {
-        var user = await _authentication.AuthenticateAdmin(userEntity.Email, userEntity.Password);
+        var token = await _authentication.AuthenticateAdmin(userEntity.Email, userEntity.Password);
 
-        if (user == null)
+        if (token == null)
             return Unauthorized(new { Message = "Incorrect email or password" });
 
-        return Ok(new { User = user });
+        return Ok(new { Token = token });
     }
 }

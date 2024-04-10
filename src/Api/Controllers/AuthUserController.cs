@@ -1,4 +1,5 @@
-﻿using Application.Authentication;
+﻿/*
+using Application.Authentication;
 using Application.DTOs.Login;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,3 +27,4 @@ public class AuthUserController : ControllerBase
         return Ok(new { message = "Login successful!", token });
     }
 }
+*/

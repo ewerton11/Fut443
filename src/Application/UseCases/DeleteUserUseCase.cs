@@ -1,4 +1,5 @@
-﻿using Application.Authentication;
+﻿/*
+using Application.Authentication;
 using Domain.Entities;
 using Domain.Repository;
 
@@ -28,3 +29,4 @@ public class DeleteUserUseCase
         await _baseRepository.DeleteAsync(existingUser.Id);
     }
 }
+*/

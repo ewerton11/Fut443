@@ -6,21 +6,35 @@ namespace Domain.Entities;
 
 public class AdminEntity : BaseUserEntity
 {
-    //adicionar last name
+    public string LastName { get; private set; } = null!;
+    public AdminLevel Level { get; private set; }
 
     private AdminEntity() { }
 
-    public static AdminEntity Create(string name, string email, string passwordHash, UserRole? role)
+    public static AdminEntity Create(string firstName, string lastName, string email, string passwordHash, AdminLevel level,
+        AdminLevel currentAdminLevel)
     {
+        if (currentAdminLevel < AdminLevel.HighAdmin)
+        {
+            throw new ArgumentException("Insufficient privileges to create an admin of this level.");
+        }
+
+        if (currentAdminLevel < level)
+        {
+            throw new ArgumentException("New admin level cannot be higher or equal to the creating admin's level.");
+        }
+
+        //email nao pode ser igual
+
         var emailResult = Email.Create(email);
-       // var passwordResult = Password.Create(password);
 
         var admin = new AdminEntity
         {
-            Name = name,
+            FirstName = firstName,
+            LastName = lastName,
             Email = emailResult,
             PasswordHash = passwordHash,
-            Role = role ?? UserRole.admin
+            Level = level,
         };
 
         return admin;

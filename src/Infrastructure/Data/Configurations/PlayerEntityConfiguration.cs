@@ -2,7 +2,6 @@
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Infrastructure.Data.Configurations;
 
@@ -17,5 +16,9 @@ public class PlayerEntityConfiguration : IEntityTypeConfiguration<PlayerEntity>
                 v => v.ToString(),
                 v => Enum.Parse<PlayerPosition>(v)
             );
+
+        builder.HasOne(p => p.ClubEntity)
+          .WithMany(c => c.Players)
+          .HasForeignKey(p => p.ClubId);
     }
 }

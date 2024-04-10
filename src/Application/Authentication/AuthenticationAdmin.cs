@@ -13,17 +13,17 @@ public class AuthenticationAdmin : IAuthenticationAdmin
         IJwtTokenService tokenService)
     {
         _adminRepository = adminRepository;
-        _tokenService = tokenService;
         _passwordHashService = passwordHashService;
+        _tokenService = tokenService;
     }
 
     public async Task<string?> AuthenticateAdmin(string email, string password)
     {
-        var user = await _adminRepository.GetUserByEmailAsync(Email.Create(email));
+        var admin = await _adminRepository.GetAdminByEmailAsync(Email.Create(email));
 
-        if (user != null && _passwordHashService.VerifyPassword(password, user.PasswordHash))
+        if (admin != null && _passwordHashService.VerifyPassword(password, admin.PasswordHash))
         {
-            return _tokenService.GenerateToken(user.Id, user.Name, user.Role);
+            return _tokenService.GenerateToken(admin.Id, admin.FirstName, admin.Level);
         }
 
         return null;

@@ -23,10 +23,12 @@ public class AdminEntityConfiguration : IEntityTypeConfiguration<AdminEntity>
         builder.HasData(
             AdminEntity.Create
               (
-                "ewerton_Root",
+                "ewerton",
+                "Root",
                 "ewerton@gmail.com",
                 _passwordHashService.HashPassword("ewertonroot"),
-                UserRole.root
+                AdminLevel.RootAdmin,
+                AdminLevel.RootAdmin
               )
             );
 
@@ -36,10 +38,7 @@ public class AdminEntityConfiguration : IEntityTypeConfiguration<AdminEntity>
                 v => Email.Create(v)
             );
 
-        builder.Property(a => a.Role)
-            .HasConversion(
-                v => v.ToString(),
-                v => Enum.Parse<UserRole>(v)
-            );
+        builder.Property(a => a.Level)
+            .HasConversion<int>();
     }
 }

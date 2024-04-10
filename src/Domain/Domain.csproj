@@ -17,4 +17,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\Associations\" />
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
 </Project>
