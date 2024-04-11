@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Api.Controllers;
 
-//[HasPermission(Permission.HighAdmin)]
+[HasPermission(Permission.HighAdmin)]
 [ApiController]
 [Route("api/admin")]
 public class AdminController : ControllerBase

@@ -44,13 +44,16 @@ public static class DependencyInjection
         services.AddAuthorization(options =>
         {
             options.AddPolicy("LowAdmin", policy =>
-                policy.RequireRole("low"));
+        policy.RequireRole("LowAdmin", "MediumAdmin", "HighAdmin", "RootAdmin"));
+
             options.AddPolicy("MediumAdmin", policy =>
-                policy.RequireRole("medium"));
+                policy.RequireRole("MediumAdmin", "HighAdmin", "RootAdmin"));
+
             options.AddPolicy("HighAdmin", policy =>
-                policy.RequireRole("high"));
+                policy.RequireRole("HighAdmin", "RootAdmin"));
+
             options.AddPolicy("RootAdmin", policy =>
-                policy.RequireRole("root"));
+                policy.RequireRole("RootAdmin"));
         });
 
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
