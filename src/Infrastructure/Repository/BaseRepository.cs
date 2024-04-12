@@ -20,12 +20,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public async Task<TEntity> GetByIdAsync(Guid id)
     {
-        var entity = await _dbContext.Set<TEntity>().FindAsync(id);
-
-        if (entity == null)
-        {
-            throw new Exception("Entity not found");
-        }
+        var entity = await _dbContext.Set<TEntity>().FindAsync(id) ?? throw new Exception("Entity not found");
         return entity;
     }
 
