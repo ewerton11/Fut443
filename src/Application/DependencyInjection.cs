@@ -2,7 +2,9 @@
 using Application.UseCases.Admin;
 using Application.UseCases.Championships;
 using Application.UseCases.Club;
+using Application.UseCases.ClubChampionshipUseCase;
 using Application.UseCases.Interfaces;
+using Application.UseCases.Player;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -28,9 +30,11 @@ public static class DependencyInjection
 
         services.AddScoped<ICreateClubUseCase, CreateClubUseCase>();
 
+        services.AddScoped<IAddClubToChampionshipUseCase, AddClubToChampionshipUseCase>();
+
         //services.AddScoped<IClubChampionshipService, ClubChampionshipUseCase>();
 
-        //services.AddScoped<CreatePlayerUseCase>();
+        services.AddScoped<ICreatePlayerUseCase, CreatePlayerUseCase>();
 
         //services.AddScoped<CreateTeamUseCase>();
 

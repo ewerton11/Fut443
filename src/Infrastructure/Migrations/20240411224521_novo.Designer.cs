@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240410200557_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240411224521_novo")]
+    partial class novo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,12 +170,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aa6535b0-dcdd-4931-92b4-4a0f3ee67823"),
+                            Id = new Guid("e6454de6-cdbc-426d-82f7-a6118fe22dc6"),
                             Email = "ewerton@gmail.com",
                             FirstName = "ewerton",
                             LastName = "Root",
-                            Level = 2,
-                            PasswordHash = "$2a$11$kbJMVBwTxTjoZlRl/SwPQeKrCQbIPabdjwVjnMcvKNoXfCmYycKae"
+                            Level = 3,
+                            PasswordHash = "$2a$11$IJOpuB.OePPV5IG9P1rpMeCJ4kQiXhDUxX/pOFKFjYuqqUhipX0nm"
                         });
                 });
 
@@ -275,10 +275,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Club")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ClubId")
+                    b.Property<Guid?>("ClubId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CompletionsForOut")
@@ -472,9 +471,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Entities.ClubEntity", "ClubEntity")
                         .WithMany("Players")
-                        .HasForeignKey("ClubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClubId");
 
                     b.HasOne("Domain.Aggregates.Team", null)
                         .WithMany("Players")

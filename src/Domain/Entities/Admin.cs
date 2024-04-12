@@ -14,15 +14,7 @@ public class AdminEntity : BaseUserEntity
     public static AdminEntity Create(string firstName, string lastName, string email, string passwordHash, AdminLevel level,
         AdminLevel currentAdminLevel)
     {
-        if (currentAdminLevel < AdminLevel.HighAdmin)
-        {
-            throw new ArgumentException("Insufficient privileges to create an admin of this level.");
-        }
-
-        if (currentAdminLevel < level)
-        {
-            throw new ArgumentException("New admin level cannot be higher or equal to the creating admin's level.");
-        }
+        ValidateAdminCreation(level, currentAdminLevel);
 
         //email nao pode ser igual
 
@@ -38,5 +30,18 @@ public class AdminEntity : BaseUserEntity
         };
 
         return admin;
+    }
+
+    private static void ValidateAdminCreation(AdminLevel newLevel, AdminLevel creatingAdminLevel)
+    {
+        if (creatingAdminLevel < AdminLevel.HighAdmin)
+        {
+            throw new ArgumentException("Insufficient privileges to create an admin of this level.");
+        }
+
+        if (creatingAdminLevel < newLevel)
+        {
+            throw new ArgumentException("New admin level cannot be higher or equal to the creating admin's level.");
+        }
     }
 }

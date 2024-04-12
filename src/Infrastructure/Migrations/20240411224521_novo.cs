@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class novo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -205,9 +205,9 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Club = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Club = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Available = table.Column<bool>(type: "bit", nullable: false),
-                    ClubId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClubId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SuccessfulPasses = table.Column<int>(type: "int", nullable: false),
                     DecisivePasses = table.Column<int>(type: "int", nullable: false),
                     Cross = table.Column<int>(type: "int", nullable: false),
@@ -241,8 +241,7 @@ namespace Infrastructure.Migrations
                         name: "FK_Player_Club_ClubId",
                         column: x => x.ClubId,
                         principalTable: "Club",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Player_Team_TeamId",
                         column: x => x.TeamId,
@@ -253,7 +252,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admin",
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "Level", "PasswordHash" },
-                values: new object[] { new Guid("aa6535b0-dcdd-4931-92b4-4a0f3ee67823"), "ewerton@gmail.com", "ewerton", "Root", 2, "$2a$11$kbJMVBwTxTjoZlRl/SwPQeKrCQbIPabdjwVjnMcvKNoXfCmYycKae" });
+                values: new object[] { new Guid("e6454de6-cdbc-426d-82f7-a6118fe22dc6"), "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$IJOpuB.OePPV5IG9P1rpMeCJ4kQiXhDUxX/pOFKFjYuqqUhipX0nm" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClubChampionship_ChampionshipId",
