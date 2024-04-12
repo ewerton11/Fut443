@@ -1,29 +1,37 @@
-﻿/*
-using Application.DTOs.CreateDTOs;
-using Application.UseCases;
+﻿using Application.DTOs.Player.CreatePlayer;
+using Application.UseCases.Interfaces;
 using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace WebApi.Controllers;
 
-[HasPermission(Permission.RequireRootRole)]
+[HasPermission(Permission.HighAdmin)]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/player")]
 public class PlayerController : ControllerBase
 {
-    private readonly CreatePlayerUseCase _createPlayerUseCase;
+    private readonly ICreatePlayerUseCase _playerUseCase;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public PlayerController(CreatePlayerUseCase createPlayerUseCase)
+    public PlayerController(ICreatePlayerUseCase playerUseCase, IHttpContextAccessor httpContextAccessor)
     {
-        _createPlayerUseCase = createPlayerUseCase;
+        _playerUseCase = playerUseCase;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreatePlayer([FromBody] PlayerEntityDto playerDto)
+    public async Task<IActionResult> CreatePlayer([FromBody] CreatePlayerDTO playerDto)
     {
-        await _createPlayerUseCase.CreatePlayer(playerDto.Name, playerDto.Position, playerDto.Club);
+        var adminIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        return Ok(new { message = "player created successfully!"});
+        if (!Guid.TryParse(adminIdClaim, out var adminId))
+        {
+            return Unauthorized();
+        }
+
+        await _playerUseCase.CreatePlayerAsync(playerDto, adminId);
+
+        return Ok(new { message = "player created successfully!" });
     }
 }
-*/

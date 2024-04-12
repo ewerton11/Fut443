@@ -1,6 +1,9 @@
-﻿namespace Domain.Repository;
+﻿using Domain.Enums;
+
+namespace Domain.Repository;
 
 public interface IPlayerRepository
 {
-Task<bool> IsPlayerInClubAsync(string name, string club);
+    Task CreatePlayerAsync(PlayerEntity player);
+    Task<bool> IsPlayerInClubAsync(string name, string club);
 }

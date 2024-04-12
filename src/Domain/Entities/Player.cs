@@ -9,12 +9,12 @@ public class PlayerEntity : BaseEntity
 
     public PlayerPosition Position { get; private set; }
 
-    public string Club { get; private set; } = null!;
+    public string? Club { get; private set; }
 
     public bool Available { get; private set; } = false;
 
-    public Guid ClubId { get; private set; }
-    public ClubEntity ClubEntity { get; private set; } = null!;
+    public Guid? ClubId { get; private set; }
+    public ClubEntity? ClubEntity { get; private set; }
 
     //public decimal? Points { get; private set; }
 
@@ -52,14 +52,16 @@ public class PlayerEntity : BaseEntity
 
     private PlayerEntity() { }
 
-    public static PlayerEntity Create(string name, string position, string club /*, ClubEntity clubEntity , UserEntity creatorUser*/)
+    public static PlayerEntity Create(string name, string position, Guid? clubId, AdminLevel currentAdminLevel)
     {
-        /*
-        if (creatorUser == null || (creatorUser.Role != UserRole.admin && creatorUser.Role != UserRole.root))
+        if (currentAdminLevel < AdminLevel.HighAdmin)
         {
-            throw new UnauthorizedAccessException("User does not have permission to create players.");
+            throw new UnauthorizedAccessException("Only high-level admins can create player.");
         }
-        */
+
+        //o jogador nao pode ja existir
+        //nome nao pode ser null
+        //posiçãoo nao pode ser null
 
         if (!Enum.TryParse(position, out PlayerPosition playerPosition))
         {
@@ -70,7 +72,7 @@ public class PlayerEntity : BaseEntity
         {
             Name = name,
             Position = playerPosition,
-            Club = club,
+            ClubId = clubId,
         };
 
         return player;
