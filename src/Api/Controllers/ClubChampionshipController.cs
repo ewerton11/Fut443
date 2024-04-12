@@ -1,28 +1,27 @@
-﻿/*
-using Application.DTOs.CreateDTOs;
-using Application.Interfaces;
-using Application.UseCases;
+﻿using Application.DTOs.ClubChampionship;
+using Application.UseCases.Interfaces;
+using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
 
+[HasPermission(Permission.HighAdmin)]
 [ApiController]
 [Route("api/clubChampionship")]
 public class ClubChampionshipController : ControllerBase
 {
-    private readonly IClubChampionshipService _clubChampionshipUseCase;
+    private readonly IAddClubToChampionshipUseCase _clubChampionship;
 
-    public ClubChampionshipController(IClubChampionshipService clubChampionshipUseCase)
+    public ClubChampionshipController(IAddClubToChampionshipUseCase clubChampionship)
     {
-        _clubChampionshipUseCase = clubChampionshipUseCase;
+        _clubChampionship = clubChampionship;
     }
 
-    [HttpPost("addClub")]
-    public async Task<IActionResult> Associate([FromBody] CreateClubChampionshipDto clubChampionshipDto)
+    [HttpPost("associate")]
+    public async Task<IActionResult> Associate([FromBody] AddClubToChampionshipDTO clubChampionshipDto)
     {
-        await _clubChampionshipUseCase.AddClubToChampionshipAsync(clubChampionshipDto);
+        await _clubChampionship.AddClubToChampionship(clubChampionshipDto);
 
         return Ok(new { message = "Club e campeonato associado com sucesso!!" });
     }
 }
-*/
