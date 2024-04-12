@@ -1,11 +1,13 @@
 ﻿using Application.DTOs.Championship.CreateChampionship;
 using Application.UseCases.Interfaces;
+using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace WebApi.Controllers;
 
+[HasPermission(Permission.HighAdmin)]
 [Route("api/championship")]
 [ApiController]
 public class ChampionshipController : ControllerBase
@@ -20,7 +22,6 @@ public class ChampionshipController : ControllerBase
     }
 
     [HttpPost("create")]
-    [Authorize(Roles = "HighAdmin")]
     public async Task<IActionResult> CreateChampeionship([FromBody] CreateChampionshipDTO championshipDto)
     {
         var adminIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
