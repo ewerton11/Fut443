@@ -4,8 +4,9 @@ namespace Domain.Repository;
 
 public interface IUserRepository
 {
-    Task<bool> UserNameExistsAsync(UserName userName);
-    Task<bool> EmailExistsAsync(Email email);
+    Task CreateUserAsync(UserEntity user);
     Task<UserEntity?> GetUserByEmailAsync(Email email);
-    Task<object?> GetUserByIdAndTeam(Guid id);
+    //Task<bool> EmailExistsAsync(Email email);
+    //Task<bool> UserNameExistsAsync(UserName userName);
+    //Task<object?> GetUserByIdAndTeam(Guid id);
 }

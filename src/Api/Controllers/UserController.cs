@@ -1,12 +1,7 @@
-﻿/*
-using Application.Authentication;
-using Application.DTOs;
-using Application.DTOs.CreateDTOs;
-using Application.DTOs.UpdateDTOs;
-using Application.UseCases;
-using Microsoft.AspNetCore.Authorization;
+﻿using Application.Authentication;
+using Application.DTOs.User.CreateUser;
+using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -14,32 +9,26 @@ namespace Api.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly CreateUserUseCase _createUser;
-    private readonly ReadUserUseCase _readUserAndTeam;
     private readonly IAuthenticationUser _authentication;
-    private readonly UpdateUserUseCase _updateUser;
-    private readonly DeleteUserUseCase _deleteUser;
+    private readonly ICreateUserUseCase _createUser;
 
-    public UserController(CreateUserUseCase createUser, ReadUserUseCase readUserUseCase, IAuthenticationUser authentication,
-        UpdateUserUseCase updateUser, DeleteUserUseCase deleteUser)
+    public UserController(IAuthenticationUser authentication, ICreateUserUseCase createUser)
     {
-        _createUser = createUser;
-        _readUserAndTeam = readUserUseCase;
         _authentication = authentication;
-        _updateUser = updateUser;
-        _deleteUser = deleteUser;
+        _createUser = createUser;
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] UserEntityDto userEntity)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO userDto)
     {
-        await _createUser.CreateUserAsync(userEntity);
+        await _createUser.CreateUserAsync(userDto);
 
-        var token = await _authentication.AuthenticateUser(userEntity.Email, userEntity.Password);
+        var token = await _authentication.AuthenticateUser(userDto.Email, userDto.Password);
 
         return Ok(new { message = "User created successfully!", token });
     }
 
+    /*
     [Authorize(Roles = "common")]
     [HttpGet("read-user-and-team")]
     public async Task<IActionResult> GetUserById()
@@ -87,5 +76,5 @@ public class UserController : ControllerBase
 
         return Ok(new { message = "User deleted successfully!" });
     }
+    */
 }
-*/

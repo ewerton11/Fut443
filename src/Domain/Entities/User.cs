@@ -6,9 +6,9 @@ namespace Domain.Entities
 {
     public class UserEntity : BaseUserEntity
     {
-        public UserName UserName { get; private set; }
+        public UserName UserName { get; private set; } = null!;
 
-        public Team? Team { get; private set; }
+        public List<Team>? Teams { get; private set; }
 
         private UserEntity() { }
 
@@ -16,6 +16,7 @@ namespace Domain.Entities
         {
             var user = new UserEntity
             {
+                FirstName = string.Empty,
                 UserName = userName,
                 Email = email,
                 PasswordHash = passwordHash
@@ -42,16 +43,6 @@ namespace Domain.Entities
         public void UpdatePassword(string password)
         {
             PasswordHash = password;
-        }
-
-        public static UserEntity UpdateTeam(Team team)
-        {
-            var userTeam = new UserEntity
-            {
-                Team = team
-            };
-
-            return userTeam;
         }
     }
 }
