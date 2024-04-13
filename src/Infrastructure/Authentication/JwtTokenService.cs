@@ -17,14 +17,26 @@ public class JwtTokenService : IJwtTokenService
         _jwtSettings = jwtSettings.Value;
     }
 
-    public string GenerateToken(Guid id, string firstName, AdminLevel level)
+    public string GenerateToken(Guid id, string firstName, AdminLevel? level = null)
     {
-        var claims = new[]
+        Claim[] claims;
+        if (level != null)
         {
-            new Claim(ClaimTypes.NameIdentifier, id.ToString()),
-            new Claim(ClaimTypes.Name, firstName.ToString()),
-            new Claim(ClaimTypes.Role, level.ToString())
-        };
+            claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+                new Claim(ClaimTypes.Name, firstName.ToString()),
+                new Claim(ClaimTypes.Role, level.Value.ToString())
+            };
+        }
+        else
+        {
+            claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+                new Claim(ClaimTypes.Name, firstName.ToString())
+            };
+        }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

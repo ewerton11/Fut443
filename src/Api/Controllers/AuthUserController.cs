@@ -1,12 +1,11 @@
-﻿/*
-using Application.Authentication;
+﻿using Application.Authentication;
 using Application.DTOs.Login;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/user/auth")]
 public class AuthUserController : ControllerBase
 {
     private readonly IAuthenticationUser _authentication;
@@ -27,4 +26,3 @@ public class AuthUserController : ControllerBase
         return Ok(new { message = "Login successful!", token });
     }
 }
-*/
