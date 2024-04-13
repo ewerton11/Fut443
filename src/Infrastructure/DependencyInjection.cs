@@ -62,7 +62,7 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IAdminRepository, AdminRepository>();
-        //services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IChampionshipRepository, ChampionshipRepository>();
         services.AddScoped<IClubRepository, ClubRepository>();
         services.AddScoped<IClubChampionshipRepository, ClubChampionshipRepository>();

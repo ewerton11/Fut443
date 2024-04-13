@@ -1,8 +1,10 @@
 ﻿using Application.Authentication;
+using Application.UseCases;
 using Application.UseCases.Admin;
 using Application.UseCases.Championships;
 using Application.UseCases.Club;
 using Application.UseCases.ClubChampionshipUseCase;
+using Application.UseCases.CompetitionUseCase;
 using Application.UseCases.Interfaces;
 using Application.UseCases.Player;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +17,13 @@ public static class DependencyInjection
     {
         var assembly = typeof(DependencyInjection).Assembly;
 
-        //services.AddScoped<IAuthenticationUser, AuthenticationUser>();
         services.AddScoped<IAuthenticationAdmin, AuthenticationAdmin>();
+        services.AddScoped<IAuthenticationUser, AuthenticationUser>();
 
         services.AddScoped<ICreateAdminUseCase, CreateAdminUseCase>();
 
-        //services.AddScoped<CreateUserUseCase>();
+        services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+
         //services.AddScoped<ReadUserUseCase>();
         //services.AddScoped<UpdateUserUseCase>();
         //services.AddScoped<DeleteUserUseCase>();
@@ -38,7 +41,7 @@ public static class DependencyInjection
 
         //services.AddScoped<CreateTeamUseCase>();
 
-        //services.AddScoped<CreateCompetitionUseCase>();
+        services.AddScoped<ICreateCompetitionUseCase, CreateCompetitionUseCase>();
         //services.AddScoped<ReadCompetitionUseCase>();
 
         // services.AddAutoMapper(typeof(UserProfile));
