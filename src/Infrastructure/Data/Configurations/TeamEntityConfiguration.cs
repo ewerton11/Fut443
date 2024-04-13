@@ -1,14 +1,7 @@
 ﻿using Domain.Aggregates;
-using Domain.Entities;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Configurations;
 
@@ -23,5 +16,13 @@ public class TeamEntityConfiguration : IEntityTypeConfiguration<Team>
                 v => v.Value,
                 v => TeamName.Create(v)
             );
+
+        builder.HasOne(t => t.User)
+            .WithMany(u => u.Teams)
+            .HasForeignKey(t => t.UserId);
+
+        builder.HasOne(t => t.Championship)
+            .WithMany()
+            .HasForeignKey(t => t.ChampionshipId);
     }
 }

@@ -14,6 +14,7 @@ public class ChampionshipEntity : BaseEntity
     public DateTime StartDate { get; private set; }
     public DateTime EndDate { get; private set; }
     public List<Round> Rounds { get; private set; }
+    public List<Competition>? Competitions { get; private set; }
     public List<ClubChampionship> ClubChampionships { get; private set; }
 
     private ChampionshipEntity()

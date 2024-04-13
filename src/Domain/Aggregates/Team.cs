@@ -5,15 +5,17 @@ namespace Domain.Aggregates;
 
 public class Team : BaseEntity
 {
-    public TeamName Name { get; private set; }
+    public TeamName Name { get; private set; } = null!;
 
-    private readonly List<PlayerEntity> _players = new();
-
-    public IReadOnlyList<PlayerEntity> Players => _players.AsReadOnly();
+    public List<PlayerEntity> Players { get; private set; } = null!;
 
     public Guid UserId { get; private set; }
 
-    public UserEntity User { get; private set; }
+    public UserEntity User { get; private set; } = null!;
+
+    public Guid ChampionshipId { get; private set; }
+
+    public ChampionshipEntity Championship { get; private set; } = null!;
 
     public Team() { }
 
@@ -28,20 +30,5 @@ public class Team : BaseEntity
         };
 
         return team;
-    }
-
-    public void AddPlayer(PlayerEntity player)
-    {
-        _players.Add(player);
-    }
-
-    public void RemovePlayer(PlayerEntity player)
-    {
-        _players.Remove(player);
-    }
-
-    public List<PlayerEntity> GetPlayers()
-    {
-        return _players;
     }
 }
