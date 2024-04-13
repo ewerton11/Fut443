@@ -14,5 +14,9 @@ public class CompetitionEntityConfiguration : IEntityTypeConfiguration<Competiti
 
         builder.Property(c => c.Value)
             .HasColumnType("decimal(18,2)");
+
+        builder.HasOne(c => c.Championship)
+            .WithMany(ch => ch.Competitions)
+            .HasForeignKey(c => c.ChampionshipId);
     }
 }

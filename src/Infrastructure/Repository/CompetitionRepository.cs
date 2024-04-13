@@ -12,16 +12,19 @@ public class CompetitionRepository : ICompetitionRepository
         _baseRepository = baseRepository;
     }
 
-    public async Task AddAsync(Competition competition)
+    public async Task AddCompetitionAsync(Competition competition)
     {
         await _baseRepository.CreateAsync(competition);
     }
 
-    public Task DeleteAsync(Guid id)
+    public async Task<Competition?> GetCompetitionByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var competition = await _baseRepository.GetByIdAsync(id);
+
+        return competition;
     }
 
+    /*
     public async Task<IEnumerable<Competition>> GetAllAsync()
     {
         var allCompetition = await _baseRepository.GetAllAsync();
@@ -29,15 +32,14 @@ public class CompetitionRepository : ICompetitionRepository
         return allCompetition;
     }
 
-    public async Task<Competition?> GetByIdAsync(Guid id)
-    {
-        var competition = await _baseRepository.GetByIdAsync(id);
-
-        return competition;
-    }
-
     public Task UpdateAsync(object competition)
     {
         throw new NotImplementedException();
     }
+    
+    public Task DeleteAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+    */
 }

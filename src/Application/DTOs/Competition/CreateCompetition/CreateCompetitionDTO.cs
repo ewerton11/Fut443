@@ -1,13 +1,10 @@
-﻿
-/*
- namespace Application.DTOs.Competition.CreateCompetition;
+﻿namespace Application.DTOs.Competition;
 
 public class CreateCompetitionDTO
 {
-    public string Title { get; set; } = string.Empty;
+    public string Title { get; set; } = null!;
 
     public decimal Value { get; set; }
 
-    public Championship Championship { get; set; } = null!;
+    public Guid ChampionshipId { get; set; }
 }
-*/

@@ -1,6 +1,5 @@
-﻿/*
-using Application.DTOs.CreateDTOs;
-using Application.UseCases;
+﻿using Application.DTOs.Competition;
+using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -9,37 +8,36 @@ namespace WebApi.Controllers;
 [ApiController]
 public class CompetitionController : ControllerBase
 {
-    private readonly CreateCompetitionUseCase _createCompetition;
-    private readonly ReadCompetitionUseCase _readCompetitionUseCase;
+    private readonly ICreateCompetitionUseCase _competitionUseCase;
 
-    public CompetitionController(CreateCompetitionUseCase createCompetition, ReadCompetitionUseCase readCompetitionUseCase)
+    public CompetitionController(ICreateCompetitionUseCase competitionUseCase)
     {
-        _createCompetition = createCompetition;
-        _readCompetitionUseCase = readCompetitionUseCase;
+        _competitionUseCase = competitionUseCase;
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateCompetition([FromBody] CreateCompetitionDto competition)
+    public async Task<IActionResult> CreateCompetition([FromBody] CreateCompetitionDTO competition)
     {
-        await _createCompetition.CreateCompetitionAsync(competition);
+        await _competitionUseCase.CreateCompetitionAsync(competition);
 
         return Ok(new { message = "Competition created successfully!" });
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetComp(Guid id)
-    {
-        var competition = await _readCompetitionUseCase.ReadTeams(id);
+    /*
+ [HttpGet("{id}")]
+ public async Task<IActionResult> GetComp(Guid id)
+ {
+     var competition = await _readCompetitionUseCase.ReadTeams(id);
 
-        return Ok(competition);
-    }
+     return Ok(competition);
+ }
 
-    [HttpGet]
-    public async Task<IActionResult> GetComp()
-    {
-        var competition = await _readCompetitionUseCase.ReadTeamss();
+ [HttpGet]
+ public async Task<IActionResult> GetComp()
+ {
+     var competition = await _readCompetitionUseCase.ReadTeamss();
 
-        return Ok(competition);
-    }
+     return Ok(competition);
+ }
+ */
 }
-*/

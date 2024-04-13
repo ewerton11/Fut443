@@ -4,25 +4,24 @@ namespace Domain.Aggregates;
 
 public class Competition : BaseEntity
 {
-    public string Title { get; private set; }
+    public string Title { get; private set; } = null!;
 
     public decimal Value { get; private set; }
 
-    public ChampionshipEntity Championship { get; private set; }
+    public Guid ChampionshipId { get; private set; }
+    public ChampionshipEntity Championship { get; private set; } = null!;
 
-    private readonly List<Team> _team = new();
-
-    public IReadOnlyList<Team> Teams => _team.AsReadOnly();
+    public List<Team>? Teams { get; private set; }
 
     private Competition() { }
 
-    public static Competition CreateCompetition(string title, decimal value, ChampionshipEntity championship)
+    public static Competition CreateCompetition(string title, decimal value, Guid championshipId)
     {
         var competition = new Competition
         {
             Title = title,
             Value = value,
-            Championship = championship
+            ChampionshipId = championshipId
         };
 
         return competition;
