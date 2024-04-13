@@ -115,6 +115,9 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ChampionshipId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CompetitionId")
                         .HasColumnType("uniqueidentifier");
 
@@ -127,10 +130,11 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ChampionshipId");
+
                     b.HasIndex("CompetitionId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Team");
                 });
@@ -167,12 +171,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e6454de6-cdbc-426d-82f7-a6118fe22dc6"),
+                            Id = new Guid("3c61c84e-854c-4ce0-a6a8-660c1febf0dc"),
                             Email = "ewerton@gmail.com",
                             FirstName = "ewerton",
                             LastName = "Root",
                             Level = 3,
-                            PasswordHash = "$2a$11$IJOpuB.OePPV5IG9P1rpMeCJ4kQiXhDUxX/pOFKFjYuqqUhipX0nm"
+                            PasswordHash = "$2a$11$3QyUVLRnqIqGEnSpSY80veyF6WjeobL1ByChHI8Vi6pwEHJtLqc6C"
                         });
                 });
 
@@ -384,7 +388,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Aggregates.Competition", b =>
                 {
                     b.HasOne("Domain.Entities.ChampionshipEntity", "Championship")
-                        .WithMany()
+                        .WithMany("Competitions")
                         .HasForeignKey("ChampionshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -432,15 +436,23 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Aggregates.Team", b =>
                 {
+                    b.HasOne("Domain.Entities.ChampionshipEntity", "Championship")
+                        .WithMany()
+                        .HasForeignKey("ChampionshipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Aggregates.Competition", null)
                         .WithMany("Teams")
                         .HasForeignKey("CompetitionId");
 
                     b.HasOne("Domain.Entities.UserEntity", "User")
-                        .WithOne("Team")
-                        .HasForeignKey("Domain.Aggregates.Team", "UserId")
+                        .WithMany("Teams")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Championship");
 
                     b.Navigation("User");
                 });
@@ -496,6 +508,8 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("ClubChampionships");
 
+                    b.Navigation("Competitions");
+
                     b.Navigation("Rounds");
                 });
 
@@ -510,7 +524,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.UserEntity", b =>
                 {
-                    b.Navigation("Team");
+                    b.Navigation("Teams");
                 });
 #pragma warning restore 612, 618
         }

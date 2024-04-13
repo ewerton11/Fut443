@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class novo : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -146,11 +146,18 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChampionshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CompetitionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Team", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Team_Championship_ChampionshipId",
+                        column: x => x.ChampionshipId,
+                        principalTable: "Championship",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Team_Competition_CompetitionId",
                         column: x => x.CompetitionId,
@@ -252,7 +259,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admin",
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "Level", "PasswordHash" },
-                values: new object[] { new Guid("e6454de6-cdbc-426d-82f7-a6118fe22dc6"), "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$IJOpuB.OePPV5IG9P1rpMeCJ4kQiXhDUxX/pOFKFjYuqqUhipX0nm" });
+                values: new object[] { new Guid("3c61c84e-854c-4ce0-a6a8-660c1febf0dc"), "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$3QyUVLRnqIqGEnSpSY80veyF6WjeobL1ByChHI8Vi6pwEHJtLqc6C" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClubChampionship_ChampionshipId",
@@ -295,6 +302,11 @@ namespace Infrastructure.Migrations
                 column: "ChampionshipId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Team_ChampionshipId",
+                table: "Team",
+                column: "ChampionshipId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Team_CompetitionId",
                 table: "Team",
                 column: "CompetitionId");
@@ -302,8 +314,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Team_UserId",
                 table: "Team",
-                column: "UserId",
-                unique: true);
+                column: "UserId");
         }
 
         /// <inheritdoc />
