@@ -111,8 +111,12 @@ public class TeamTests
         Assert.Contains(player, team.Players);
     }
 
-    [Fact]
-    public async Task AddPlayer_MaxPlayers_ExceptionThrown()
+    [Theory]
+    [InlineData(PlayerPosition.Attacker, "O time já possui o máximo de atacantes permitidos.", 3)]
+    [InlineData(PlayerPosition.Midfielder, "O time já possui o máximo de meio-campistas permitidos.", 3)]
+    [InlineData(PlayerPosition.Defender, "O time já possui o máximo de zagueiros permitidos.", 4)]
+    [InlineData(PlayerPosition.Goalkeeper, "O time já possui o máximo de goleiros permitidos.", 1)]
+    public async Task AddPlayer_MaxPlayers_ExceptionThrown(PlayerPosition playerPosition, string expectedErrorMessage, int maxPlayers)
     {
         // Arrange
         var user = CreateUser();
@@ -125,33 +129,13 @@ public class TeamTests
 
         var players = new List<PlayerEntity>();
 
-        // Create 3 attackers
-        for (int i = 1; i <= 3; i++)
+        // Create players based on the maximum allowed for the given type
+        for (int i = 1; i <= maxPlayers; i++)
         {
-            var playerName = $"Attacker{i}";
-            var player = CreatePlayer(playerName, "Attacker", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+            var playerName = $"{playerPosition}{i}";
+            var player = CreatePlayer(playerName, $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
             players.Add(player);
         }
-
-        // Create 3 midfielders
-        for (int i = 1; i <= 3; i++)
-        {
-            var playerName = $"Midfielder{i}";
-            var player = CreatePlayer(playerName, "Midfielder", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
-            players.Add(player);
-        }
-
-        // Create 4 defenders
-        for (int i = 1; i <= 4; i++)
-        {
-            var playerName = $"Defender{i}";
-            var player = CreatePlayer(playerName, "Defender", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
-            players.Add(player);
-        }
-
-        // Create 1 goalkeeper
-        var goalkeeper = CreatePlayer("Goalkeeper", "Goalkeeper", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
-        players.Add(goalkeeper);
 
         foreach (var player in players)
         {
@@ -159,10 +143,10 @@ public class TeamTests
         }
 
         // Act & Assert
-        var player12 = CreatePlayer("Player12", "Attacker", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+        var newPlayer = CreatePlayer("New Player", $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
 
-        var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await team.AddPlayer(player12, team.ChampionshipId));
-        Assert.Equal("O time já possui o máximo de jogadores permitidos.", exception.Message);
+        var exception = await Assert.ThrowsAsync<ApplicationException>(async () => await team.AddPlayer(newPlayer, team.ChampionshipId));
+        Assert.Equal(expectedErrorMessage, exception.Message);
     }
 
     [Fact]
@@ -229,7 +213,7 @@ public class TeamTests
     [InlineData(PlayerPosition.Midfielder, "O time já possui o máximo de meio-campistas permitidos.", 3)]
     [InlineData(PlayerPosition.Defender, "O time já possui o máximo de zagueiros permitidos.", 4)]
     [InlineData(PlayerPosition.Goalkeeper, "O time já possui o máximo de goleiros permitidos.", 1)]
-    public async Task AddPlayer_MaximumPlayers_ThrowException(PlayerPosition playerPosition, string expectedErrorMessage, int maxAllowed)
+    public async Task AddPlayer_MaximumPlayers_ThrowException(PlayerPosition playerPosition, string expectedErrorMessage, int maxPlayers)
     {
         // Arrange
         var user = CreateUser();
@@ -237,7 +221,7 @@ public class TeamTests
         var players = new List<PlayerEntity>();
 
         // Create players
-        for (int i = 1; i <= maxAllowed; i++)
+        for (int i = 1; i <= maxPlayers; i++)
         {
             var playerName = $"{playerPosition}{i}";
             var player = CreatePlayer(playerName, $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
