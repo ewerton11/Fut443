@@ -67,7 +67,8 @@ public class TeamTests
         user.Teams.Add(existingTeam);
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => CreateTeam(user, "name team", userId, championshipId, championshipServiceMock));
+        var exception = Assert.Throws<ArgumentException>(() => CreateTeam(user, "name team", userId, championshipId, championshipServiceMock));
+        Assert.Equal("The user already has a team for this championship.", exception.Message);
     }
 
     [Fact]
@@ -76,12 +77,14 @@ public class TeamTests
         // Arrange
         var user = CreateUser();
 
+        var name = "";
+
         var championshipServiceMock = new Mock<IChampionshipService>();
         championshipServiceMock.Setup(service => service.IsPlayerInChampionship(It.IsAny<Guid>(), It.IsAny<Guid>()))
         .ReturnsAsync(true);
 
         // Act & Assert
-        Assert.Throws<InvalidTeamNameDomainException>(() => CreateTeam(user, "", Guid.NewGuid(), Guid.NewGuid(),
+        Assert.Throws<InvalidTeamNameDomainException>(() => CreateTeam(user, name, Guid.NewGuid(), Guid.NewGuid(),
             championshipServiceMock));
     }
 
@@ -157,7 +160,9 @@ public class TeamTests
 
         // Act & Assert
         var player12 = CreatePlayer("Player12", "Attacker", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+
         var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await team.AddPlayer(player12, team.ChampionshipId));
+        Assert.Equal("O time já possui o máximo de jogadores permitidos.", exception.Message);
     }
 
     [Fact]
@@ -198,5 +203,62 @@ public class TeamTests
         // Act e Assert
         var exception = await Assert.ThrowsAsync<ApplicationException>(async () => await team.AddPlayer(player, Guid.NewGuid()));
         Assert.Equal("O jogador ja existe nesse time.", exception.Message);
+    }
+
+    [Fact]
+    public async void AddPlayer_PlayerNotAvailable_ThrowException()
+    {
+        // Arrange
+        var user = CreateUser();
+
+        var player = CreatePlayer("German Cano", "Attacker", AvailabilityStatus.Unavailable, Guid.NewGuid(), AdminLevel.HighAdmin);
+
+        var championshipServiceMock = new Mock<IChampionshipService>();
+        championshipServiceMock.Setup(service => service.IsPlayerInChampionship(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                               .ReturnsAsync(true);
+
+        var team = CreateTeam(user, "fluzao", Guid.NewGuid(), Guid.NewGuid(), championshipServiceMock);
+
+        // Act e Assert
+        var exception = await Assert.ThrowsAsync<ApplicationException>(async () => await team.AddPlayer(player, Guid.NewGuid()));
+        Assert.Equal("Jogador não disponivel.", exception.Message);
+    }
+
+    [Theory]
+    [InlineData(PlayerPosition.Attacker, "O time já possui o máximo de atacantes permitidos.", 3)]
+    [InlineData(PlayerPosition.Midfielder, "O time já possui o máximo de meio-campistas permitidos.", 3)]
+    [InlineData(PlayerPosition.Defender, "O time já possui o máximo de zagueiros permitidos.", 4)]
+    [InlineData(PlayerPosition.Goalkeeper, "O time já possui o máximo de goleiros permitidos.", 1)]
+    public async Task AddPlayer_MaximumPlayers_ThrowException(PlayerPosition playerPosition, string expectedErrorMessage, int maxAllowed)
+    {
+        // Arrange
+        var user = CreateUser();
+
+        var players = new List<PlayerEntity>();
+
+        // Create players
+        for (int i = 1; i <= maxAllowed; i++)
+        {
+            var playerName = $"{playerPosition}{i}";
+            var player = CreatePlayer(playerName, $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+            players.Add(player);
+        }
+
+        var championshipServiceMock = new Mock<IChampionshipService>();
+        championshipServiceMock.Setup(service => service.IsPlayerInChampionship(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                               .ReturnsAsync(true);
+
+        var team = CreateTeam(user, "fluzao", Guid.NewGuid(), Guid.NewGuid(), championshipServiceMock);
+
+        foreach (var player in players)
+        {
+            await team.AddPlayer(player, team.ChampionshipId);
+        }
+
+        var newPlayer = CreatePlayer("Name player", $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+
+        // Assert
+        var exception = await Assert.ThrowsAsync<ApplicationException>(async () => await team.AddPlayer(newPlayer, team.ChampionshipId));
+        Assert.Equal(expectedErrorMessage, exception.Message);
     }
 }

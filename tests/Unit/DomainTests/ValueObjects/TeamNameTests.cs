@@ -21,13 +21,16 @@ public class TeamNameTests
     }
 
     [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("  ")]
-    public void Create_InvalidName_ThrowsInvalidTeamNameDomainException(string invalidName)
+    [InlineData(null, "name, The team name cannot be null, empty or contain blanks.")]
+    [InlineData("", "name, The team name cannot be null, empty or contain blanks.")]
+    [InlineData("   ", "name, The team name cannot be null, empty or contain blanks.")]
+    public void Create_InvalidName_ThrowsException(string name, string expectedErrorMessage)
     {
-        // Act & Assert
-        Assert.Throws<InvalidTeamNameDomainException>(() => TeamName.Create(invalidName));
+        // Arrange & Act & Assert
+        var exception = Assert.Throws<InvalidTeamNameDomainException>(() => TeamName.Create(name));
+
+        // Assert
+        Assert.Equal(expectedErrorMessage, exception.Message);
     }
 
     [Fact]
