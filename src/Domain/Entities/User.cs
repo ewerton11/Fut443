@@ -8,7 +8,7 @@ namespace Domain.Entities
     {
         public UserName UserName { get; private set; } = null!;
 
-        public List<Team>? Teams { get; private set; }
+        public List<Team> Teams { get; private set; } = new List<Team>();
 
         private UserEntity() { }
 
@@ -25,24 +25,9 @@ namespace Domain.Entities
             return user;
         }
 
-        public void UpdateName(string name)
+        public bool HasTeamForChampionship(Guid championshipId)
         {
-            FirstName = name;
-        }
-
-        public void UpdateUserName(UserName userName)
-        {
-            UserName = userName;
-        }
-
-        public void UpdateEmail(Email email)
-        {
-            Email = email;
-        }
-
-        public void UpdatePassword(string password)
-        {
-            PasswordHash = password;
+            return Teams.Any(team => team.ChampionshipId == championshipId);
         }
     }
 }
