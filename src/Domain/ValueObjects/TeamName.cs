@@ -4,7 +4,7 @@ namespace Domain.ValueObjects;
 
 public class TeamName
 {
-    public string Value { get; }
+    public string Value { get; } = null!;
 
     private TeamName(string value) => Value = value;
 
