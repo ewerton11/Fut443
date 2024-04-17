@@ -22,7 +22,7 @@ public class CreatePlayerUseCase : ICreatePlayerUseCase
 
         var creatorAdmin = await _adminRepository.GetAdminAsync(adminId);
 
-        var player = PlayerEntity.Create(playerDto.Name, playerDto.Position, playerDto.ClubId, creatorAdmin.Level);
+        var player = PlayerEntity.Create(playerDto.Name, playerDto.Position, playerDto.Status, playerDto.ClubId, creatorAdmin.Level);
 
         await _playerRepository.CreatePlayerAsync(player);
     }

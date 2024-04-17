@@ -9,6 +9,10 @@ public class PlayerEntity : BaseEntity
 
     public PlayerPosition Position { get; private set; }
 
+    public AvailabilityStatus Status { get; private set; }
+
+    public PlayerParticipationStatus Participation { get; private set; }
+
     public string? Club { get; private set; }
 
     public bool Available { get; private set; } = false;
@@ -52,7 +56,8 @@ public class PlayerEntity : BaseEntity
 
     private PlayerEntity() { }
 
-    public static PlayerEntity Create(string name, string position, Guid? clubId, AdminLevel currentAdminLevel)
+    public static PlayerEntity Create(string name, string position, AvailabilityStatus status,  Guid? clubId,
+        AdminLevel currentAdminLevel)
     {
         if (currentAdminLevel < AdminLevel.HighAdmin)
         {
@@ -72,6 +77,8 @@ public class PlayerEntity : BaseEntity
         {
             Name = name,
             Position = playerPosition,
+            Status = status,
+            Participation = PlayerParticipationStatus.NotLikely,
             ClubId = clubId,
         };
 

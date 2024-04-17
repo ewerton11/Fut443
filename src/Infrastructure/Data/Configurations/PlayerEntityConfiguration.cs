@@ -17,6 +17,14 @@ public class PlayerEntityConfiguration : IEntityTypeConfiguration<PlayerEntity>
                 v => Enum.Parse<PlayerPosition>(v)
             );
 
+        builder.Property(p => p.Status)
+            .IsRequired()
+            .HasConversion<int>();
+
+        builder.Property(p => p.Participation)
+            .IsRequired()
+            .HasConversion<int>();
+
         builder.HasOne(p => p.ClubEntity)
           .WithMany(c => c.Players)
           .HasForeignKey(p => p.ClubId);
