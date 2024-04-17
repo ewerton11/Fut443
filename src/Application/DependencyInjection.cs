@@ -7,6 +7,7 @@ using Application.UseCases.ClubChampionshipUseCase;
 using Application.UseCases.CompetitionUseCase;
 using Application.UseCases.Interfaces;
 using Application.UseCases.Player;
+using Domain.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -16,6 +17,9 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         var assembly = typeof(DependencyInjection).Assembly;
+
+        //business
+        services.AddScoped<IChampionshipService, IChampionshipService>();
 
         services.AddScoped<IAuthenticationAdmin, AuthenticationAdmin>();
         services.AddScoped<IAuthenticationUser, AuthenticationUser>();
