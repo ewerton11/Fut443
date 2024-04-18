@@ -86,26 +86,26 @@ public class Team : BaseEntity
             throw new ApplicationException("Jogador não disponivel.");
         }
 
+        ValidatePlayerPositionLimits(player);
+    }
+
+    private void ValidatePlayerPositionLimits(PlayerEntity player)
+    {
         int attackerCount = Players.Count(p => p.Position == PlayerPosition.Attacker);
         int midfielderCount = Players.Count(p => p.Position == PlayerPosition.Midfielder);
         int defenderCount = Players.Count(p => p.Position == PlayerPosition.Defender);
         int goalkeeperCount = Players.Count(p => p.Position == PlayerPosition.Goalkeeper);
 
-        if (player.Position == PlayerPosition.Attacker && attackerCount >= TotalAttacker)
+        switch (player.Position)
         {
-            throw new ApplicationException("O time já possui o máximo de atacantes permitidos.");
-        }
-        else if (player.Position == PlayerPosition.Midfielder && midfielderCount >= TotalMidfielder)
-        {
-            throw new ApplicationException("O time já possui o máximo de meio-campistas permitidos.");
-        }
-        else if (player.Position == PlayerPosition.Defender && defenderCount >= TotalDefender)
-        {
-            throw new ApplicationException("O time já possui o máximo de zagueiros permitidos.");
-        }
-        else if (player.Position == PlayerPosition.Goalkeeper && goalkeeperCount >= TotalGoalkeeper)
-        {
-            throw new ApplicationException("O time já possui o máximo de goleiros permitidos.");
+            case PlayerPosition.Attacker when attackerCount >= TotalAttacker:
+                throw new ApplicationException("O time já possui o máximo de atacantes permitidos.");
+            case PlayerPosition.Midfielder when midfielderCount >= TotalMidfielder:
+                throw new ApplicationException("O time já possui o máximo de meio-campistas permitidos.");
+            case PlayerPosition.Defender when defenderCount >= TotalDefender:
+                throw new ApplicationException("O time já possui o máximo de zagueiros permitidos.");
+            case PlayerPosition.Goalkeeper when goalkeeperCount >= TotalGoalkeeper:
+                throw new ApplicationException("O time já possui o máximo de goleiros permitidos.");
         }
     }
 }
