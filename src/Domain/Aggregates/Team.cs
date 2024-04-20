@@ -1,6 +1,5 @@
 ﻿using Domain.Entities.Base;
 using Domain.Enums;
-using Domain.Services;
 using Domain.Services.Interfaces;
 using Domain.ValueObjects;
 
@@ -8,8 +7,6 @@ namespace Domain.Aggregates;
 
 public class Team : BaseEntity
 {
-    private readonly IChampionshipService _championshipService;
-
     public TeamName Name { get; private set; } = null!;
 
     public List<PlayerEntity> Players { get; private set; } = new List<PlayerEntity>();
@@ -27,12 +24,9 @@ public class Team : BaseEntity
 
     public ChampionshipEntity Championship { get; private set; } = null!;
 
-    public Team(IChampionshipService championshipService)
-    {
-        _championshipService = championshipService ?? throw new ArgumentNullException(nameof(championshipService));
-    }
+    private Team() { }
 
-    public static Team Create(UserEntity user, string name, Guid userId, Guid championshipId, IChampionshipService championshipService)
+    public static Team Create(UserEntity user, string name, Guid championshipId)
     {
         if (user.HasTeamForChampionship(championshipId))
         {
@@ -41,17 +35,17 @@ public class Team : BaseEntity
 
         var teamNameResult = TeamName.Create(name);
 
-        var team = new Team(championshipService)
+        var team = new Team
         {
             Name = teamNameResult,
-            UserId = userId,
+            UserId = user.Id,
             ChampionshipId = championshipId
         };
 
         return team;
     }
 
-    public async Task AddPlayer(PlayerEntity player, Guid championshipId)
+    public void AddPlayer(PlayerEntity player)
     {
         //regra de substituição
         //regra de pontuação
@@ -62,19 +56,21 @@ public class Team : BaseEntity
             throw new ArgumentException("O time já possui o máximo de jogadores permitidos.");
         }
 
-        await ValidatePlayer(player, championshipId);
+        ValidatePlayer(player);
 
         Players.Add(player);
     }
 
-    private async Task ValidatePlayer(PlayerEntity player, Guid championshipId)
+    private void ValidatePlayer(PlayerEntity player)
     {
-        bool isInChampionship = await _championshipService.IsPlayerInChampionship(player.Id, championshipId);
+        /*
+       bool isInChampionship = await _championshipService.IsPlayerInChampionship(player.Id, championshipId);
 
-        if (!isInChampionship)
-        {
-            throw new ApplicationException("O jogador não pertence a essa campeonato.");
-        }
+       if (!isInChampionship)
+       {
+           throw new ApplicationException("O jogador não pertence a essa campeonato.");
+       }
+       */
 
         if (Players.Any(p => p.Id == player.Id))
         {

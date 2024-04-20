@@ -2,5 +2,5 @@
 
 public class CreateTeamDTO
 {
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = null!;
 }
