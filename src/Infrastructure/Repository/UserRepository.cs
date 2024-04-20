@@ -22,6 +22,13 @@ public class UserRepository : IUserRepository
         await _baseRepository.CreateAsync(user);
     }
 
+    public async Task<UserEntity?> GetUserByIdAsync(Guid userId)
+    {
+        var user = await _baseRepository.GetByIdAsync(userId);
+
+        return user;
+    }
+
     public async Task<UserEntity?> GetUserByEmailAsync(Email email)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
