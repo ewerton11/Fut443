@@ -22,6 +22,13 @@ public class PlayerRepository : IPlayerRepository
         await _baseRepository.CreateAsync(player);
     }
 
+    public async Task<PlayerEntity> GetPlayerByIdAsync(Guid playerId)
+    {
+        var player = await _baseRepository.GetByIdAsync(playerId);
+
+        return player;
+    }
+
     public async Task<bool> IsPlayerInClubAsync(string name, string club)
     {
         var existingPlayer = await _dataContext.Player
