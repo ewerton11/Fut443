@@ -1,38 +1,53 @@
-﻿/*
-using Application.DTOs.CreateDTOs;
-using Application.UseCases;
-using Infrastructure.Authentication;
-using Microsoft.AspNetCore.Authorization;
+﻿using Application.DTOs.Team.CreateTeam;
+using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace WebApi.Controllers;
 
-[Authorize(Roles = "common")]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/team")]
 public class TeamController : ControllerBase
 {
-    private readonly CreateTeamUseCase _createTeamUseCase;
+    private readonly ICreateTeamUseCase _teamUseCase;
+    private readonly IAddPlayerToTeamUseCase _addPlayerToTeamUseCase;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public TeamController(CreateTeamUseCase createTeamUseCase)
+    public TeamController(ICreateTeamUseCase teamUseCase, IAddPlayerToTeamUseCase addPlayerToTeamUseCase, 
+        IHttpContextAccessor httpContextAccessor)
     {
-        _createTeamUseCase = createTeamUseCase;
+        _teamUseCase = teamUseCase;
+        _addPlayerToTeamUseCase = addPlayerToTeamUseCase;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreatePlayer([FromBody] CreateTeamDto teamDto)
+    public async Task<IActionResult> CreatePlayer([FromBody] CreateTeamDTO teamDto, Guid championshipId)
     {
-        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        if (!Guid.TryParse(userIdString, out var userId))
+        if (!Guid.TryParse(userIdClaim, out var userId))
         {
-            return BadRequest(new { message = "Invalid user ID format" });
+            return Unauthorized();
         }
 
-        await _createTeamUseCase.CreateTeam(teamDto.Name, userId);
+        await _teamUseCase.CreateTeamAsync(teamDto, userId, championshipId);
 
         return Ok(new { message = "team created successfully!" });
     }
+
+    [HttpPost("addPlayer/{championshipId}/{teamId}/{playerId}")]
+    public async Task<IActionResult> AddPlayer(Guid championshipId, Guid teamId, Guid playerId)
+    {
+        var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        await _addPlayerToTeamUseCase.AddPlayerToTeamAsync(userId, championshipId, teamId, playerId);
+
+        return Ok(new { message = "player inserido successfully!" });
+    }
 }
-*/

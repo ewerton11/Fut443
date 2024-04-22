@@ -7,6 +7,8 @@ using Application.UseCases.ClubChampionshipUseCase;
 using Application.UseCases.CompetitionUseCase;
 using Application.UseCases.Interfaces;
 using Application.UseCases.Player;
+using Application.UseCases.TeamUseCase;
+using Domain.Services;
 using Domain.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +21,7 @@ public static class DependencyInjection
         var assembly = typeof(DependencyInjection).Assembly;
 
         //business
-        services.AddScoped<IChampionshipService, IChampionshipService>();
+        services.AddScoped<IChampionshipService, ChampionshipService>();
 
         services.AddScoped<IAuthenticationAdmin, AuthenticationAdmin>();
         services.AddScoped<IAuthenticationUser, AuthenticationUser>();
@@ -42,6 +44,9 @@ public static class DependencyInjection
         //services.AddScoped<IClubChampionshipService, ClubChampionshipUseCase>();
 
         services.AddScoped<ICreatePlayerUseCase, CreatePlayerUseCase>();
+
+        services.AddScoped<ICreateTeamUseCase, CreateTeamUseCase>();
+        services.AddScoped<IAddPlayerToTeamUseCase, AddPlayerToTeamUseCase>();
 
         //services.AddScoped<CreateTeamUseCase>();
 

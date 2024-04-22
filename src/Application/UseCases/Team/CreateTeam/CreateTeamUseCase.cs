@@ -18,8 +18,7 @@ public class CreateTeamUseCase : ICreateTeamUseCase
 
     public async Task CreateTeamAsync(CreateTeamDTO teamDto, Guid userId, Guid championshipId)
     {
-        var user = await _userRepository.GetUserByIdAsync(userId)
-            ?? throw new ApplicationException("user invalido!!!!");
+        var user = await _userRepository.GetUserWithTeamByIdAsync(userId);
 
         var team = Team.Create(user, teamDto.Name, championshipId);
 
