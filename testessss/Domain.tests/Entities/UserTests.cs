@@ -1,7 +1,5 @@
 ﻿using Domain.Aggregates;
 using Domain.Entities;
-using Domain.Enums;
-using Domain.Services.Interfaces;
 using Domain.ValueObject;
 
 namespace tests.Unit.DomainTests.Entities

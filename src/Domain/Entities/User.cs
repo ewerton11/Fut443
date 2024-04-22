@@ -29,5 +29,10 @@ namespace Domain.Entities
         {
             return Teams.Any(team => team.ChampionshipId == championshipId);
         }
+
+        public Team? GetTeam(Guid teamId)
+        {
+            return Teams.FirstOrDefault(team => team.Id == teamId);
+        }
     }
 }
