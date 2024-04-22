@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Enums;
 using Domain.Exceptions;
 using Domain.ValueObject;
+using Domain.ValueObjects;
 
 namespace Domain.tests.Aggregates;
 
@@ -10,10 +11,15 @@ public class TeamTests
 {
     private UserEntity CreateUser()
     {
-        var userName = UserName.Create("ewerton");
-        var email = Email.Create("ewerton@email.com");
-        var passwordHash = "***ewerton123###";
-        return UserEntity.Create(userName, email, passwordHash);
+        var birthDateResult = BirthDate.Create(new DateTime(2000, 12, 1));
+
+        var firstName = FirstName.Create("first");
+        var lastName = LastName.Create("last");
+        var userName = UserName.Create("name");
+        var email = Email.Create("name@email.com");
+        var passwordHash = "***123###";
+
+        return UserEntity.Create(firstName, lastName, birthDateResult, userName, email, passwordHash);
     }
 
     private Team CreateTeam(UserEntity user, string name, Guid championshipId)

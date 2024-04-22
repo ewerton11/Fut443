@@ -7,4 +7,5 @@ public interface IAdminRepository
     Task AddAdminAsync(AdminEntity admin);
     Task<AdminEntity> GetAdminAsync(Guid adminId);
     Task<AdminEntity?> GetAdminByEmailAsync(Email email);
+    Task<bool> EmailExistsAsync(Email email);
 }

@@ -23,7 +23,7 @@ public class AuthenticationAdmin : IAuthenticationAdmin
 
         if (admin != null && _passwordHashService.VerifyPassword(password, admin.PasswordHash))
         {
-            return _tokenService.GenerateToken(admin.Id, admin.FirstName, admin.Level);
+            return _tokenService.GenerateToken(admin.Id, admin.FirstName.Value, admin.Level);
         }
 
         return null;

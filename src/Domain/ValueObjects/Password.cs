@@ -4,7 +4,7 @@ namespace Domain.ValueObject;
 
 public sealed class Password
 {
-    public string Value { get; }
+    public string Value { get; } = null!;
 
     private Password(string value) => Value = value;
 

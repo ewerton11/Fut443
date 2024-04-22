@@ -4,7 +4,7 @@ namespace Domain.ValueObject;
 
 public class Email : IEquatable<Email>
 {
-    public string Value { get; }
+    public string Value { get; } = null!;
 
     private Email(string value)
     {

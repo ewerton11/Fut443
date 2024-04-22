@@ -1,30 +1,26 @@
 ﻿using Domain.Entities.Base;
 using Domain.Enums;
 using Domain.ValueObject;
+using Domain.ValueObjects;
 
 namespace Domain.Entities;
 
 public class AdminEntity : BaseUserEntity
 {
-    public string LastName { get; private set; } = null!;
     public AdminLevel Level { get; private set; }
 
     private AdminEntity() { }
 
-    public static AdminEntity Create(string firstName, string lastName, string email, string passwordHash, AdminLevel level,
-        AdminLevel currentAdminLevel)
+    public static AdminEntity Create(FirstName firstName, LastName lastName, Email email,
+        string passwordHash, AdminLevel level, AdminLevel currentAdminLevel)
     {
         ValidateAdminCreation(level, currentAdminLevel);
-
-        //email nao pode ser igual
-
-        var emailResult = Email.Create(email);
 
         var admin = new AdminEntity
         {
             FirstName = firstName,
             LastName = lastName,
-            Email = emailResult,
+            Email = email,
             PasswordHash = passwordHash,
             Level = level,
         };

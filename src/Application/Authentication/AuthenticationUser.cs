@@ -23,7 +23,7 @@ public class AuthenticationUser : IAuthenticationUser
 
         if (user != null && _passwordHashService.VerifyPassword(password, user.PasswordHash))
         {
-            return _tokenService.GenerateToken(user.Id, user.FirstName, null);
+            return _tokenService.GenerateToken(user.Id, user.FirstName.Value, null);
         }
 
         return null;

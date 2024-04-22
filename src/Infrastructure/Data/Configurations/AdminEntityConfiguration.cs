@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Enums;
 using Domain.ValueObject;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,13 +24,25 @@ public class AdminEntityConfiguration : IEntityTypeConfiguration<AdminEntity>
         builder.HasData(
             AdminEntity.Create
               (
-                "ewerton",
-                "Root",
-                "ewerton@gmail.com",
+                FirstName.Create("ewerton"),
+                LastName.Create("Root"),
+                Email.Create("ewerton@gmail.com"),
                 _passwordHashService.HashPassword("ewertonroot"),
                 AdminLevel.RootAdmin,
                 AdminLevel.RootAdmin
               )
+            );
+
+        builder.Property(a => a.FirstName)
+            .HasConversion(
+             v => v.Value,
+             v => FirstName.Create(v)
+            );
+
+        builder.Property(a => a.LastName)
+            .HasConversion(
+             v => v.Value,
+             v => LastName.Create(v)
             );
 
         builder.Property(a => a.Email)

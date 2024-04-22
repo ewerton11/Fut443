@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +16,13 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -66,7 +69,11 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -260,8 +267,8 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Admin",
-                columns: new[] { "Id", "Email", "FirstName", "LastName", "Level", "PasswordHash" },
-                values: new object[] { new Guid("125ed636-6eec-430b-8da0-2526b70c29cf"), "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$B.QpTI/ajtssKXfbhzMypO039nIJkW1fcOSOmgpkIT91JpbvZ1OOO" });
+                columns: new[] { "Id", "Birthday", "Country", "Email", "FirstName", "LastName", "Level", "PasswordHash", "Phone" },
+                values: new object[] { new Guid("a1e3c15d-641c-4272-8aca-138564a37c37"), new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$s2p65FjsWZnfEjQ1CZ6Tiepa27Rrpn0ACk0i.HI54m5rX/6SMga8e", "" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClubChampionship_ChampionshipId",

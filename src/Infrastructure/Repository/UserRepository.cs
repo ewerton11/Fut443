@@ -45,7 +45,6 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    /*
    public async Task<bool> EmailExistsAsync(Email email)
    {
        return await _dbContext.Users.AnyAsync(u => u.Email.Equals(email));
@@ -56,6 +55,7 @@ public class UserRepository : IUserRepository
        return await _dbContext.Users.AnyAsync(u => u.UserName.Equals(userName));
    }
 
+   /*
    public async Task<object?> GetUserByIdAndTeam(Guid id)
    {
        var user = await _dbContext.Users

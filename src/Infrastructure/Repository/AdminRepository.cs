@@ -34,10 +34,8 @@ public class AdminRepository : IAdminRepository
         return admin;
     }
 
-    /*
     public async Task<bool> EmailExistsAsync(Email email)
     {
         return await _dbContext.Admin.AnyAsync(u => u.Email.Equals(email));
     }
-    */
 }

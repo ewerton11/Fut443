@@ -51,6 +51,10 @@ public static class DependencyInjection
         //services.AddScoped<CreateTeamUseCase>();
 
         services.AddScoped<ICreateCompetitionUseCase, CreateCompetitionUseCase>();
+        services.AddScoped<IBaseUserEntityService, BaseUserEntityService>();
+        services.AddScoped<IUserService, UserService>();
+
+        
         //services.AddScoped<ReadCompetitionUseCase>();
 
         // services.AddAutoMapper(typeof(UserProfile));
