@@ -6,11 +6,11 @@ namespace Domain.Services;
 public class ChampionshipService : IChampionshipService
 {
     private readonly IBaseRepository<PlayerEntity> _playerRepository;
-    private readonly IBaseRepository<ClubChampionship> _clubChampionshipRepository;
+    private readonly IClubChampionshipRepository _clubChampionshipRepository;
 
     public ChampionshipService(
         IBaseRepository<PlayerEntity> playerRepository,
-        IBaseRepository<ClubChampionship> clubChampionshipRepository)
+        IClubChampionshipRepository clubChampionshipRepository)
     {
         _playerRepository = playerRepository;
         _clubChampionshipRepository = clubChampionshipRepository;
@@ -22,14 +22,12 @@ public class ChampionshipService : IChampionshipService
         if (player == null)
             return false;
 
-        var club = player.ClubEntity;
-        if (club == null)
+        var clubId = player.ClubId;
+        if (clubId == null)
             return false;
 
-        var allClubChampionships = await _clubChampionshipRepository.GetAllAsync();
-        var clubChampionship = allClubChampionships.FirstOrDefault(cc => cc.ClubId == club.Id
-                                                                    && cc.ChampionshipId == championshipId);
-
+        var clubChampionship = await _clubChampionshipRepository
+            .GetByClubIdAndChampionshipIdAsync(clubId, championshipId);
 
         return clubChampionship != null;
     }
