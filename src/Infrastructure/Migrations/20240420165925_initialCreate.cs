@@ -212,6 +212,8 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Participation = table.Column<int>(type: "int", nullable: false),
                     Club = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Available = table.Column<bool>(type: "bit", nullable: false),
                     ClubId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -259,7 +261,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admin",
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "Level", "PasswordHash" },
-                values: new object[] { new Guid("3c61c84e-854c-4ce0-a6a8-660c1febf0dc"), "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$3QyUVLRnqIqGEnSpSY80veyF6WjeobL1ByChHI8Vi6pwEHJtLqc6C" });
+                values: new object[] { new Guid("125ed636-6eec-430b-8da0-2526b70c29cf"), "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$B.QpTI/ajtssKXfbhzMypO039nIJkW1fcOSOmgpkIT91JpbvZ1OOO" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClubChampionship_ChampionshipId",

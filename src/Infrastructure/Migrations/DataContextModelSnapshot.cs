@@ -171,12 +171,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3c61c84e-854c-4ce0-a6a8-660c1febf0dc"),
+                            Id = new Guid("125ed636-6eec-430b-8da0-2526b70c29cf"),
                             Email = "ewerton@gmail.com",
                             FirstName = "ewerton",
                             LastName = "Root",
                             Level = 3,
-                            PasswordHash = "$2a$11$3QyUVLRnqIqGEnSpSY80veyF6WjeobL1ByChHI8Vi6pwEHJtLqc6C"
+                            PasswordHash = "$2a$11$B.QpTI/ajtssKXfbhzMypO039nIJkW1fcOSOmgpkIT91JpbvZ1OOO"
                         });
                 });
 
@@ -330,6 +330,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Participation")
+                        .HasColumnType("int");
+
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -338,6 +341,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("RedCards")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<int>("SuccessfulPasses")
