@@ -29,6 +29,15 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    public async Task<UserEntity> GetUserWithTeamByIdAsync(Guid userId)
+    {
+        var user = await _dbContext.Users
+                  .Include(u => u.Teams)
+                  .FirstOrDefaultAsync(u => u.Id == userId) ?? throw new ApplicationException("User invalid");
+
+        return user;
+    }
+
     public async Task<UserEntity?> GetUserByEmailAsync(Email email)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
