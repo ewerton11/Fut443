@@ -23,6 +23,7 @@ public class PlayerController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreatePlayer([FromBody] CreatePlayerDTO playerDto)
     {
+        //validar dados corretos
         var adminIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (!Guid.TryParse(adminIdClaim, out var adminId))

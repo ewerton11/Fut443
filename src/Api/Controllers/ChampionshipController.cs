@@ -1,5 +1,7 @@
 ﻿using Application.DTOs.Championship.CreateChampionship;
 using Application.UseCases.Interfaces;
+using Application.UseCases.Player.ReadPlayer;
+using Domain.Entities;
 using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +16,14 @@ public class ChampionshipController : ControllerBase
 {
     private readonly ICreateChampionshipUseCase _createChampionshipUseCase;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IPlayersChampionshipUseCase _playersChampionshipUseCase;
 
-    public ChampionshipController(ICreateChampionshipUseCase createChampionshipUseCase, IHttpContextAccessor httpContextAccessor)
+    public ChampionshipController(ICreateChampionshipUseCase createChampionshipUseCase, 
+        IHttpContextAccessor httpContextAccessor, IPlayersChampionshipUseCase playersChampionshipUseCase)
     {
         _createChampionshipUseCase = createChampionshipUseCase;
         _httpContextAccessor = httpContextAccessor;
+        _playersChampionshipUseCase = playersChampionshipUseCase;
     }
 
     [HttpPost("create")]
@@ -34,6 +39,15 @@ public class ChampionshipController : ControllerBase
         await _createChampionshipUseCase.CreateChampionshipAsync(championshipDto, adminId);
 
         return Ok(new { message = "Campeonato criado com sucesso!" });
+    }
+
+    [HttpGet("championship/{championshipId}")]
+    public async Task<ActionResult<List<object>>> GetPlayersByChampionship(Guid championshipId)
+    {
+        //Mudar caso de uso para championship
+        var players = await _playersChampionshipUseCase.GetPlayersByChampionshipAsync(championshipId);
+
+        return Ok(players);
     }
 
     /*

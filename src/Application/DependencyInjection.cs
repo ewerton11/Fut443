@@ -7,6 +7,7 @@ using Application.UseCases.ClubChampionshipUseCase;
 using Application.UseCases.CompetitionUseCase;
 using Application.UseCases.Interfaces;
 using Application.UseCases.Player;
+using Application.UseCases.Player.ReadPlayer;
 using Application.UseCases.TeamUseCase;
 using Domain.Services;
 using Domain.Services.Interfaces;
@@ -41,7 +42,7 @@ public static class DependencyInjection
 
         services.AddScoped<IAddClubToChampionshipUseCase, AddClubToChampionshipUseCase>();
 
-        //services.AddScoped<IClubChampionshipService, ClubChampionshipUseCase>();
+        services.AddScoped<IPlayersChampionshipUseCase, PlayersChampionshipUseCase>();
 
         services.AddScoped<ICreatePlayerUseCase, CreatePlayerUseCase>();
 
