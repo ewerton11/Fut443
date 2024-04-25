@@ -1,8 +1,8 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.Player.ReadPlayer;
 
 namespace Application.UseCases.Interfaces;
 
 public interface IPlayersChampionshipUseCase
 {
-    Task<List<object>> GetPlayersByChampionshipAsync(Guid championshipId);
+    Task<List<ReadPlayerDTO>> GetPlayersByChampionshipAsync(Guid championshipId);
 }

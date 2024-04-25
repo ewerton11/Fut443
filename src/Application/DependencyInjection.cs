@@ -1,13 +1,14 @@
 ﻿using Application.Authentication;
+using Application.Mappers;
 using Application.UseCases;
 using Application.UseCases.Admin;
 using Application.UseCases.Championships;
+using Application.UseCases.Championships.ReadChampionship;
 using Application.UseCases.Club;
 using Application.UseCases.ClubChampionshipUseCase;
 using Application.UseCases.CompetitionUseCase;
 using Application.UseCases.Interfaces;
 using Application.UseCases.Player;
-using Application.UseCases.Player.ReadPlayer;
 using Application.UseCases.TeamUseCase;
 using Domain.Services;
 using Domain.Services.Interfaces;
@@ -55,10 +56,10 @@ public static class DependencyInjection
         services.AddScoped<IBaseUserEntityService, BaseUserEntityService>();
         services.AddScoped<IUserService, UserService>();
 
-        
+
         //services.AddScoped<ReadCompetitionUseCase>();
 
-        // services.AddAutoMapper(typeof(UserProfile));
+        services.AddAutoMapper(typeof(PlayerProfile));
 
         return services;
     }
