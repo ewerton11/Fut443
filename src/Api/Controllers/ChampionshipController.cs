@@ -7,7 +7,6 @@ using System.Security.Claims;
 
 namespace WebApi.Controllers;
 
-[HasPermission(Permission.HighAdmin)]
 [Route("api/championship")]
 [ApiController]
 public class ChampionshipController : ControllerBase
@@ -24,6 +23,7 @@ public class ChampionshipController : ControllerBase
         _playersChampionshipUseCase = playersChampionshipUseCase;
     }
 
+    [HasPermission(Permission.HighAdmin)]
     [HttpPost("create")]
     public async Task<IActionResult> CreateChampeionship([FromBody] CreateChampionshipDTO championshipDto)
     {
