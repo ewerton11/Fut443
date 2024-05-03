@@ -25,23 +25,35 @@ public class Team : BaseEntity
 
     private Team() { }
 
-    public static Team Create(UserEntity user, string name, Guid championshipId)
+    public static Team Create(UserEntity? user, string? name, Guid championshipId)
     {
-        if (user.HasTeamForChampionship(championshipId))
+        if (user != null && name != null)
         {
-            throw new ArgumentException("The user already has a team for this championship.");
+            if (user.HasTeamForChampionship(championshipId))
+            {
+                throw new ArgumentException("The user already has a team for this championship.");
+            }
+
+            var teamNameResult = TeamName.Create(name);
+
+            var team = new Team
+            {
+                Name = teamNameResult,
+                UserId = user.Id,
+                ChampionshipId = championshipId
+            };
+
+            return team;
         }
-
-        var teamNameResult = TeamName.Create(name);
-
-        var team = new Team
+        else
         {
-            Name = teamNameResult,
-            UserId = user.Id,
-            ChampionshipId = championshipId
-        };
+            var team = new Team
+            {
+                ChampionshipId = championshipId
+            };
 
-        return team;
+            return team;
+        }
     }
 
     public void AddPlayer(PlayerEntity player)
@@ -58,6 +70,11 @@ public class Team : BaseEntity
         ValidatePlayer(player);
 
         Players.Add(player);
+    }
+
+    public List<PlayerEntity> GetPlayers()
+    {
+        return Players;
     }
 
     private void ValidatePlayer(PlayerEntity player)

@@ -1,6 +1,4 @@
-﻿using Domain.Enums;
-
-namespace Application.DTOs.Player.ReadPlayer;
+﻿namespace Application.DTOs.Player.ReadPlayer;
 
 public class ReadPlayerDTO
 {

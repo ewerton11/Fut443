@@ -1,5 +1,7 @@
-﻿using Application.DTOs.Team.CreateTeam;
+﻿using Application.DTOs.Player.ReadPlayer;
+using Application.DTOs.Team.CreateTeam;
 using Application.UseCases.Interfaces;
+using Application.UseCases.TeamUseCase.CreateTeam;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -12,13 +14,15 @@ public class TeamController : ControllerBase
     private readonly ICreateTeamUseCase _teamUseCase;
     private readonly IAddPlayerToTeamUseCase _addPlayerToTeamUseCase;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly CriarTimeTemporarioUseCase _criarTimeTemporarioUseCase;
 
-    public TeamController(ICreateTeamUseCase teamUseCase, IAddPlayerToTeamUseCase addPlayerToTeamUseCase, 
-        IHttpContextAccessor httpContextAccessor)
+    public TeamController(ICreateTeamUseCase teamUseCase, IAddPlayerToTeamUseCase addPlayerToTeamUseCase,
+        IHttpContextAccessor httpContextAccessor, CriarTimeTemporarioUseCase criarTimeTemporarioUseCase)
     {
         _teamUseCase = teamUseCase;
         _addPlayerToTeamUseCase = addPlayerToTeamUseCase;
         _httpContextAccessor = httpContextAccessor;
+        _criarTimeTemporarioUseCase = criarTimeTemporarioUseCase;
     }
 
     [HttpPost("create")]
@@ -34,6 +38,19 @@ public class TeamController : ControllerBase
         await _teamUseCase.CreateTeamAsync(teamDto, userId, championshipId);
 
         return Ok(new { message = "team created successfully!" });
+    }
+
+    [HttpPost("temporary/create/{championshipId}")]
+    public async Task<IActionResult> CreatePlayerTemporary(Guid championshipId, [FromBody] List<Guid> playerIds)
+    {
+        if (playerIds == null || playerIds.Count == 0)
+        {
+            return BadRequest("Nenhum jogador foi fornecido.");
+        }
+
+        var listPlayers = await _criarTimeTemporarioUseCase.CriarTimeTemporario(championshipId, playerIds);
+
+        return Ok(listPlayers);
     }
 
     [HttpPost("addPlayer/{championshipId}/{teamId}/{playerId}")]
