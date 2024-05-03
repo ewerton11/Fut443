@@ -10,6 +10,7 @@ using Application.UseCases.CompetitionUseCase;
 using Application.UseCases.Interfaces;
 using Application.UseCases.Player;
 using Application.UseCases.TeamUseCase;
+using Application.UseCases.TeamUseCase.CreateTeam;
 using Domain.Services;
 using Domain.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,7 +56,8 @@ public static class DependencyInjection
         services.AddScoped<ICreateCompetitionUseCase, CreateCompetitionUseCase>();
         services.AddScoped<IBaseUserEntityService, BaseUserEntityService>();
         services.AddScoped<IUserService, UserService>();
-
+        services.AddScoped<CriarTimeTemporarioUseCase>();
+        services.AddScoped<IReadAllChampionshipInProgressUseCase, ReadAllChampionshipInProgressUseCase>();
 
         //services.AddScoped<ReadCompetitionUseCase>();
 

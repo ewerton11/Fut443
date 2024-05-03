@@ -12,15 +12,18 @@ namespace WebApi.Controllers;
 public class ChampionshipController : ControllerBase
 {
     private readonly ICreateChampionshipUseCase _createChampionshipUseCase;
+    private readonly IReadAllChampionshipInProgressUseCase _readAllChampionshipInProgressUseCase;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IPlayersChampionshipUseCase _playersChampionshipUseCase;
 
     public ChampionshipController(ICreateChampionshipUseCase createChampionshipUseCase,
-        IHttpContextAccessor httpContextAccessor, IPlayersChampionshipUseCase playersChampionshipUseCase)
+        IHttpContextAccessor httpContextAccessor, IPlayersChampionshipUseCase playersChampionshipUseCase,
+        IReadAllChampionshipInProgressUseCase readAllChampionshipInProgressUseCase)
     {
         _createChampionshipUseCase = createChampionshipUseCase;
         _httpContextAccessor = httpContextAccessor;
         _playersChampionshipUseCase = playersChampionshipUseCase;
+        _readAllChampionshipInProgressUseCase = readAllChampionshipInProgressUseCase;
     }
 
     [HasPermission(Permission.HighAdmin)]
@@ -45,6 +48,14 @@ public class ChampionshipController : ControllerBase
         var players = await _playersChampionshipUseCase.GetPlayersByChampionshipAsync(championshipId);
 
         return Ok(players);
+    }
+
+    [HttpGet("inProgress")]
+    public async Task<IActionResult> GetAllChampionshipInProgress()
+    {
+        var listChampionship = await _readAllChampionshipInProgressUseCase.GetAllChampionshipInProgressAsync();
+
+        return Ok(listChampionship);
     }
 
     /*

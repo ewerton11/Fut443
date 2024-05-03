@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Player.ReadPlayer;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Repository;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,15 @@ public class ChampionshipRepository : IChampionshipRepository
         var championship = await _baseRepository.GetByIdAsync(championshipId);
 
         return championship;
+    }
+
+    public async Task<IEnumerable<ChampionshipEntity>> GetAllChampionshipInProgressAsync()
+    {
+        var championshipsInProgress = await _dataContext.Championship
+            .Where(c => c.Status == ChampionshipStatus.InProgress)
+            .ToListAsync();
+
+        return championshipsInProgress;
     }
 
     public async Task<ChampionshipEntity> GetChampionshipWithClubsByIdAsync(Guid championshipId)
