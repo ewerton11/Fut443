@@ -1,4 +1,6 @@
-﻿namespace Domain.Repository;
+﻿using Domain.Enums;
+
+namespace Domain.Repository;
 
 public interface IChampionshipRepository
 {
@@ -6,5 +8,5 @@ public interface IChampionshipRepository
     Task<ChampionshipEntity> GetChampionshipByIdAsync(Guid championshipId);
     Task<IEnumerable<ChampionshipEntity>> GetAllChampionshipInProgressAsync();
     Task<ChampionshipEntity> GetChampionshipWithClubsByIdAsync(Guid championshipId);
-    Task<List<PlayerEntity>> GetAllPlayersByChampionshipAsync(Guid championshipId);
+    Task<List<PlayerEntity>> GetAllPlayersByChampionshipAsync(Guid championshipId, PlayerPosition? position);
 }

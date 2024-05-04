@@ -43,9 +43,9 @@ public class ChampionshipController : ControllerBase
     }
 
     [HttpGet("championship/{championshipId}")]
-    public async Task<ActionResult<List<ReadPlayerDTO>>> GetPlayersByChampionship(Guid championshipId)
+    public async Task<ActionResult<List<ReadPlayerDTO>>> GetPlayersByChampionship(Guid championshipId, [FromQuery] string? position)
     {
-        var players = await _playersChampionshipUseCase.GetPlayersByChampionshipAsync(championshipId);
+        var players = await _playersChampionshipUseCase.GetPlayersByChampionshipAsync(championshipId, position);
 
         return Ok(players);
     }

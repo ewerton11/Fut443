@@ -4,5 +4,5 @@ namespace Application.UseCases.Interfaces;
 
 public interface IPlayersChampionshipUseCase
 {
-    Task<List<ReadPlayerDTO>> GetPlayersByChampionshipAsync(Guid championshipId);
+    Task<List<ReadPlayerDTO>> GetPlayersByChampionshipAsync(Guid championshipId, string? position);
 }

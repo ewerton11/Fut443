@@ -5,6 +5,7 @@ using Domain.Enums;
 using Domain.Repository;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 
 namespace Infrastructure.Repository;
 
@@ -53,23 +54,30 @@ public class ChampionshipRepository : IChampionshipRepository
         return championshipsWithClubs ?? throw new Exception($"Championship with ID {championshipId} not found.");
     }
 
-    public async Task<List<PlayerEntity>> GetAllPlayersByChampionshipAsync(Guid championshipId)
+    public async Task<List<PlayerEntity>> GetAllPlayersByChampionshipAsync(Guid championshipId, PlayerPosition? position)
     {
         var clubIdsInChampionship = await _dataContext.ClubChampionship
                .Where(cc => cc.ChampionshipId == championshipId)
                .Select(cc => cc.ClubId)
-               .ToListAsync();
-
-        var playersInClubs = await _dataContext.Player
-               .Where(p => p.ClubId != null && clubIdsInChampionship.Contains((Guid)p.ClubId))
-               .Select(p => new ReadPlayerDTO
-               {
-                   Id = p.Id,
-                   Name = p.Name,
-                   Position = p.Position.ToString(),
-                   Club = p.Club
-               })
         .ToListAsync();
+
+        IQueryable<PlayerEntity> playersQuery = _dataContext.Player
+        .Where(p => p.ClubId != null && clubIdsInChampionship.Contains((Guid)p.ClubId));
+
+        if (position != null) 
+        {
+            playersQuery = playersQuery.Where(p => p.Position == position);
+        }
+
+        var playersInClubs = await playersQuery
+       .Select(p => new ReadPlayerDTO
+       {
+           Id = p.Id,
+           Name = p.Name,
+           Position = p.Position.ToString(),
+           Club = p.Club
+       })
+       .ToListAsync();
 
         return _mapper.Map<List<PlayerEntity>>(playersInClubs);
     }
