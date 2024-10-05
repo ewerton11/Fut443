@@ -28,11 +28,11 @@ public class PlayerRepository : IPlayerRepository
 
         return player;
     }
-
-    public async Task<bool> IsPlayerInClubAsync(string name, string club)
+    
+    public async Task<bool> IsPlayerInClubAsync(string name, string clubName)
     {
         var existingPlayer = await _dataContext.Player
-            .Where(p => p.Name == name && p.Club == club)
+            .Where(p => p.Name == name && p.ClubName == clubName)
                 .FirstOrDefaultAsync();
 
         return existingPlayer != null;

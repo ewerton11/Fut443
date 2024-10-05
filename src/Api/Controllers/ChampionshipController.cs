@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Championship.CreateChampionship;
 using Application.DTOs.Player.ReadPlayer;
 using Application.UseCases.Interfaces;
+using Application.UseCases.Schedulers;
 using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -15,15 +16,17 @@ public class ChampionshipController : ControllerBase
     private readonly IReadAllChampionshipInProgressUseCase _readAllChampionshipInProgressUseCase;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IPlayersChampionshipUseCase _playersChampionshipUseCase;
+    private readonly RoundUpdateScheduler _testeee;
 
     public ChampionshipController(ICreateChampionshipUseCase createChampionshipUseCase,
         IHttpContextAccessor httpContextAccessor, IPlayersChampionshipUseCase playersChampionshipUseCase,
-        IReadAllChampionshipInProgressUseCase readAllChampionshipInProgressUseCase)
+        IReadAllChampionshipInProgressUseCase readAllChampionshipInProgressUseCase, RoundUpdateScheduler testeee)
     {
         _createChampionshipUseCase = createChampionshipUseCase;
         _httpContextAccessor = httpContextAccessor;
         _playersChampionshipUseCase = playersChampionshipUseCase;
         _readAllChampionshipInProgressUseCase = readAllChampionshipInProgressUseCase;
+        _testeee = testeee;
     }
 
     [HasPermission(Permission.HighAdmin)]
@@ -37,7 +40,7 @@ public class ChampionshipController : ControllerBase
             return Unauthorized();
         }
 
-        await _createChampionshipUseCase.CreateChampionshipAsync(championshipDto, adminId);
+        await _createChampionshipUseCase.CreateChampionshipAsync(adminId, championshipDto);
 
         return Ok(new { message = "Campeonato criado com sucesso!" });
     }
@@ -53,6 +56,9 @@ public class ChampionshipController : ControllerBase
     [HttpGet("inProgress")]
     public async Task<IActionResult> GetAllChampionshipInProgress()
     {
+        //Remover esse metodo que ta de teste
+        await _testeee.UpdateCurrentRoundAsync();
+
         var listChampionship = await _readAllChampionshipInProgressUseCase.GetAllChampionshipInProgressAsync();
 
         return Ok(listChampionship);

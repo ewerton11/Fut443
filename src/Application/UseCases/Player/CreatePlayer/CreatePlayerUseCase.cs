@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Player.CreatePlayer;
 using Application.UseCases.Interfaces;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Repository;
 
 namespace Application.UseCases.Player;
@@ -22,7 +23,13 @@ public class CreatePlayerUseCase : ICreatePlayerUseCase
 
         var creatorAdmin = await _adminRepository.GetAdminAsync(adminId);
 
-        var player = PlayerEntity.Create(playerDto.Name, playerDto.Position, playerDto.Status, playerDto.ClubId, creatorAdmin.Level);
+        if (!Enum.TryParse(playerDto.SpecificPosition, out SpecificPosition specificPosition))
+        {
+            throw new ArgumentException("Invalid player specific position.");
+        }
+
+        var player = PlayerEntity.Create(playerDto.Name, playerDto.Position, specificPosition, playerDto.Status, 
+            playerDto.ClubName, playerDto.ClubId, creatorAdmin.Level);
 
         await _playerRepository.CreatePlayerAsync(player);
     }

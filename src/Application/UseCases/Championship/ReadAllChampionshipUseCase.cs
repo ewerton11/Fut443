@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Repository;
 
-namespace Application.UseCases.Championships.ReadChampionship;
+namespace Application.UseCases.ChampionshipUseCase;
 
 public class ReadAllChampionshipInProgressUseCase : IReadAllChampionshipInProgressUseCase
 {

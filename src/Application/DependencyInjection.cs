@@ -2,13 +2,13 @@
 using Application.Mappers;
 using Application.UseCases;
 using Application.UseCases.Admin;
-using Application.UseCases.Championships;
-using Application.UseCases.Championships.ReadChampionship;
+using Application.UseCases.ChampionshipUseCase;
 using Application.UseCases.Club;
 using Application.UseCases.ClubChampionshipUseCase;
 using Application.UseCases.CompetitionUseCase;
 using Application.UseCases.Interfaces;
 using Application.UseCases.Player;
+using Application.UseCases.Schedulers;
 using Application.UseCases.TeamUseCase;
 using Application.UseCases.TeamUseCase.CreateTeam;
 using Domain.Services;
@@ -58,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<CriarTimeTemporarioUseCase>();
         services.AddScoped<IReadAllChampionshipInProgressUseCase, ReadAllChampionshipInProgressUseCase>();
+        services.AddScoped<RoundUpdateScheduler>();
 
         //services.AddScoped<ReadCompetitionUseCase>();
 

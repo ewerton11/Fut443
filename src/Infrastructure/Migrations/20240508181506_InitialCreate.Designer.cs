@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240422215753_InitialCreate")]
+    [Migration("20240508181506_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -148,13 +148,6 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -174,10 +167,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Admin");
@@ -185,15 +174,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a1e3c15d-641c-4272-8aca-138564a37c37"),
-                            Birthday = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Country = "",
+                            Id = new Guid("6d93021f-9085-4413-8858-31816f729b4b"),
                             Email = "ewerton@gmail.com",
                             FirstName = "ewerton",
                             LastName = "Root",
                             Level = 3,
-                            PasswordHash = "$2a$11$s2p65FjsWZnfEjQ1CZ6Tiepa27Rrpn0ACk0i.HI54m5rX/6SMga8e",
-                            Phone = ""
+                            PasswordHash = "$2a$11$MhwBYKX1UkQNI8lu2dDYp.liJe8u1o9LUZQD/BjVUPuBNw8E0zZJu"
                         });
                 });
 
@@ -292,11 +278,11 @@ namespace Infrastructure.Migrations
                     b.Property<int>("BlockedKicks")
                         .HasColumnType("int");
 
-                    b.Property<string>("Club")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid?>("ClubId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClubName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CompletionsForOut")
                         .HasColumnType("int");
@@ -359,6 +345,10 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("RedCards")
                         .HasColumnType("int");
+
+                    b.Property<string>("SpecificPosition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

@@ -4,5 +4,5 @@ namespace Application.UseCases.Interfaces;
 
 public interface ICreateChampionshipUseCase
 {
-    Task CreateChampionshipAsync(CreateChampionshipDTO championshipDto, Guid adminId);
+    Task CreateChampionshipAsync(Guid adminId, CreateChampionshipDTO championshipDto);
 }
