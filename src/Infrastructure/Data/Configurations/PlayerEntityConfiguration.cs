@@ -17,6 +17,12 @@ public class PlayerEntityConfiguration : IEntityTypeConfiguration<PlayerEntity>
                 v => Enum.Parse<PlayerPosition>(v)
             );
 
+        builder.Property(p => p.SpecificPosition)
+            .HasConversion(
+                v => v.ToString(),
+                v => Enum.Parse<SpecificPosition>(v)
+            );
+
         builder.Property(p => p.Status)
             .IsRequired()
             .HasConversion<int>();

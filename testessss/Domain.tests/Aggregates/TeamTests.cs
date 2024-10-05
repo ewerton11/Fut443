@@ -27,9 +27,9 @@ public class TeamTests
         return Team.Create(user, name, championshipId);
     }
 
-    private PlayerEntity CreatePlayer(string playerName, string position, AvailabilityStatus status, Guid clubId, AdminLevel adminLevel)
+    private PlayerEntity CreatePlayer(string playerName, string position, SpecificPosition specificPosition, AvailabilityStatus status, string? clubName, Guid clubId, AdminLevel adminLevel)
     {
-        return PlayerEntity.Create(playerName, position, status, clubId, adminLevel);
+        return PlayerEntity.Create(playerName, position, specificPosition, status, clubName, clubId, adminLevel);
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class TeamTests
         //var championshipId = Guid.NewGuid();
 
         var team = CreateTeam(user, "fluzao", Guid.NewGuid());
-        var player = CreatePlayer("Gaman cano", "Attacker", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+        var player = CreatePlayer("Gaman cano", "Attacker", SpecificPosition.ST, AvailabilityStatus.Available, null, Guid.NewGuid(), AdminLevel.HighAdmin);
 
         // Act
         team.AddPlayer(player);
@@ -114,7 +114,7 @@ public class TeamTests
         for (int i = 1; i <= maxPlayers; i++)
         {
             var playerName = $"{playerPosition}{i}";
-            var player = CreatePlayer(playerName, $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+            var player = CreatePlayer(playerName, $"{playerPosition}", SpecificPosition.ST, AvailabilityStatus.Available, null, Guid.NewGuid(), AdminLevel.HighAdmin);
             players.Add(player);
         }
 
@@ -124,7 +124,7 @@ public class TeamTests
         }
 
         // Act & Assert
-        var newPlayer = CreatePlayer("New Player", $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+        var newPlayer = CreatePlayer("New Player", $"{playerPosition}", SpecificPosition.ST, AvailabilityStatus.Available, null, Guid.NewGuid(), AdminLevel.HighAdmin);
 
         var exception = Assert.Throws<ApplicationException>(() => team.AddPlayer(newPlayer));
         Assert.Equal(expectedErrorMessage, exception.Message);
@@ -136,7 +136,7 @@ public class TeamTests
         // Arrange
         var user = CreateUser();
 
-        var player = CreatePlayer("German Cano", "Attacker", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+        var player = CreatePlayer("German Cano", "Attacker", SpecificPosition.ST, AvailabilityStatus.Available, null, Guid.NewGuid(), AdminLevel.HighAdmin);
 
         var team = CreateTeam(user, "Fluminense", Guid.NewGuid());
 
@@ -153,7 +153,7 @@ public class TeamTests
         // Arrange
         var user = CreateUser();
 
-        var player = CreatePlayer("German Cano", "Attacker", AvailabilityStatus.Unavailable, Guid.NewGuid(), AdminLevel.HighAdmin);
+        var player = CreatePlayer("German Cano", "Attacker", SpecificPosition.ST, AvailabilityStatus.Unavailable, null, Guid.NewGuid(), AdminLevel.HighAdmin);
 
         var team = CreateTeam(user, "fluzao", Guid.NewGuid());
 
@@ -178,7 +178,7 @@ public class TeamTests
         for (int i = 1; i <= maxPlayers; i++)
         {
             var playerName = $"{playerPosition}{i}";
-            var player = CreatePlayer(playerName, $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+            var player = CreatePlayer(playerName, $"{playerPosition}", SpecificPosition.ST, AvailabilityStatus.Available, null, Guid.NewGuid(), AdminLevel.HighAdmin);
             players.Add(player);
         }
 
@@ -189,7 +189,7 @@ public class TeamTests
             team.AddPlayer(player);
         }
 
-        var newPlayer = CreatePlayer("Name player", $"{playerPosition}", AvailabilityStatus.Available, Guid.NewGuid(), AdminLevel.HighAdmin);
+        var newPlayer = CreatePlayer("Name player", $"{playerPosition}", SpecificPosition.ST, AvailabilityStatus.Available, null, Guid.NewGuid(), AdminLevel.HighAdmin);
 
         // Assert
         var exception = Assert.Throws<ApplicationException>(() => team.AddPlayer(newPlayer));

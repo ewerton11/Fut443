@@ -19,10 +19,7 @@ namespace Infrastructure.Migrations
                     Level = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -67,13 +64,13 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -219,9 +216,10 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecificPosition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Participation = table.Column<int>(type: "int", nullable: false),
-                    Club = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClubName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Available = table.Column<bool>(type: "bit", nullable: false),
                     ClubId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SuccessfulPasses = table.Column<int>(type: "int", nullable: false),
@@ -267,8 +265,8 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Admin",
-                columns: new[] { "Id", "Birthday", "Country", "Email", "FirstName", "LastName", "Level", "PasswordHash", "Phone" },
-                values: new object[] { new Guid("a1e3c15d-641c-4272-8aca-138564a37c37"), new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$s2p65FjsWZnfEjQ1CZ6Tiepa27Rrpn0ACk0i.HI54m5rX/6SMga8e", "" });
+                columns: new[] { "Id", "Email", "FirstName", "LastName", "Level", "PasswordHash" },
+                values: new object[] { new Guid("6d93021f-9085-4413-8858-31816f729b4b"), "ewerton@gmail.com", "ewerton", "Root", 3, "$2a$11$MhwBYKX1UkQNI8lu2dDYp.liJe8u1o9LUZQD/BjVUPuBNw8E0zZJu" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClubChampionship_ChampionshipId",

@@ -69,6 +69,7 @@ public static class DependencyInjection
         services.AddScoped<IPlayerRepository, PlayerRepository>();
         services.AddScoped<ICompetitionRepository, CompetitionRepository>();
         services.AddScoped<ITeamRepository, TeamRepository>();
+        services.AddScoped<IRoundRepository, RoundRepository>();
 
         return services;
     }

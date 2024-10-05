@@ -35,6 +35,12 @@ public class ChampionshipRepository : IChampionshipRepository
         return championship;
     }
 
+    public async Task<bool> TheNameOfTheChampionshipAlreadyExists(string name)
+    {
+        var existingChampionship = await _dataContext.Championship.FirstOrDefaultAsync(c => c.Name == name);
+        return existingChampionship != null;
+    }
+
     public async Task<IEnumerable<ChampionshipEntity>> GetAllChampionshipInProgressAsync()
     {
         var championshipsInProgress = await _dataContext.Championship
@@ -75,10 +81,16 @@ public class ChampionshipRepository : IChampionshipRepository
            Id = p.Id,
            Name = p.Name,
            Position = p.Position.ToString(),
-           Club = p.Club
+           SpecificPosition = p.SpecificPosition.ToString(),
+           ClubName = p.ClubName
        })
        .ToListAsync();
 
         return _mapper.Map<List<PlayerEntity>>(playersInClubs);
+    }
+
+    public async Task UpdateCurrentPhaseAsync(ChampionshipEntity championship)
+    {
+        await _baseRepository.UpdateAsync(championship);
     }
 }

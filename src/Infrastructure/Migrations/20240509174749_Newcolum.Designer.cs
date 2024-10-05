@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240509174749_Newcolum")]
+    partial class Newcolum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,9 +105,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("Season")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -177,12 +177,12 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bbaf0c31-e3d9-4e05-9241-8fd5ce4725d8"),
+                            Id = new Guid("53902441-027a-4fd5-9642-713464735edc"),
                             Email = "ewerton@gmail.com",
                             FirstName = "ewerton",
                             LastName = "Root",
                             Level = 3,
-                            PasswordHash = "$2a$11$1FDhA.P3Q1vMN7.UkbK6kuUktcVdUgLct8HVZySx6YRqNwyT1p42q"
+                            PasswordHash = "$2a$11$osBGd1LGsyoRSXZlp0vW8OpgRzP3UcPNDhQYZCwRnt1fS6YTh0rQu"
                         });
                 });
 

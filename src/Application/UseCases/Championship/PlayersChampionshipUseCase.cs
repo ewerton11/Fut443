@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain.Enums;
 using Domain.Repository;
 
-namespace Application.UseCases.Championships.ReadChampionship;
+namespace Application.UseCases.ChampionshipUseCase;
 
 public class PlayersChampionshipUseCase : IPlayersChampionshipUseCase
 {
